@@ -18,4 +18,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/owl-carousel.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/css/lightbox.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 </head>

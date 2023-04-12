@@ -1,6 +1,6 @@
 @php
     $collections = [];
-    $configurations['logo'] = '';
+    $logo = 'logo.png';
 @endphp
 <!-- ***** Preloader Start ***** -->
 <div id="preloader">
@@ -21,7 +21,7 @@
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="/" class="logo">
-                        <img height="70" src="{{ asset('img/<?= $configurations['logo'] ?>') }}">
+                        <img height="70" src="{{ asset('img/'.$logo) }}">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->

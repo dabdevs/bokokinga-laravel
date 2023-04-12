@@ -1,0 +1,11 @@
+/* CUSTOM BUTTON CLASSES */
+.btn-custom-primary {
+    background-color: #30935A;
+    color: #fff;
+}
+
+.btn-custom-primary:hover {
+    background-color: #fff;
+    color: #30935A;
+    border: 1px solid #30935A;
+}
