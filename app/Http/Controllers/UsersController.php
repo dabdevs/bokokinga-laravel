@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
-    public function login(Request $request)
+    public function authenticate(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -18,21 +18,10 @@ class UserController extends Controller
             // Authentication passed...
             $user = Auth::user();
             session()->put('user', $user);
-            return redirect()->intended('/dashboard');
+            return redirect('/admin');
         }
 
         return URL::backWithError('Wrong credentials');
-
-        /*
-        $user = User::where('email', $request->email)->first();
-
-        if ($user && Hash::check($request->password, $user->password)) {
-            return 'autenticate';
-        }
-
-        // Redirect back with error message
-        return URL::backWithError('Wrong credentials');
-        */
     }
 
     /**
@@ -49,5 +38,11 @@ class UserController extends Controller
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ];
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect(route('admin.login')); 
     }
 }

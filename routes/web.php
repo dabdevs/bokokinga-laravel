@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\WebController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +24,13 @@ Route::get('/login', function () {
     return view('front/login'); 
 });
 
-Route::post('/login', [UserController::class, 'login'])->name('login');
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
+    Route::post('/authenticate', [UsersController::class, 'authenticate'])->name('admin.authenticate');
+    Route::post('/logout', [UsersController::class, 'logout'])->name('admin.logout');
+    Route::resource('configurations', 'ConfigurationsController');
+});
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+

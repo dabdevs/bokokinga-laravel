@@ -8,7 +8,7 @@
     <body>
         {{ view('dashboard/header') }}
 
-        {{ view('dashboard/menu') }}
+        {{ view('dashboard/sidebar') }}
         
         <main class="container-fluid py-5">
             @yield('content')
