@@ -9,15 +9,15 @@
 
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('front/css/bootstrap.min.css') }}">
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/font-awesome.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('front/css/font-awesome.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('assets/css/templatemo-hexashop.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/css/templatemo-hexashop.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('assets/css/owl-carousel.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/css/owl-carousel.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('assets/css/lightbox.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/css/lightbox.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/css/custom.css') }}">
 </head>

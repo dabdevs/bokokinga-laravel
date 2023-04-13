@@ -21,7 +21,7 @@
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="/" class="logo">
-                        <img height="70" src="{{ asset('img/'.$logo) }}">
+                        <img height="70" src="{{ asset('front/img/'.$logo) }}">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->

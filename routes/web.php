@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', function () {
-    return view('front/login');
+Route::get('/', function () {
+    return view('front/index');
 });
+
+Route::get('/login', function () {
+    return view('front/login'); 
+});
+
+Route::post('/login', [UserController::class, 'login'])->name('login');
+
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');

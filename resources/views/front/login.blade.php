@@ -1,4 +1,4 @@
-@extends('front/master')
+@extends('front/layout')
 
 <style>
     form {
@@ -9,15 +9,19 @@
 
 @section('content')
     <div class="container py-5">
-        <form class="my-5">
-            <h1>Login</h1> <br>
+        <form class="my-5" method="POST" action="/login">
+            {{ view('front/messages') }}
+            @csrf
+            <h1>Login</h1> 
+            <br>
+
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email">
+                <input type="email" name="email" class="form-control" id="email">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password">
+                <input type="password" name="password" class="form-control" id="password">
             </div>
             <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" id="remember_me">
