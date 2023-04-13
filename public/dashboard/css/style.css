@@ -79,7 +79,7 @@ header {
     display: flex;
     height: 65px;
     position: absolute;
-    background: #11101C;
+    background: #30935a;
 }
 
 .sidebar-menu-toggler > i, .navbar-menu-toggler >i {
@@ -435,7 +435,6 @@ input[type='button'] {
     }
 
     .sidebar {
-        left: -200px;
         position: absolute;
     }
 

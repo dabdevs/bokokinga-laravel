@@ -1,4 +1,4 @@
-<div class="col-sm-2 m-0 p-0 sidebar sidebar-offcanvas" id="sidebar-menu" role="navigation">
+<div class="col-sm-2 m-0 d-none d-md-block p-0 sidebar sidebar-offcanvas" id="sidebar-menu" role="navigation">
     <nav class="nav-container m-0">
         @auth
             <div class="row m-0 text-white">

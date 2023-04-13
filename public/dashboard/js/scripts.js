@@ -2,14 +2,15 @@ function toggleMenu() {
     // Toggle the sidebar menu
     const menu = document.querySelector('#sidebar-menu');
     const menuIcon = document.querySelector('.bx-menu-alt-right')
-    if (menu.style.left == '-200px') {
-        menu.style.left = '0';
-        menu.style.transition = 'left .3s ease';
-        menuIcon.style.color = '#fff';
-    } else {
-        menu.style.left = '-200px';
+    
+    if (menu.classList.contains('d-none')) {
+        menu.classList.remove('d-none')
         menu.style.transition = 'left .3s ease';
         menuIcon.style.color = '#CF2B2B';
+    } else {
+        menu.classList.add('d-none')
+        menu.style.transition = 'left .3s ease';
+        menuIcon.style.color = '#FFF';
     }
 }
 
