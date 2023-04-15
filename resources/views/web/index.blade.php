@@ -1,4 +1,4 @@
-@extends('front/layout')
+@extends('web/layout')
 
 @section('content')
     <h1>Index page</h1>

@@ -2,17 +2,17 @@
 <html lang="es">
 
     <head>
-        {{ view('front/head_tags') }}
+        {{ view('web/head_tags') }}
     </head>
 
     <body>
-        {{ view('front/header') }}
+        {{ view('web/header') }}
         
         <main class="container-fluid py-5">
             @yield('content')
         </main>
 
-        {{ view('front/footer') }}
+        {{ view('web/footer') }}
     </body>
 
 </html>

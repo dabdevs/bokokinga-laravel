@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class CollectionsController extends Controller
 {
@@ -11,7 +13,8 @@ class CollectionsController extends Controller
      */
     public function index()
     {
-        //
+        $collections = Collection::all();
+        return view('dashboard.collections.index', compact('collections'));
     }
 
     /**
@@ -33,9 +36,9 @@ class CollectionsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Collection $collection)
     {
-        //
+        return response()->json($collection);
     }
 
     /**
@@ -49,9 +52,17 @@ class CollectionsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Collection $collection, Request $request)
     {
-        //
+        $data = request()->validate([
+            'name' => 'required|string|max:150',
+            'description' => 'string|max:255',
+            'image' => 'image|mimes:jpeg,jpg|max:2048',
+        ]);
+
+        $collection->update($data); 
+
+        return URL::backWithSuccess('Collection updated successfully!');
     }
 
     /**

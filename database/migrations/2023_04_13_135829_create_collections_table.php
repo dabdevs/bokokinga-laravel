@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->unique();
+            $table->string('description')->nullable();
+            $table->string('image')->nullable();
+            $table->unsignedBigInteger('collection_id')->nullable();
+            $table->foreign('collection_id')->references('id')->on('collections');
             $table->timestamps();
         });
     }

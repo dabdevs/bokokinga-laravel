@@ -10,8 +10,8 @@
             </div>
         @endauth
         <div class="publico m-0">
-            <a href="./dashboard.php"><i class='bx bx-home'></i><span>Dashboard</span></a>
-            <a href="./collections.php" id="categoria"><i class='bx bx-category'></i><span>Colecciones</span></a>
+            <a href="{{  route('admin.index') }}"><i class='bx bx-home'></i><span>Dashboard</span></a>
+            <a href="{{  route('collections.index') }}" id="categoria"><i class='bx bx-category'></i><span>Colecciones</span></a>
             <a href="configurations.php"><i class="bx bxs-cog"></i><span>Configuraciones</span></a>
         </div>
         <div class="configuracion">

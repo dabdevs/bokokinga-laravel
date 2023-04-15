@@ -1,4 +1,4 @@
-@extends('front/layout')
+@extends('web/layout')
 
 <style>
     form {
@@ -9,10 +9,10 @@
 
 @section('content')
     <div class="container py-5">
-        <form class="my-5" method="POST" action="/admin/login">
-            {{ view('front/messages') }}
+        <form class="my-5" method="POST" action="/web/login">
+            {{ view('shared/messages') }}
             @csrf
-            <h1>Login</h1> 
+            <h1>Login</h1>
             <br>
 
             <div class="form-group">

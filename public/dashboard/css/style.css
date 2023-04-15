@@ -79,7 +79,7 @@ header {
     display: flex;
     height: 65px;
     position: absolute;
-    background: #30935a;
+    background: #11101C;
 }
 
 .sidebar-menu-toggler > i, .navbar-menu-toggler >i {
@@ -496,8 +496,6 @@ input[type='button'] {
     border-radius: 50%;
     position: relative;
     bottom: 10px;
-    border: 2px solid #1F8836;
-    background: #2c9f45;
 }
 
 .container button {

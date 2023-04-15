@@ -8,10 +8,14 @@
     <body>
         {{ view('dashboard/header') }}
 
-        {{ view('dashboard/sidebar') }}
-        
-        <main class="container-fluid py-5">
-            @yield('content')
+        <main class="container-fluid">
+            <div class="row row-offcanvas row-offcanvas-left">
+                {{ view('dashboard/sidebar') }}
+
+                <div class="col main pt-5 mt-3">
+                    @yield('content')
+                </div>
+            </div>
         </main>
 
         {{ view('dashboard/footer') }}
