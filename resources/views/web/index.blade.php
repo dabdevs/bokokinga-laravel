@@ -1,5 +1,5 @@
 @extends('web/layout')
 
 @section('content')
-    <h1>Index page</h1>
+    @include('web.banner')
 @endsection

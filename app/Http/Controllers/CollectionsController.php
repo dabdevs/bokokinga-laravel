@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 
+
 class CollectionsController extends Controller
 {
+    private $upload_dir = 'collections';
+
     /**
      * Display a listing of the resource.
      */
@@ -30,7 +34,23 @@ class CollectionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = $request->validate([
+                'name' => 'required|string|max:150',
+                'description' => 'nullable|string|max:255',
+                'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+            ]);
+
+            if ($request->file('image') != null)
+                $data['image'] = Photo::upload($request->file('image'), $this->upload_dir, true);
+
+            $collection = new Collection;
+            $collection->create($data);
+
+            return URL::backWithSuccess('Collection created successfully!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -54,22 +74,35 @@ class CollectionsController extends Controller
      */
     public function update(Collection $collection, Request $request)
     {
-        $data = request()->validate([
-            'name' => 'required|string|max:150',
-            'description' => 'string|max:255',
-            'image' => 'image|mimes:jpeg,jpg|max:2048',
-        ]);
+        try {
+            $data = $request->validate([
+                'name' => 'required|string|max:150',
+                'description' => 'nullable|string|max:255',
+                'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+            ]);
 
-        $collection->update($data); 
+            if ($request->file('image') != null) 
+                $data['image'] = Photo::upload($request->file('image'), $collection->image, false);
 
-        return URL::backWithSuccess('Collection updated successfully!');
+            $collection->update($data);
+
+            return URL::backWithSuccess('Collection updated successfully!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Collection $collection)
     {
-        //
+        try {
+            Photo::remove($collection->image);
+            $collection->delete();
+            return URL::backWithSuccess('Collection deleted successfully!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

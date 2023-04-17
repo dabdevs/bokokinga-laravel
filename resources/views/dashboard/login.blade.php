@@ -9,11 +9,12 @@
 @section('content')
     <div class="container py-5">
         <form class="my-5 mx-auto" method="POST" action="{{ route('admin.authenticate') }}" style="max-width: 350px">
-            {{ view('shared/messages') }}
+            
             @csrf
             
             <h1 class="text-center">Admin</h1>
             <br>
+            {{ view('shared/messages') }}
 
             <div class="form-group">
                 <label for="email">Email</label>

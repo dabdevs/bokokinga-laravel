@@ -15,9 +15,9 @@ class CollectionSeeder extends Seeder
         DB::insert("INSERT INTO 
                         collections (`id`,`name`,`description`,`image`)
                     VALUES
-                        (1,'Decoración', 'Decora tu hogar con productos eco friendly', 'decoration.jpg'),
-                        (2,'Joyería', 'Joyas confeccionadas con productos reciclados', 'jewelry.jpg'),
-                        (3,'Ropa', 'Ropa pintada y/o diseñada a mano','clothes.jpg'),
-                        (4,'Accesorios', 'Todo tipo de accesorios', 'accessories.jpg');");
+                        (1,'Decoración', 'Decora tu hogar con productos eco friendly', 'collections/decoration.jpg'),
+                        (2,'Joyería', 'Joyas confeccionadas con productos reciclados', 'collections/jewelry.jpg'),
+                        (3,'Ropa', 'Ropa pintada y/o diseñada a mano','collections/clothes.jpg'),
+                        (4,'Accesorios', 'Todo tipo de accesorios', 'collections/accessories.jpg');");
     }
 }

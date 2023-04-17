@@ -6,7 +6,9 @@
     <div class="modal" id="collection-modal">
         <div class="modal-dialog">
             <div class="modal-content">
-
+                <form id="delete-form" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    @csrf
                 <!-- Modal Header -->
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -20,10 +22,11 @@
                 <!-- Modal footer -->
                 <div class="modal-footer" id="eliminar-footer">
                     <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-chevron-left"></i> Salir</button>
-                    <button type="button" class="btn btn-danger" onclick="destroy()"><i class="fa fa-trash"></i> Eliminar</button>
+                    <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar</button>
                 </div>
 
                 <input type="hidden" id="modal-collection-id">
+                </form>
             </div>
         </div>
     </div>
@@ -31,7 +34,7 @@
     <h1>Collections</h1>
 
     <div class="mb-3 card p-3 d-none" id="top-form">
-        <form action="POST" id="collection-form" enctype="multipart/form-data">
+        <form action="" method="POST" id="collection-form" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="_method" id="method">
             <div class="row">
@@ -81,8 +84,8 @@
                             <td>{{ $collection->description }}</td>
                             <td>{{ $collection->image }}</td>
                             <td>
-                                <button class="btn btn-warning" onclick="edit({{ $collection->id }})"><i class="bx bx-pencil"></i>&nbsp;Editar</button>
-                                <button class="btn btn-danger ml-2" onclick="showModal({{ $collection->id }})"><i class="bx bx-trash"></i>&nbsp;Eliminar</button>
+                                <button type="button" class="btn btn-edit btn-warning" onclick="edit({{ $collection->id }})"><i class="bx bx-pencil"></i>&nbsp;Editar</button>
+                                <button type="button" class="btn btn-danger btn-delete ml-2" onclick="remove({{ $collection->id }})"><i class="bx bx-trash"></i>&nbsp;Eliminar</button>
                             </td>
                         </tr>
                     @empty
@@ -140,15 +143,25 @@
                 $('#modal-title-eliminar').show()
             }
 
+            $('#delete-form').attr({
+                'action': '/collections/'+id,
+                'method': 'POST'
+            })
+
             $('#collection-modal').modal('show')
         }
 
         function destroy() {
             id = $('#modal-collection-id').val()
+            $('#delete-form').submit()
+            return
 
             $.ajax({
                 type: "DELETE",
                 url: "/admin/collections/"+id,
+                data: {
+                    "_token": token
+                },
                 success: function(response) {
                     Swal.fire(response);
                     cancelar();
@@ -272,6 +285,15 @@
                     [0, "asc"]
                 ] //Ordenar (columna,orden)
             }).DataTable();
+        }
+
+        function remove(id) {
+            $('#delete-form').attr({
+                'action': 'collections/'+id,
+                'method': 'POST'
+            })
+
+            $('#collection-modal').modal('show')
         }
     </script>
 @endsection
