@@ -24,7 +24,7 @@
                                 $count = 0;
                             @endphp
                             @forelse ($collections as $collection)
-                                @if($collection->image != null && $count <= 4)
+                                @if($collection->image != null && $count < 4)
                                     <div class="col-sm-6">
                                         <div class="right-first-image">
                                             <div class="thumb">
