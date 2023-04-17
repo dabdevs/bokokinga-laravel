@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <h1>Collections</h1>
+    <h1>Colecciones</h1>
 
     <div class="mb-3 card p-3 d-none" id="top-form">
         <form action="" method="POST" id="collection-form" enctype="multipart/form-data">
