@@ -15,7 +15,7 @@ class Photo extends Model
     {
         // Resize the image using Intervention Image
         $resizedImage = Image::make($image)
-            ->resize(500, 500, function ($constraint) {
+            ->resize(env('COLLECTION_INDEX_IMAGE_WIDTH'), env('COLLECTION_INDEX_IMAGE_HEIGTH'), function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             })

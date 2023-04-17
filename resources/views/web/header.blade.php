@@ -1,7 +1,3 @@
-@php
-    $collections = [];
-    $logo = 'logo.png';
-@endphp
 <!-- ***** Preloader Start ***** -->
 <div id="preloader">
     <div class="jumper">
@@ -21,7 +17,7 @@
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="/" class="logo">
-                        <img height="70" src="{{ asset('front/img/'.$logo) }}">
+                        <img height="70" src="{{ asset('front/img/logo.png') }}">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
@@ -30,8 +26,8 @@
                         <li class="submenu">
                             <a href="javascript:;">Colecciones</a>
                             <ul>
-                                @forelse ($collections as $collection)
-                                    <li><a href="collection.php?name=<?= $collection->name ?>"><?= $category->name ?></a></li>
+                                @forelse (App\Models\Collection::all() as $collection)
+                                    <li><a href="collection.php?name=<?= $collection->name ?>"><?= $collection->name ?></a></li>
                                 @empty
                                 @endforelse
                             </ul>

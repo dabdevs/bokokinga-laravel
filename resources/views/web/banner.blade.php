@@ -20,8 +20,11 @@
                 <div class="col-lg-6 col-sm-12">
                     <div class="right-content">
                         <div class="row">
+                            @php
+                                $count = 0;
+                            @endphp
                             @forelse ($collections as $collection)
-                                @if($collection->image != null)
+                                @if($collection->image != null && $count <= 4)
                                     <div class="col-sm-6">
                                         <div class="right-first-image">
                                             <div class="thumb">
@@ -42,6 +45,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @php
+                                        $count++;
+                                    @endphp
                                 @endif
                             @empty
                             @endforelse
