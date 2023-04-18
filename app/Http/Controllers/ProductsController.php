@@ -96,7 +96,6 @@ class ProductsController extends Controller
      */
     public function update(Product $product, Request $request)
     {
-        dd($request->all());
         try {
             $data = $request->validate([
                 'name' => 'required|string|max:150',
@@ -108,6 +107,16 @@ class ProductsController extends Controller
                 $data['image'] = Photo::upload($request->file('image'), $product->image, false);
 
             $product->update($data);
+
+            $gallery_ids_to_delete = explode("-", $request->photos_to_delete);
+
+            if ($gallery_ids_to_delete) {
+                foreach ($gallery_ids_to_delete as $gallery_id) {
+                    $gallery = Gallery::find($gallery_id);
+                    Photo::remove($gallery->path);
+                    $gallery->delete();
+                }
+            }
 
             return URL::backWithSuccess('Product updated successfully!');
         } catch (\Throwable $th) {
