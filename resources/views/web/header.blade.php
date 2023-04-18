@@ -8,6 +8,26 @@
 </div>
 <!-- ***** Preloader End ***** -->
 
+<!-- ***** Search modal ***** -->
+<div class="modal" id="searchModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Search</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+            <form action="{{ route('web.search') }}">
+                <label for="query">Buscar por nombre, descripción, etc.</label>
+                <input type="text" name="query" class="form-control" id="query">
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ***** Header Area Start ***** -->
 <header class="header-area header-sticky">
@@ -22,7 +42,7 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li class="scroll-to-section"><a href="/" class="active">Inicio</a></li>
+                        <li class="scroll-to-section"><a href="#" data-toggle="modal" data-target="#searchModal"><i class="fa fa-search"></i></a></li>
                         <li class="submenu">
                             <a href="javascript:;">Colecciones</a>
                             <ul>
