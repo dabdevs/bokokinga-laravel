@@ -10,7 +10,8 @@ class WebController extends Controller
    public function index()
    {
         $collections = Collection::all();
-        return view('web.index', compact('collections'));
+        $configurations = [];
+        return view('web.index', compact('collections', 'configurations'));
    }
 
     public function login()
