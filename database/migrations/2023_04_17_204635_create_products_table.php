@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('collection_id');
             $table->foreign('collection_id')->references('id')->on('collections');
             $table->string('tags')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

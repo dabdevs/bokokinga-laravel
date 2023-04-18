@@ -19,4 +19,13 @@ class Collection extends Model
         'description',
         'image',
     ];
+
+    /**
+     * Get all of the products for the Collection
+     *
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

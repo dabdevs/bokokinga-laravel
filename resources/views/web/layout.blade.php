@@ -8,7 +8,7 @@
     <body>
         {{ view('web/header') }}
         
-        <main class="container-fluid py-5">
+        <main class="container-fluid">
             @yield('content')
         </main>
 

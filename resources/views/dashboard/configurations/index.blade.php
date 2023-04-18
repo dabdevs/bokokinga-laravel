@@ -8,29 +8,21 @@
         @csrf
     </form>
 
-    <h1>Colecciones</h1>
+    <h1>Configurations</h1>
 
     <div class="mb-3 card p-3 d-none" id="top-form">
-        <form action="" method="POST" id="collection-form" enctype="multipart/form-data" onsubmit="return validate(event)">
+        <form action="" method="POST" id="configuration-form" enctype="multipart/form-data" onsubmit="return validate(event)">
             @csrf
             <input type="hidden" name="_method" id="method">
             <div class="row">
                 <div class="col-sm-6">
-                    <label for="collection_name">Nombre:</label>
-                    <input class="form-control" type="text" id="collection_name" name="name">
+                    <label for="configuration_name">Nombre:</label>
+                    <input class="form-control" type="text" id="configuration_name" name="name">
                 </div>
 
-                <div class="col-sm-3">
-                    <label for="image">Imagen:</label>
-                    <input class="form-control" type="file" accept=”image/*” name="image" id="image">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-9 my-2">
-                    <label for="description">Descripción:</label>
-                    <textarea class="form-control" name="description" id="description" cols="30" rows="3"></textarea>
-                    <input type="hidden" id="collection_id" name="id">
+                <div class="col-sm-6">
+                    <label for="value">Valor:</label>
+                    <input class="form-control" type="text" name="value" id="value">
                 </div>
             </div>
 
@@ -50,23 +42,21 @@
             </div>
 
             <div class="col-xs-12">
-                @if(!$collections->isEmpty())
+                @if(!$configurations->isEmpty())
                     <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
                         <thead>
                             <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Imagen</th>
+                            <th>Valor</th>
                             <th>Opciones</th>
                         </thead>
                         <tbody>
-                            @forelse ($collections as $collection)
+                            @forelse ($configurations as $configuration)
                                 <tr>
-                                    <td>{{ $collection->name }}</td>
-                                    <td>{{ $collection->description }}</td>
-                                    <td>{{ $collection->image }}</td>
+                                    <td>{{ $configuration->name }}</td>
+                                    <td>{{ $configuration->value }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-edit btn-warning" onclick="edit({{ $collection->id }})"><i class="bx bx-pencil"></i>&nbsp;Editar</button>
-                                        <button type="button" class="btn btn-danger btn-delete ml-2" onclick="remove({{ $collection->id }})"><i class="bx bx-trash"></i>&nbsp;Eliminar</button>
+                                        <button type="button" class="btn btn-edit btn-warning" onclick="edit({{ $configuration->id }})"><i class="bx bx-pencil"></i>&nbsp;Editar</button>
+                                        <button type="button" class="btn btn-danger btn-delete ml-2" onclick="remove({{ $configuration->id }})"><i class="bx bx-trash"></i>&nbsp;Eliminar</button>
                                     </td>
                                 </tr>
                             @empty
@@ -75,8 +65,7 @@
                         </tbody>
                         <tfoot>
                             <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Imagen</th>
+                            <th>Valor</th>
                             <th>Opciones</th>
                         </tfoot>
                     </table>
@@ -87,9 +76,9 @@
                 @endif
             </div>
             <div class="col-xs-12">
-                @if ($collections->hasPages() and !$collections->isEmpty())
+                @if ($configurations->hasPages() and !$configurations->isEmpty())
                     <div class="pagination-wrapper">
-                        {{ $collections->links('pagination::bootstrap-4') }}
+                        {{ $configurations->links('pagination::bootstrap-4') }}
                     </div>
                 @endif
             </div>
@@ -111,11 +100,11 @@
             $("#top-form").removeClass('d-none');
             document.getElementById("dataList").style.display = "none";
             habilitar_botones()
-            $("#collection_id").val("")
-            $("#collection_name").val("")
+            $("#configuration_id").val("")
+            $("#configuration_name").val("")
 
-            $('#collection-form').attr({
-                'action': '/admin/collections',
+            $('#configuration-form').attr({
+                'action': '/admin/configurations',
                 'method': 'POST'
             })
             $('#method').val('POST')
@@ -125,27 +114,26 @@
             habilitar_botones();
             document.getElementById("dataList").style.display = "none";
             $("#top-form").removeClass('d-none');
-            $("#collection_id").val(id)
-            $('#collection-form').attr({
-                'action': '/admin/collections/'+id,
+            $("#configuration_id").val(id)
+            $('#configuration-form').attr({
+                'action': '/admin/configurations/'+id,
                 'method': 'POST'
             })
             $('#method').val('PUT')
 
             $.ajax({
                 type: "GET",
-                url: "/admin/collections/"+id,
+                url: "/admin/configurations/"+id,
                 success: function(resultado) {
-                    document.getElementById("collection_name").value = resultado['name'];
-                    document.getElementById("description").value = resultado['description'];
+                    document.getElementById("configuration_name").value = resultado['name'];
+                    document.getElementById("value").value = resultado['value'];
                 }
             });
         }
 
         function cancelar() {
-            document.getElementById("collection_name").value = "";
-            document.getElementById("description").value = "";
-            document.getElementById("image").value = "";
+            document.getElementById("configuration_name").value = "";
+            document.getElementById("value").value = "";
             desabilitar_botones();
             $("#top-form").addClass('d-none');
             document.getElementById("dataList").style.display = "block";
@@ -155,7 +143,7 @@
             var form = $('#delete-form');
 
             form.attr({
-                'action': 'collections/'+id,
+                'action': 'configurations/'+id,
                 'method': 'POST'
             })
 
@@ -178,7 +166,7 @@
         function validate(e) {
             e.preventDefault()
 
-            name = document.getElementById('collection_name').value
+            name = document.getElementById('configuration_name').value
             if(name == "") {
                 Swal.fire(
                     'Alert',
@@ -188,7 +176,7 @@
                 return
             }
 
-            document.getElementById('collection-form').submit();
+            document.getElementById('configuration-form').submit();
         }
     </script>
 @endsection

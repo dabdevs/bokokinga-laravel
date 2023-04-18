@@ -18,89 +18,6 @@ class ProductSeeder extends Seeder
         Product::truncate();
         Gallery::truncate();
 
-        /**
-         * (
-    'Uñas Spider Amarrillo',
-    8.99,
-    15,
-    'unas-spider-amarrillo.jpg',
-    4,
-    'reciclable-eco'
-  ),
-  (
-    'Uñas I love You Rojo',
-    4.50,
-    100,
-    'unas-iloveu.jpg',
-    4,
-    ''
-  ),
-  (
-    'Necklace Oro Africa',
-    49.75,
-    10,
-    'necklace-oro-africa.jpg',
-    2,
-    'metal'
-  ),
-  (
-    'Jacket Verde Sun',
-    89.99,
-    30,
-    'jacket-verde-sun.jpg',
-    3,
-    'tela-arte'
-  ),
-  (
-    'Lentes Aviator Marron',
-    12.99,
-    150,
-    'lentes-aviator-marron.jpg',
-    4,
-    'importado'
-  ),
-  (
-    'Pañuelo No time for fake people',
-    4.99,
-    150,
-    'panuelo-no-time-for-fake-people.jpg',
-    3,
-    ''
-  ),
-  (
-    'I dont smoke t-shirt',
-    20,
-    250,
-    'i-dont-smoke-tshirt.jpg',
-    3,
-    ''
-  ),
-  (
-    'Anillo redondo piedra azul',
-    4.99,
-    215,
-    'anillo-redondo-piedra-azul.jpg',
-    2,
-    'metal-plata'
-  ),
-  (
-    'Escalera apoya toalla',
-    46.99,
-    215,
-    'escalera-apoya-toalla.jpg',
-    1,
-    'madera-eco'
-  ),
-  (
-    'Antique painting plate',
-    46.99,
-    215,
-    'antique-painting-plate.jpg',
-    1,
-    'metal'
-  );
-         */
-
         $product1 = [
             'name' => 'Uñas acrílicas hojas verdes',
             'slug' => 'Uñas-acrílicas-hojas-verdes',
@@ -108,7 +25,7 @@ class ProductSeeder extends Seeder
             'price' =>  12.99,
             'quantity' => 50,
             'collection_id' => 4,
-            'images' => ["url1", "url2"]
+            'images' => ["products/unas-hojas-verdes.jpg"]
         ];
 
         $this->createOne($product1);
@@ -120,7 +37,7 @@ class ProductSeeder extends Seeder
             'price' =>  24.99,
             'quantity' => 20,
             'collection_id' => 4,
-            'images' => ["url1", "url2"]
+            'images' => ["products/unas-spider-amarrillo.jpg", "products/unas-spider-amarrillo-2.jpg", "products/unas-spider-amarrillo-3.jpg"]
         ];
 
         $this->createOne($product2);
@@ -132,7 +49,7 @@ class ProductSeeder extends Seeder
             'price' =>  99.99,
             'quantity' => 15,
             'collection_id' => 3,
-            'images' => ["url1"]
+            'images' => ["products/jacket-verde-sun.jpg"]
         ];
 
         $this->createOne($product3);
@@ -144,7 +61,7 @@ class ProductSeeder extends Seeder
             'price' =>  12.99,
             'quantity' => 150,
             'collection_id' => 4,
-            'images' => ["url1"]
+            'images' => ["products/lentes-aviator-marron.jpg"]
         ];
 
         $this->createOne($product4);
@@ -156,7 +73,7 @@ class ProductSeeder extends Seeder
             'price' =>  24.99,
             'quantity' => 23,
             'collection_id' => 3,
-            'images' => ["url1"]
+            'images' => ["products/i-dont-smoke-tshirt.jpg"]
         ];
 
         $this->createOne($product5);
@@ -168,7 +85,7 @@ class ProductSeeder extends Seeder
             'price' =>  24.99,
             'quantity' => 30,
             'collection_id' => 2,
-            'images' => ["url1", "url2", "url3"]
+            'images' => ["products/anillo-redondo-pidra-azul.jpg", "url2", "url3"]
         ];
 
         $this->createOne($product5);
@@ -180,7 +97,7 @@ class ProductSeeder extends Seeder
             'price' =>  9.99,
             'quantity' => 200,
             'collection_id' => 1,
-            'images' => ["url1", "url2", "url3"]
+            'images' => ["products/antique-painting-plate.jpg"]
         ];
 
         $this->createOne($product6);
@@ -194,6 +111,7 @@ class ProductSeeder extends Seeder
         $product->price = $data["price"];
         $product->quantity = $data["quantity"];
         $product->collection_id = $data["collection_id"];
+        $product->image = $data["images"][0];
         
         $product->save();
 

@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Configuration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class ConfigurationsController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $configurations = Configuration::orderBy('name', 'asc')->paginate(env('RECORDS_PER_PAGE'), ['*'], 'page', $request->page);
+        return view('dashboard.configurations.index', compact('configurations'));
+    } 
 
     /**
      * Show the form for creating a new resource.
@@ -27,15 +31,27 @@ class ConfigurationsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = $request->validate([
+                'name' => 'required|string',
+                'value' => 'required|string'
+            ]);
+
+            $configuration = new Configuration;
+            $configuration->create($data); 
+
+            return URL::backWithSuccess('Configuration created successfully!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Configuration $configuration)
     {
-        //
+        return response()->json($configuration);
     }
 
     /**
@@ -49,16 +65,32 @@ class ConfigurationsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Configuration $configuration, Request $request)
     {
-        //
+        try {
+            $data = $request->validate([
+                'name' => 'required|string',
+                'value' => 'required|string'
+            ]);
+
+            $configuration->update($data);
+
+            return URL::backWithSuccess('Configuration updated successfully!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Configuration $configuration)
     {
-        //
+        try {
+            $configuration->delete();
+            return URL::backWithSuccess('Configuration deleted successfully!');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model; 
 
 class Product extends Model
 {
@@ -22,4 +22,13 @@ class Product extends Model
         'quantity',
         'collection_id'
     ];
+
+    /**
+     * Get the collection that owns the Product
+     *
+     */
+    public function collection()
+    {
+        return $this->belongsTo(Collection::class);
+    }
 }

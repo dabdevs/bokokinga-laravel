@@ -1,5 +1,6 @@
 @extends('web/layout')
 
 @section('content')
-    @include('web.banner')
+    @include('web.includes.banner')
+    @include('web.includes.collections')
 @endsection

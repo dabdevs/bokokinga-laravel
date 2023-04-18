@@ -108,3 +108,4 @@ class CollectionsController extends Controller
         }
     }
 }
+ 
