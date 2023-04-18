@@ -127,7 +127,7 @@ class ProductsController extends Controller
 
             if ($request->photos_to_delete)
                 $gallery_ids_to_delete = explode("-", $request->photos_to_delete);
-            
+           
             if (isset($gallery_ids_to_delete)) {
                 foreach ($gallery_ids_to_delete as $gallery_id) {
                     $gallery = Gallery::find($gallery_id);
