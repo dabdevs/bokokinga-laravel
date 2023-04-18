@@ -22,7 +22,7 @@
 
                 <div class="col-sm-3">
                     <label for="price">Price:</label>
-                    <input class="form-control" type="number" min="0" name="price" id="price">
+                    <input class="form-control" type="decimal" min="0" name="price" id="price">
                 </div>
 
                 <div class="col-sm-3 d-none">
@@ -54,7 +54,7 @@
             </div>
 
             <div class="row">
-                <button type="button" class="ml-3 btn btn-primary" onclick="createInputImage()"><i class="fa fa-plus"></i> Agregar archivo</button>
+                <button type="button" class="ml-3 btn btn-primary" onclick="createInputImage()"><i class="fa fa-photo"></i> Agregar foto</button>
             </div>
 
             <div class="row">
@@ -169,6 +169,43 @@
                     document.getElementById("price").value = resultado['price'];
                     document.getElementById("quantity").value = resultado['quantity'];
                     document.getElementById("collection_id").value = resultado['collection_id'];
+                    
+                    for (let index = 0; index < resultado['photos'].length; index++) {
+                        const element = resultado['photos'][index];
+                        const imgLink = document.createElement('input');
+                        const imgDisplay = document.createElement('img');
+
+                        imgDisplay.src = "{{ env('S3_BASE_URL') }}/"+element.path
+                        imgLink.name = 'photos_to_delete[]';
+                        imgLink.disabled = true;
+                        imgLink.value = element.path;
+
+                        // Create the delete button element
+                        const deleteButton = document.createElement('button');
+                        deleteButton.type = 'button';
+                        deleteButton.innerHTML = '<i class="fa fa-times"></i>';
+                        deleteButton.classList.add('btn', 'btn-danger', 'ml-2');
+
+                        // Create a container element to hold the image input and delete button
+                        const container = document.createElement('div');
+                        const photos = document.getElementById('photos');
+                        photos.innerHTML = ''
+                        
+                        // Add an event listener to the delete button
+                        deleteButton.addEventListener('click', function() {
+                            // Remove the image input element when the delete button is clicked
+                            container.appendChild(element.path)
+                            imgLink.remove();
+                            this.remove()
+                        });
+
+                        container.appendChild(imgDisplay);
+                        container.appendChild(deleteButton);
+                        container.classList.add('d-flex', 'd-flex-row','my-2')
+
+                        // Append input to parent
+                        photos.append(container);
+                    }
                 }
             });
         }

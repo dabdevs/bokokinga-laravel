@@ -7,6 +7,7 @@ use App\Models\Gallery;
 use App\Models\Photo;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 
 class ProductsController extends Controller
@@ -18,7 +19,7 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     { 
-        $products = Product::orderBy('name', 'asc')->paginate(env('RECORDS_PER_PAGE'), ['*'], 'page', $request->page);
+        $products = Product::with('photos')->orderBy('name', 'asc')->paginate(env('RECORDS_PER_PAGE'), ['*'], 'page', $request->page);
         $collections = Collection::orderBy('name', 'asc')->get();
         return view('dashboard.products.index', compact('products', 'collections'));
     }
@@ -65,7 +66,6 @@ class ProductsController extends Controller
                         $product->save();
                     }
                 }
-                
             } 
 
             return URL::backWithSuccess('Product created successfully!');
@@ -79,6 +79,7 @@ class ProductsController extends Controller
      */
     public function show(Product $product)
     {
+        $product->photos = DB::select('SELECT * FROM galleries WHERE product_id = '.$product->id); 
         return response()->json($product);
     }
 
@@ -95,6 +96,7 @@ class ProductsController extends Controller
      */
     public function update(Product $product, Request $request)
     {
+        dd($request->all());
         try {
             $data = $request->validate([
                 'name' => 'required|string|max:150',
@@ -102,7 +104,7 @@ class ProductsController extends Controller
                 'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
             ]);
 
-            if ($request->file('image') != null)
+            if ($request->file('image'))
                 $data['image'] = Photo::upload($request->file('image'), $product->image, false);
 
             $product->update($data);
