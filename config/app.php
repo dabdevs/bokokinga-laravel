@@ -182,8 +182,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-
-
+        Laravel\Scout\ScoutServiceProvider::class,
 
         /*
          * Package Service Providers...

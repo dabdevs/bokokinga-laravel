@@ -30,6 +30,7 @@ Route::get('/login', function () {
 Route::group(['prefix' => '/'], function () {
     Route::get('/', [WebController::class, 'index'])->name('web.index');
     Route::get('/login', [WebController::class, 'login'])->name('web.login');
+    Route::get('/search', [WebController::class, 'search'])->name('web.search');
 });
 
 Route::group(['prefix' => 'admin'], function () {

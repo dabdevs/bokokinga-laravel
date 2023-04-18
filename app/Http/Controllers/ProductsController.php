@@ -52,6 +52,7 @@ class ProductsController extends Controller
             
             $product = new Product;
             $product = $product->create($data);
+            $product->searchable(); 
 
             if ($request->file('image')) {
                 foreach ($request->file('image') as $key => $file) {
@@ -124,6 +125,7 @@ class ProductsController extends Controller
             } 
             
             $product->update($data);
+            $product->searchable(); 
 
             if ($request->photos_to_delete)
                 $gallery_ids_to_delete = explode("-", $request->photos_to_delete);

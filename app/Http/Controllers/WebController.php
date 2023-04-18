@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class WebController extends Controller
@@ -17,5 +18,14 @@ class WebController extends Controller
     public function login()
     {
         return view('web.login');
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $results = Product::search($query)->get(); 
+
+        return view('web.search', compact('results'));
     }
 }
