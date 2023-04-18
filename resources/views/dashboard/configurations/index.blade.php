@@ -43,7 +43,7 @@
 
             <div class="col-xs-12">
                 @if(!$configurations->isEmpty())
-                    <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
                         <thead>
                             <th>Nombre</th>
                             <th>Valor</th>
@@ -73,13 +73,6 @@
                     <center>
                         <h5 class="my-5 py-5">No hay datos.</h5>
                     </center>
-                @endif
-            </div>
-            <div class="col-xs-12">
-                @if ($configurations->hasPages() and !$configurations->isEmpty())
-                    <div class="pagination-wrapper">
-                        {{ $configurations->links('pagination::bootstrap-4') }}
-                    </div>
                 @endif
             </div>
         </div>

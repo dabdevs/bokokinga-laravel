@@ -6,7 +6,6 @@
 </title>
 
 <link rel="stylesheet" href="{{ asset('dashboard/css/bootstrap.css') }}">
-<!--<link rel="stylesheet" href="{{ asset('dashboard/css/media_query.css') }}">-->
 <link href="{{ asset('dashboard/css/boxicons.min.css') }}" rel='stylesheet'>
 
 <!-- Font Awesome -->

@@ -17,7 +17,7 @@ class CollectionsController extends Controller
      */
     public function index(Request $request)
     {
-        $collections = Collection::orderBy('name', 'asc')->paginate(env('RECORDS_PER_PAGE'), ['*'], 'page', $request->page);
+        $collections = Collection::orderBy('name', 'asc')->get();
         return view('dashboard.collections.index', compact('collections'));
     }
 

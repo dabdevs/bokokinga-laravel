@@ -18,8 +18,9 @@ class ProductsController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    { 
-        $products = Product::with('photos')->orderBy('name', 'asc')->paginate(env('RECORDS_PER_PAGE'), ['*'], 'page', $request->page);
+    {
+        //$products = Product::with('photos')->orderBy('name', 'asc')->paginate(env('RECORDS_PER_PAGE'), ['*'], 'page', $request->page)
+        $products = Product::with('photos')->orderBy('name', 'asc')->get();
         $collections = Collection::orderBy('name', 'asc')->get();
         return view('dashboard.products.index', compact('products', 'collections'));
     }
@@ -100,17 +101,34 @@ class ProductsController extends Controller
             $data = $request->validate([
                 'name' => 'required|string|max:150',
                 'description' => 'nullable|string|max:255',
-                'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+                'price' => 'required|integer',
+                'quantity' => 'required|integer',
+                'collection_id' => 'required|integer',
+                'image.*' => 'image|mimes:jpeg,jpg,png|max:2048'
             ]);
 
-            if ($request->file('image'))
-                $data['image'] = Photo::upload($request->file('image'), $product->image, false);
+            if ($request->file('image')) {
+                foreach ($request->file('image') as $key => $file) {
+                    $path = Photo::upload($file, $this->upload_dir, true);
 
+                    Gallery::create([
+                        'product_id' => $product->id,
+                        'path' => $path
+                    ]);
+
+                    if ($key == 0) {
+                        $product->image = $path;
+                        $product->save();
+                    }
+                }
+            } 
+            
             $product->update($data);
 
-            $gallery_ids_to_delete = explode("-", $request->photos_to_delete);
-
-            if ($gallery_ids_to_delete) {
+            if ($request->photos_to_delete)
+                $gallery_ids_to_delete = explode("-", $request->photos_to_delete);
+            
+            if (isset($gallery_ids_to_delete)) {
                 foreach ($gallery_ids_to_delete as $gallery_id) {
                     $gallery = Gallery::find($gallery_id);
                     Photo::remove($gallery->path);

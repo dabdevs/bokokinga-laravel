@@ -19,6 +19,25 @@
         </main>
 
         {{ view('dashboard/footer') }}
+
+        <script>
+            $('.table').dataTable({
+            "aProcessing": true, //Activamos el procesamiento del datatables
+            "aServerSide": true, //Paginación y filtrado realizados por el servidor
+            dom: 'Bfrtip', //Definimos los elementos del control de tabla
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdf'
+            ],
+            "bDestroy": true,
+            "iDisplayLength": 5, //Paginación
+            "order": [
+                [0, "asc"]
+            ] //Ordenar (columna,orden)
+        }).DataTable();
+        </script>
     </body>
 
 </html>

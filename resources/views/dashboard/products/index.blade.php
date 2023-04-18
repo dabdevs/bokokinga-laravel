@@ -58,6 +58,7 @@
             </div>
 
             <div class="row">
+                <input type="hidden" id="photosCount">
                 <div class="col-sm-6" id="photos">
                 </div>
             </div>
@@ -79,7 +80,7 @@
 
             <div class="col-xs-12">
                 @if(!$products->isEmpty())
-                    <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
+                    <table class="table table-striped table-bordered table-condensed table-hover">
                         <thead>
                             <th>Nombre</th>
                             <th>Descripción</th>
@@ -112,13 +113,6 @@
                     <center>
                         <h5 class="my-5 py-5">No hay datos.</h5>
                     </center>
-                @endif
-            </div>
-            <div class="col-xs-12">
-                @if ($products->hasPages() and !$products->isEmpty())
-                    <div class="pagination-wrapper">
-                        {{ $products->links('pagination::bootstrap-4') }}
-                    </div>
                 @endif
             </div>
         </div>
@@ -171,6 +165,8 @@
                     document.getElementById("collection_id").value = resultado['collection_id'];
                     const photos = document.getElementById('photos');
                     photos.innerHTML = ''
+                    var photosCount = resultado['photos'].length;
+                    document.getElementById('photosCount').value = photosCount
                     
                     for (let index = 0; index < resultado['photos'].length; index++) {
                         const element = resultado['photos'][index];
@@ -199,6 +195,8 @@
                             container.appendChild(imgLink);
                             imgDisplay.remove();
                             this.remove()
+                            photosCount--
+                            document.getElementById('photosCount').value = photosCount
                         });
 
                         container.appendChild(imgDisplay);
@@ -247,14 +245,34 @@
         function validate(e) {
             e.preventDefault()
             name = document.getElementById('product_name').value
-            name = document.getElementById('product_name').value
-            name = document.getElementById('product_name').value
-            name = document.getElementById('product_name').value
+            price = document.getElementById('price').value
+            quantity = document.getElementById('quantity').value
+            collection_id = document.getElementById('collection_id').value
             
-            if(name == "") {
+            if(name == "" || price == "" || quantity == "" || collection_id == "") {
                 Swal.fire(
                     'Alert',
-                    'Ingresá un nombre!',
+                    'Faltan datos!',
+                    'error'
+                )
+                return
+            }
+
+            var uploadedPhotos = [];
+
+            // Check inputs with value
+            $("input[name='image[]']").map(function(){
+                value = $(this).val()
+                if(value != "") uploadedPhotos.push(value)
+            }).get()
+
+            console.log($('#photosCount').val())
+
+            // If there is no photos attached to the product
+            if($('#photosCount').val() == 0 && uploadedPhotos.length == 0) {
+                Swal.fire(
+                    'Alert',
+                    'Debes cargar al menos una foto!',
                     'error'
                 )
                 return

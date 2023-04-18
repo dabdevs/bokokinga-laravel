@@ -14,7 +14,7 @@ class ConfigurationsController extends Controller
      */
     public function index(Request $request)
     {
-        $configurations = Configuration::orderBy('name', 'asc')->paginate(env('RECORDS_PER_PAGE'), ['*'], 'page', $request->page);
+        $configurations = Configuration::orderBy('name', 'asc')->get();
         return view('dashboard.configurations.index', compact('configurations'));
     } 
 
