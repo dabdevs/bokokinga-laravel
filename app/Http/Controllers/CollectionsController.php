@@ -15,9 +15,9 @@ class CollectionsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $collections = Collection::all();
+        $collections = Collection::orderBy('name', 'asc')->paginate(env('RECORDS_PER_PAGE'), ['*'], 'page', $request->page);
         return view('dashboard.collections.index', compact('collections'));
     }
 
@@ -98,7 +98,9 @@ class CollectionsController extends Controller
     public function destroy(Collection $collection)
     {
         try {
-            Photo::remove($collection->image);
+            if ($collection->image != null)
+                Photo::remove($collection->image);
+
             $collection->delete();
             return URL::backWithSuccess('Collection deleted successfully!');
         } catch (\Throwable $th) {

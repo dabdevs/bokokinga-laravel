@@ -5,7 +5,8 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ConfigurationsController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductsController;
+use Illuminate\Support\Facades\Route; 
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/configurations', [ConfigurationsController::class, 'index'])->name('admin.configurations.index');
     Route::resource('configurations', ConfigurationsController::class);
     Route::resource('collections', CollectionsController::class);
+    Route::resource('products', ProductsController::class); 
 });
 
 

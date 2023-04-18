@@ -12,6 +12,7 @@
         <div class="publico m-0">
             <a href="{{  route('admin.index') }}"><i class='bx bx-home'></i><span>Dashboard</span></a>
             <a href="{{  route('collections.index') }}" id="categoria"><i class='bx bx-category'></i><span>Colecciones</span></a>
+            <a href="{{  route('products.index') }}" id="products"><i class='bx bx-product'></i><span>Productos</span></a>
             <a href="configurations.php"><i class="bx bxs-cog"></i><span>Configuraciones</span></a>
         </div>
         <div class="configuracion">

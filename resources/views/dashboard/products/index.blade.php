@@ -33,7 +33,7 @@
     <h1>Colecciones</h1>
 
     <div class="mb-3 card p-3 d-none" id="top-form">
-        <form action="" method="POST" id="collection-form" enctype="multipart/form-data" onsubmit="return validate(event)">
+        <form action="" method="POST" id="collection-form" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="_method" id="method">
             <div class="row">
@@ -67,58 +67,43 @@
 
     <div class="mb-3 card p-3" id="dataList">
         <div class="row table-responsive pl-3">
-            <div class="col-xs-12">
-                <button class="btn btn-success my-3 float-right" onclick="agregar()"><i class="fa fa-plus"></i> Agregar</button>
-            </div>
+            <button class="btn btn-success my-3 float-right" onclick="agregar()"><i class="fa fa-plus"></i> Agregar</button>
 
-            <div class="col-xs-12">
-                @if(!$collections->isEmpty())
-                    <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
-                        <thead>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Imagen</th>
-                            <th>Opciones</th>
-                        </thead>
-                        <tbody>
-                            @forelse ($collections as $collection)
-                                <tr>
-                                    <td>{{ $collection->name }}</td>
-                                    <td>{{ $collection->description }}</td>
-                                    <td>{{ $collection->image }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-edit btn-warning" onclick="edit({{ $collection->id }})"><i class="bx bx-pencil"></i>&nbsp;Editar</button>
-                                        <button type="button" class="btn btn-danger btn-delete ml-2" onclick="remove({{ $collection->id }})"><i class="bx bx-trash"></i>&nbsp;Eliminar</button>
-                                    </td>
-                                </tr>
-                            @empty
-                                
-                            @endforelse
-                        </tbody>
-                        <tfoot>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Imagen</th>
-                            <th>Opciones</th>
-                        </tfoot>
-                    </table>
-                @else 
-                    <center>
-                        <h5 class="my-5 py-5">No hay datos.</h5>
-                    </center>
-                @endif
-            </div>
-            <div class="col-xs-12">
-                @if ($collections->hasPages() and !$collections->isEmpty())
-                    <div class="pagination-wrapper">
-                        {{ $collections->links('pagination::bootstrap-4') }}
-                    </div>
-                @endif
-            </div>
+            <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
+                <thead>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Imagen</th>
+                    <th>Opciones</th>
+                </thead>
+                <tbody>
+                    @forelse ($collections as $collection)
+                        <tr>
+                            <td>{{ $collection->name }}</td>
+                            <td>{{ $collection->description }}</td>
+                            <td>{{ $collection->image }}</td>
+                            <td>
+                                <button type="button" class="btn btn-edit btn-warning" onclick="edit({{ $collection->id }})"><i class="bx bx-pencil"></i>&nbsp;Editar</button>
+                                <button type="button" class="btn btn-danger btn-delete ml-2" onclick="remove({{ $collection->id }})"><i class="bx bx-trash"></i>&nbsp;Eliminar</button>
+                            </td>
+                        </tr>
+                    @empty
+                        
+                    @endforelse
+                </tbody>
+                <tfoot>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Imagen</th>
+                    <th>Opciones</th>
+                </tfoot>
+            </table>
         </div>
     </div>
 
     <script>
+        list();
+
         function habilitar_botones() {
             document.getElementById("Cancelar").disabled = false;
             document.getElementById("Guardar").disabled = false;
@@ -169,48 +154,47 @@
             document.getElementById("description").value = "";
             document.getElementById("image").value = "";
             desabilitar_botones();
-            $("#top-form").addClass('d-none');
+            list()
+        }
+
+
+        function list() {
             document.getElementById("dataList").style.display = "block";
+            $("#top-form").addClass('d-none');
+
+            tabla = $('#tbllistado').dataTable({
+                "aProcessing": true, 
+                "aServerSide": true, 
+                dom: 'Bfrtip', // Control elements
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdf'
+                ],
+                "ajax": {
+                    url: "../ajax/collection.php?op=list",
+                    type: "get",
+                    dataType: "json",
+                    error: function(e) {
+                        console.log(e.responseText);
+                    }
+                },
+                "bDestroy": true,
+                "iDisplayLength": 5, // Pagination
+                "order": [
+                    [0, "asc"]
+                ] // Order [column, (asc or desc)]
+            }).DataTable();
         }
 
         function remove(id) {
-            var form = $('#delete-form');
-
-            form.attr({
+            $('#delete-form').attr({
                 'action': 'collections/'+id,
                 'method': 'POST'
             })
 
-            Swal.fire({
-                title: "Alerta",
-                text: "Seguro quieres eliminar la colección!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar!'
-                })
-                .then((result) => {
-                    if (result.value) {
-                        form.submit();
-                    } 
-                });
-        }
-
-        function validate(e) {
-            e.preventDefault()
-
-            name = document.getElementById('collection_name').value
-            if(name == "") {
-                Swal.fire(
-                    'Alert',
-                    'Ingresá un nombre!',
-                    'error'
-                )
-                return
-            }
-
-            document.getElementById('collection-form').submit();
+            $('#collection-modal').modal('show')
         }
     </script>
 @endsection
