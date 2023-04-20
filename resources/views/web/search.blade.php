@@ -15,7 +15,12 @@
             <div class="row">
                 @forelse ($results as $product)
                     <div class="col-lg-4">
-                        {{ view('web.includes.product_card', ['product' => $product]) }}
+                        <x-product
+                            :image="$product->image"
+                            :name="$product->name"
+                            :price="$product->price"
+                            :description="$product->description"
+                        />
                     </div>
                 @empty 
                 @endforelse

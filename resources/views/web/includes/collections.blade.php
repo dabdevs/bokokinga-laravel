@@ -16,7 +16,12 @@
                     <div class="men-item-carousel">
                         <div class="owl-men-item owl-carousel">
                             @foreach (App\Models\Product::where('collection_id', $collection->id)->orderBy('id', 'desc')->limit(10)->get() as $product)
-                                {{ view('web.includes.product_card', ['product' => $product]) }}
+                                <x-product
+                                    :image="$product->image"
+                                    :name="$product->name"
+                                    :price="$product->price"
+                                    :description="$product->description"
+                                />
                             @endforeach
                         </div>
                     </div>
