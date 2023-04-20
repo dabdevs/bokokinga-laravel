@@ -42,7 +42,7 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li class="scroll-to-section"><a href="#" data-toggle="modal" data-target="#searchModal"><i class="fa fa-search"></i></a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#searchModal"><i class="fa fa-search"></i></a></li>
                         <li class="submenu">
                             <a href="javascript:;">Colecciones</a>
                             <ul>
