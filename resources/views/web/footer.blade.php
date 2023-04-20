@@ -58,7 +58,6 @@
     </div>
 </footer>
 
-
 <!-- jQuery -->
 <script src="{{ asset('front/js/jquery-2.1.0.min.js') }}"></script>
 
@@ -80,3 +79,11 @@
 
 <!-- Global Init -->
 <script src="{{ asset('front/js/custom.js') }}"></script>
+
+<script>
+    const search = document.getElementById('search')
+    search.addEventListener("click", function(){
+        $('#searchModal').modal('show')
+        $('#query').focus()
+    })
+</script>

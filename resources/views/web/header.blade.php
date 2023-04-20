@@ -14,7 +14,7 @@
     <div class="modal-content">
       <!-- Modal header -->
       <div class="modal-header">
-        <h4 class="modal-title">Search</h4>
+        <h4 class="modal-title">Buscar producto</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
@@ -42,7 +42,7 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="#" data-toggle="modal" data-target="#searchModal"><i class="fa fa-search"></i></a></li>
+                        <li><a href="#" id="search"><i class="fa fa-search"></i></a></li>
                         <li class="submenu">
                             <a href="javascript:;">Colecciones</a>
                             <ul>

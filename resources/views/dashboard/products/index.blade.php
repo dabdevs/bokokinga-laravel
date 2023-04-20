@@ -17,17 +17,17 @@
             <input type="hidden" name="_method" id="method">
             <div class="row">
                 <div class="col-sm-9">
-                    <label for="product_name">Nombre:</label>
+                    <label for="product_name">Nombre: <span class="text-danger">*</span></label>
                     <input class="form-control" type="text" id="product_name" name="name">
                 </div>
 
                 <div class="col-sm-3">
-                    <label for="price">Price:</label>
+                    <label for="price">Price: <span class="text-danger">*</span></label>
                     <input class="form-control" type="decimal" min="0" name="price" id="price">
                 </div>
 
                 <div class="col-sm-3 d-none">
-                    <label for="image">Imagen:</label>
+                    <label for="image">Imagen: <span class="text-danger">*</span></label>
                     <input class="form-control" type="file" accept=”image/*” name="image" id="image">
                 </div>
             </div>
@@ -39,16 +39,16 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="col-xs-12">
-                        <label for="quantity">Quantity:</label>
+                        <label for="quantity">Quantity: <span class="text-danger">*</span></label>
                         <input class="form-control" type="number" min="0" name="quantity" id="quantity">
                     </div>
                     <div class="col-xs-12">
-                        <label for="collection">Collection:</label>
+                        <label for="collection">Collection: <span class="text-danger">*</span></label>
                         <select class="form-control" name="collection_id" id="collection_id">
-                            @forelse ($collections as $collection)
+                            <option value="">Selecciona una colección</option>
+                            @foreach ($collections as $collection)
                                 <option value="{{ $collection->id }}">{{ $collection->name }}</option>
-                            @empty
-                            @endforelse
+                            @endforeach
                         </select>
                     </div>
                 </div>

@@ -56,7 +56,7 @@ class ProductsController extends Controller
 
             if ($request->file('image')) {
                 foreach ($request->file('image') as $key => $file) {
-                    $path = Photo::upload($file, $this->upload_dir, true);
+                    $path = Photo::resizeAndUpload($file, $this->upload_dir, true);
 
                     Gallery::create([
                         'product_id' => $product->id,
@@ -110,7 +110,7 @@ class ProductsController extends Controller
 
             if ($request->file('image')) {
                 foreach ($request->file('image') as $key => $file) {
-                    $path = Photo::upload($file, $this->upload_dir, true);
+                    $path = Photo::resizeAndUpload($file, $this->upload_dir, true);
 
                     Gallery::create([
                         'product_id' => $product->id,

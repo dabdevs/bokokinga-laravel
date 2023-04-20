@@ -11,7 +11,7 @@
         <main class="container-fluid">
             @yield('content')
         </main>
-
+        
         {{ view('web/footer') }}
     </body>
 
