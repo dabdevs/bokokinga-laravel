@@ -6,7 +6,7 @@ use App\Http\Controllers\WebController;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ConfigurationsController;
 use App\Http\Controllers\ProductsController;
-use Illuminate\Support\Facades\Route; 
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +24,7 @@ Route::get('/', function () {
 });
 
 Route::get('/login', function () {
-    return view('front/login'); 
+    return view('front/login');
 });
 
 Route::group(['prefix' => '/'], function () {
@@ -33,18 +33,16 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/search', [WebController::class, 'search'])->name('web.search');
 });
 
-Route::group(['prefix' => 'admin'], function () {
-    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('/authenticate', [UsersController::class, 'authenticate'])->name('admin.authenticate');
-    Route::post('/logout', [UsersController::class, 'logout'])->name('admin.logout');
-    Route::get('/configurations', [ConfigurationsController::class, 'index'])->name('admin.configurations.index');
-    Route::resource('configurations', ConfigurationsController::class);
-    Route::resource('collections', CollectionsController::class);
-    Route::resource('products', ProductsController::class); 
+
+    Route::middleware(['admin'])->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+        Route::post('/logout', [UsersController::class, 'logout'])->name('admin.logout');
+        Route::get('/configurations', [ConfigurationsController::class, 'index'])->name('admin.configurations.index');
+        Route::resource('configurations', ConfigurationsController::class);
+        Route::resource('collections', CollectionsController::class);
+        Route::resource('products', ProductsController::class);
+    });
 });
-
-
-
-
-
