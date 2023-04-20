@@ -55,7 +55,7 @@
             </div>
 
             <div class="row">
-                <button type="button" class="ml-3 btn btn-primary" onclick="createInputImage()"><i class="fa fa-photo"></i>
+                <button type="button" class="ml-3 my-1 btn btn-primary" onclick="createInputImage()"><i class="fa fa-photo"></i>
                     Agregar foto</button>
             </div>
 
@@ -171,11 +171,21 @@
                     photos.innerHTML = ''
                     var photosCount = resultado['photos'].length;
                     document.getElementById('photosCount').value = photosCount
-
+                    
                     for (let index = 0; index < resultado['photos'].length; index++) {
                         const element = resultado['photos'][index];
                         const imgDisplay = document.createElement('img');
-                        var galleryIds = '';
+                        const primaryPhotoInput = document.createElement('input');
+                        primaryPhotoInput.name = 'primary_photo';
+                        primaryPhotoInput.type = 'radio';
+                        primaryPhotoInput.value = element.id;
+
+                        if(resultado.image == element.path) primaryPhotoInput.checked = true
+
+                        const primaryPhotolabel = document.createElement('label');
+                        primaryPhotolabel.innerHTML = 'Foto principal'
+
+                        var photoIds = '';
 
                         imgDisplay.src = "{{ env('S3_BASE_URL') }}/" + element.path;
 
@@ -187,6 +197,13 @@
 
                         // Create a container element to hold the image input and delete button
                         const container = document.createElement('div');
+                        container.classList.add('row')
+                        
+                        const primaryBox = document.createElement('div');
+                        primaryBox.appendChild(primaryPhotolabel)
+                        primaryBox.appendChild(primaryPhotoInput)
+                        primaryBox.classList.add('col-sm-12')
+                        
                         const imgLink = document.createElement('input');
                         imgLink.name = 'photos_to_delete';
                         imgLink.classList.add('d-none')
@@ -194,18 +211,25 @@
                         // Add an event listener to the delete button
                         deleteButton.addEventListener('click', function() {
                             // Remove the image input element when the delete button is clicked
-                            galleryIds += galleryIds == '' ? element.id : '-' + element.id
-                            imgLink.value = galleryIds
+                            photoIds += photoIds == '' ? element.id : '-' + element.id
+                            imgLink.value = photoIds
                             container.appendChild(imgLink);
                             imgDisplay.remove();
+                            primaryPhotoInput.remove();
+                            primaryBox.remove();
                             this.remove()
                             photosCount--
                             document.getElementById('photosCount').value = photosCount
                         });
 
-                        container.appendChild(imgDisplay);
-                        container.appendChild(deleteButton);
-                        container.classList.add('d-flex', 'd-flex-row', 'my-2')
+                        const imageBox = document.createElement('div');
+                        imageBox.classList.add('col-sm-12', 'my-2')
+                        imageBox.appendChild(imgDisplay)
+                        imageBox.appendChild(deleteButton)
+
+                        container.appendChild(imageBox);
+                        container.appendChild(primaryBox);
+
                         // Append input to parent
                         photos.append(container);
                     }
@@ -264,13 +288,20 @@
 
             var uploadedPhotos = [];
 
+            // if (!$('input[name="primary_photo"]').is(':checked') && uploadedPhotos.length > 0) {
+            //     Swal.fire(
+            //         'Alert',
+            //         'Selecciona una foto por defecto',
+            //         'error'
+            //     )
+            //     return
+            // }
+
             // Check inputs with value
             $("input[name='image[]']").map(function() {
                 value = $(this).val()
                 if (value != "") uploadedPhotos.push(value)
             }).get()
-
-            console.log($('#photosCount').val())
 
             // If there is no photos attached to the product
             if ($('#photosCount').val() == 0 && uploadedPhotos.length == 0) {

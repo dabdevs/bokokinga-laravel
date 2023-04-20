@@ -118,12 +118,16 @@ class ProductsController extends Controller
                     ]);
 
                     if ($key == 0) {
-                        $product->image = $path;
-                        $product->save();
+                        $data["image"] = $path;
                     }
                 }
-            } 
-            
+            }
+
+            if ($request->primary_photo) {
+                $primary_photo = Gallery::findOrFail((int)$request->primary_photo);
+                $data["image"] = $primary_photo->path;
+            }
+
             $product->update($data);
             $product->searchable(); 
 

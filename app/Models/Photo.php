@@ -23,20 +23,14 @@ class Photo extends Model
     }
 
     public static function resizeAndUpload($image, $path, $new = true)
-    {
+    { 
         // Resize the image using Intervention Image
-        $resizedImage = Image::make($image)
-            ->resize(env('COLLECTION_INDEX_IMAGE_WIDTH'), env('COLLECTION_INDEX_IMAGE_HEIGTH'), function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            })
-            ->stream();
-
+        $resizedImage = Image::make($image)->fit(env('PRODUCT_IMAGE_MAX_WIDTH'), env('PRODUCT_IMAGE_MAX_HEIGTH'));
 
         if ($new || $path == null) $path = $image->hashName($path);
 
         // Upload the resized image to Amazon S3 storage
-        Storage::disk('s3')->put($path, $resizedImage);
+        Storage::disk('s3')->put($path, $resizedImage->stream()->detach());
 
         // Return the URL of the uploaded image
         return $path;
@@ -48,3 +42,4 @@ class Photo extends Model
         return Storage::disk('s3')->delete($path);
     }
 }
+
