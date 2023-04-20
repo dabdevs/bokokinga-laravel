@@ -8,7 +8,7 @@
             <div class="col-lg-3">
                 <div class="first-item">
                     <div class="logo d-none">
-                        <img src="{{ asset('front/images/white-logo.png') }}" alt="hexashop ecommerce templatemo">
+                        <img src="{{ asset('front/img/white-logo.png') }}" alt="hexashop ecommerce templatemo">
                     </div>
                     <h4>Contacto</h4>
                     <ul>
