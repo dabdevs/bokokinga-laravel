@@ -11,7 +11,8 @@
     <h1>Productos</h1>
 
     <div class="mb-3 card p-3 d-none" id="top-form">
-        <form action="" method="POST" id="product-form" enctype="multipart/form-data" onsubmit="return validate(event)">
+        <form action="" method="POST" id="product-form" enctype="multipart/form-data"
+            onsubmit="return validate(event)">
             @csrf
             <input type="hidden" name="_method" id="method">
             <div class="row">
@@ -54,7 +55,8 @@
             </div>
 
             <div class="row">
-                <button type="button" class="ml-3 btn btn-primary" onclick="createInputImage()"><i class="fa fa-photo"></i> Agregar foto</button>
+                <button type="button" class="ml-3 btn btn-primary" onclick="createInputImage()"><i class="fa fa-photo"></i>
+                    Agregar foto</button>
             </div>
 
             <div class="row">
@@ -75,17 +77,18 @@
     <div class="mb-3 card p-3" id="dataList">
         <div class="row table-responsive pl-3">
             <div class="col-xs-12">
-                <button class="btn btn-success my-3 float-right" onclick="agregar()"><i class="fa fa-plus"></i> Agregar</button>
-            </div>  
+                <button class="btn btn-success my-3 float-right" onclick="agregar()"><i class="fa fa-plus"></i> Nuevo
+                    producto</button>
+            </div>
 
             <div class="col-xs-12">
-                @if(!$products->isEmpty())
+                @if (!$products->isEmpty())
                     <table class="table table-striped table-bordered table-condensed table-hover">
                         <thead>
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Imagen</th>
-                            <th>Opciones</th>
+                            <th></th>
                         </thead>
                         <tbody>
                             @forelse ($products as $product)
@@ -94,22 +97,23 @@
                                     <td>{{ $product->description }}</td>
                                     <td>{{ $product->image }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-edit btn-warning" onclick="edit({{ $product->id }})"><i class="bx bx-pencil"></i>&nbsp;Editar</button>
-                                        <button type="button" class="btn btn-danger btn-delete ml-2" onclick="remove({{ $product->id }})"><i class="bx bx-trash"></i>&nbsp;Eliminar</button>
+                                        <button type="button" class="btn btn-edit btn-warning"
+                                            onclick="edit({{ $product->id }})"><i class="bx bx-pencil"></i></button>
+                                        <button type="button" class="btn btn-danger btn-delete ml-2"
+                                            onclick="remove({{ $product->id }})"><i class="bx bx-trash"></i></button>
                                     </td>
                                 </tr>
                             @empty
-                                
                             @endforelse
                         </tbody>
                         <tfoot>
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Imagen</th>
-                            <th>Opciones</th>
+                            <th></th>
                         </tfoot>
                     </table>
-                @else 
+                @else
                     <center>
                         <h5 class="my-5 py-5">No hay datos.</h5>
                     </center>
@@ -149,14 +153,14 @@
             $("#top-form").removeClass('d-none');
 
             $('#product-form').attr({
-                'action': '/admin/products/'+id,
+                'action': '/admin/products/' + id,
                 'method': 'POST'
             })
             $('#method').val('PUT')
 
             $.ajax({
                 type: "GET",
-                url: "/admin/products/"+id,
+                url: "/admin/products/" + id,
                 success: function(resultado) {
                     document.getElementById("product_name").value = resultado['name'];
                     document.getElementById("description").value = resultado['description'];
@@ -167,13 +171,13 @@
                     photos.innerHTML = ''
                     var photosCount = resultado['photos'].length;
                     document.getElementById('photosCount').value = photosCount
-                    
+
                     for (let index = 0; index < resultado['photos'].length; index++) {
                         const element = resultado['photos'][index];
                         const imgDisplay = document.createElement('img');
                         var galleryIds = '';
 
-                        imgDisplay.src = "{{ env('S3_BASE_URL') }}/"+element.path;
+                        imgDisplay.src = "{{ env('S3_BASE_URL') }}/" + element.path;
 
                         // Create the delete button element
                         const deleteButton = document.createElement('button');
@@ -186,11 +190,11 @@
                         const imgLink = document.createElement('input');
                         imgLink.name = 'photos_to_delete';
                         imgLink.classList.add('d-none')
-                        
+
                         // Add an event listener to the delete button
                         deleteButton.addEventListener('click', function() {
                             // Remove the image input element when the delete button is clicked
-                            galleryIds += galleryIds == '' ? element.id : '-'+element.id
+                            galleryIds += galleryIds == '' ? element.id : '-' + element.id
                             imgLink.value = galleryIds
                             container.appendChild(imgLink);
                             imgDisplay.remove();
@@ -201,7 +205,7 @@
 
                         container.appendChild(imgDisplay);
                         container.appendChild(deleteButton);
-                        container.classList.add('d-flex', 'd-flex-row','my-2')
+                        container.classList.add('d-flex', 'd-flex-row', 'my-2')
                         // Append input to parent
                         photos.append(container);
                     }
@@ -222,23 +226,23 @@
             var form = $('#delete-form');
 
             form.attr({
-                'action': 'products/'+id,
+                'action': 'products/' + id,
                 'method': 'POST'
             })
 
             Swal.fire({
-                title: "Alerta",
-                text: "Seguro quieres eliminar el producto!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar!'
+                    title: "Alerta",
+                    text: "Seguro quieres eliminar el producto!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar!'
                 })
                 .then((result) => {
                     if (result.value) {
                         form.submit();
-                    } 
+                    }
                 });
         }
 
@@ -248,8 +252,8 @@
             price = document.getElementById('price').value
             quantity = document.getElementById('quantity').value
             collection_id = document.getElementById('collection_id').value
-            
-            if(name == "" || price == "" || quantity == "" || collection_id == "") {
+
+            if (name == "" || price == "" || quantity == "" || collection_id == "") {
                 Swal.fire(
                     'Alert',
                     'Faltan datos!',
@@ -261,15 +265,15 @@
             var uploadedPhotos = [];
 
             // Check inputs with value
-            $("input[name='image[]']").map(function(){
+            $("input[name='image[]']").map(function() {
                 value = $(this).val()
-                if(value != "") uploadedPhotos.push(value)
+                if (value != "") uploadedPhotos.push(value)
             }).get()
 
             console.log($('#photosCount').val())
 
             // If there is no photos attached to the product
-            if($('#photosCount').val() == 0 && uploadedPhotos.length == 0) {
+            if ($('#photosCount').val() == 0 && uploadedPhotos.length == 0) {
                 Swal.fire(
                     'Alert',
                     'Debes cargar al menos una foto!',
@@ -305,11 +309,10 @@
             const container = document.createElement('div');
             container.appendChild(imageInput);
             container.appendChild(deleteButton);
-            container.classList.add('d-flex', 'd-flex-row','my-2')
+            container.classList.add('d-flex', 'd-flex-row', 'my-2')
 
             // Append input to parent
             document.getElementById('photos').append(container);
         }
-
     </script>
 @endsection

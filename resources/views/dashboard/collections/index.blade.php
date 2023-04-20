@@ -11,7 +11,8 @@
     <h1>Colecciones</h1>
 
     <div class="mb-3 card p-3 d-none" id="top-form">
-        <form action="" method="POST" id="collection-form" enctype="multipart/form-data" onsubmit="return validate(event)">
+        <form action="" method="POST" id="collection-form" enctype="multipart/form-data"
+            onsubmit="return validate(event)">
             @csrf
             <input type="hidden" name="_method" id="method">
             <div class="row">
@@ -46,17 +47,18 @@
     <div class="mb-3 card p-3" id="dataList">
         <div class="row table-responsive pl-3">
             <div class="col-xs-12">
-                <button class="btn btn-success my-3 float-right" onclick="agregar()"><i class="fa fa-plus"></i> Agregar</button>
+                <button class="btn btn-success my-3 float-right" onclick="agregar()"><i class="fa fa-plus"></i> Nueva
+                    colección</button>
             </div>
 
             <div class="col-xs-12">
-                @if(!$collections->isEmpty())
+                @if (!$collections->isEmpty())
                     <table class="table table-striped table-bordered table-condensed table-hover">
                         <thead>
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Imagen</th>
-                            <th>Opciones</th>
+                            <th></th>
                         </thead>
                         <tbody>
                             @forelse ($collections as $collection)
@@ -65,22 +67,23 @@
                                     <td>{{ $collection->description }}</td>
                                     <td>{{ $collection->image }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-edit btn-warning" onclick="edit({{ $collection->id }})"><i class="bx bx-pencil"></i>&nbsp;Editar</button>
-                                        <button type="button" class="btn btn-danger btn-delete ml-2" onclick="remove({{ $collection->id }})"><i class="bx bx-trash"></i>&nbsp;Eliminar</button>
+                                        <button type="button" class="btn btn-edit btn-warning"
+                                            onclick="edit({{ $collection->id }})"><i class="bx bx-pencil"></i></button>
+                                        <button type="button" class="btn btn-danger btn-delete ml-2"
+                                            onclick="remove({{ $collection->id }})"><i class="bx bx-trash"></i></button>
                                     </td>
                                 </tr>
                             @empty
-                                
                             @endforelse
                         </tbody>
                         <tfoot>
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Imagen</th>
-                            <th>Opciones</th>
+                            <th></th>
                         </tfoot>
                     </table>
-                @else 
+                @else
                     <center>
                         <h5 class="my-5 py-5">No hay datos.</h5>
                     </center>
@@ -120,14 +123,14 @@
             $("#top-form").removeClass('d-none');
             $("#collection_id").val(id)
             $('#collection-form').attr({
-                'action': '/admin/collections/'+id,
+                'action': '/admin/collections/' + id,
                 'method': 'POST'
             })
             $('#method').val('PUT')
 
             $.ajax({
                 type: "GET",
-                url: "/admin/collections/"+id,
+                url: "/admin/collections/" + id,
                 success: function(resultado) {
                     document.getElementById("collection_name").value = resultado['name'];
                     document.getElementById("description").value = resultado['description'];
@@ -148,23 +151,23 @@
             var form = $('#delete-form');
 
             form.attr({
-                'action': 'collections/'+id,
+                'action': 'collections/' + id,
                 'method': 'POST'
             })
 
             Swal.fire({
-                title: "Alerta",
-                text: "Seguro quieres eliminar la colección!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar!'
+                    title: "Alerta",
+                    text: "Seguro quieres eliminar la colección!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar!'
                 })
                 .then((result) => {
                     if (result.value) {
                         form.submit();
-                    } 
+                    }
                 });
         }
 
@@ -172,7 +175,7 @@
             e.preventDefault()
 
             name = document.getElementById('collection_name').value
-            if(name == "") {
+            if (name == "") {
                 Swal.fire(
                     'Alert',
                     'Ingresá un nombre!',
