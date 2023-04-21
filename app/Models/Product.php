@@ -9,7 +9,7 @@ use Laravel\Scout\Searchable;
 class Product extends Model
 {
     use HasFactory;
-    use Searchable;
+    use Searchable; 
 
     /**
      * The attributes that are mass assignable.
@@ -32,6 +32,16 @@ class Product extends Model
     public function collection()
     {
         return $this->belongsTo(Collection::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    public function primaryImage() 
+    {
+        return $this->hasOne(Image::class)->where('is_primary', true);
     }
 
     public function photos()

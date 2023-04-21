@@ -3,6 +3,7 @@
 
     <head>
         {{ view('dashboard/head_tags') }}
+        @livewireStyles
     </head>
 
     <body>
@@ -19,6 +20,8 @@
         </main>
 
         {{ view('dashboard/footer') }}
+
+        @livewireScripts
 
         <script>
             $('.table').dataTable({

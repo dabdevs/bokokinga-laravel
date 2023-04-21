@@ -55,11 +55,19 @@
             </div>
 
             <div class="row">
+                <div class="col-sm-6">
+                    @livewire('image-uploader')
+                </div>
+            </div>
+
+            <div class="row d-none">
                 <button type="button" class="ml-3 my-1 btn btn-primary" onclick="createInputImage()"><i class="fa fa-photo"></i>
                     Agregar foto</button>
             </div>
 
-            <div class="row">
+            
+
+            <div class="row d-none">
                 <input type="hidden" id="photosCount">
                 <div class="col-sm-6" id="photos">
                 </div>
