@@ -83,4 +83,9 @@ class Product extends Model
             $model->unsearchable();
         });
     }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
 }

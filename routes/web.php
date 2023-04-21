@@ -7,6 +7,7 @@ use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ConfigurationsController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\ProductForm;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/configurations', [ConfigurationsController::class, 'index'])->name('admin.configurations.index');
         Route::resource('configurations', ConfigurationsController::class);
         Route::resource('collections', CollectionsController::class);
-        Route::resource('products', ProductsController::class);
+        //Route::resource('products', ProductsController::class);
+        Route::get('/products', ProductForm::class)->name('products.index');;
+        Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
     });
 });

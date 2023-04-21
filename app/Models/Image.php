@@ -15,4 +15,9 @@ class Image extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function getUrlAttribute() 
+    {
+        return Storage::disk('s3')->url($this->url);
+    }
 }
