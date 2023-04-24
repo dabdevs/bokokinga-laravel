@@ -20,6 +20,5 @@
 
     <div class="py-2">
         <button class="btn btn-secondary" type="button" wire:click.prevent="$set('images', [])">Clear Images</button>
-        <button class="btn btn-success" type="submit">Save Images</button>
     </div>
 </div>

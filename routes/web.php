@@ -46,6 +46,6 @@ Route::prefix('admin')->group(function () {
         Route::resource('collections', CollectionsController::class);
         //Route::resource('products', ProductsController::class);
         Route::get('/products', ProductForm::class)->name('products.index');;
-        Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
+        //Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
     });
 });

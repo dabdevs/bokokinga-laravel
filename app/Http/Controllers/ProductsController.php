@@ -6,12 +6,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Image;
-use Illuminate\Support\FacadesStorage;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     public function store(Request $request)
     {
+        dd($request->all());
         $validatedData = $request->validate([
             'name' => 'required',
             'price' => 'required|numeric',

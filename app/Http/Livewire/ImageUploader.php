@@ -41,6 +41,6 @@ class ImageUploader extends Component
 
     public function render()
     {
-        return view('livewire.image-uploader');
+        return view('dashboard.livewire.image-uploader');
     }
 }

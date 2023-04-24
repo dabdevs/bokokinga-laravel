@@ -8,6 +8,7 @@ use App\Models\Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\Product;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProductForm extends Component
@@ -91,8 +92,9 @@ class ProductForm extends Component
         session()->flash('success', 'Product created successfully.');
     }
 
-    public function submit()
+    public function test()
     {
+        dd('df');
         $validatedData = $this->validate([
             'name' => 'required',
             'price' => 'required|numeric',

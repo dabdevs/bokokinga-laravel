@@ -1,7 +1,9 @@
 @extends('dashboard/layout')
 
 @section('content')
-    <livewire:product-form />
+    <div>
+        <livewire:product-form />
         <hr>
-    <livewire:product-list />
+        <livewire:product-list />
+    </div>
 @endsection
