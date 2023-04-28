@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Gallery;
+use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 
 class ProductSeeder extends Seeder
@@ -15,9 +14,6 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::truncate();
-        Gallery::truncate();
-
         $product1 = [
             'name' => 'Uñas acrílicas hojas verdes',
             'slug' => 'Uñas-acrílicas-hojas-verdes',
@@ -103,7 +99,8 @@ class ProductSeeder extends Seeder
         $this->createOne($product6);
     }
 
-    function createOne(array $data) {
+    function createOne(array $data)
+    {
         $product = new Product;
         $product->name = $data["name"];
         $product->slug = $data["slug"];
@@ -112,15 +109,18 @@ class ProductSeeder extends Seeder
         $product->quantity = $data["quantity"];
         $product->collection_id = $data["collection_id"];
         $product->image = $data["images"][0];
-        
+
         $product->save();
 
         if (count($data["images"]) > 0) {
             foreach ($data["images"] as $path) {
-                Gallery::create([
-                    'product_id' => $product->id,
-                    'path' => $path
-                ]);
+                $product->images()->create(
+                    [
+                        'product_id' => $product->id,
+                        'path' => $path,
+                        'is_primary' => true
+                    ]
+                );
             }
         }
     }

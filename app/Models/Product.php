@@ -44,11 +44,6 @@ class Product extends Model
         return $this->hasOne(Image::class)->where('is_primary', true);
     }
 
-    public function photos()
-    {
-        return $this->belongsTo(Gallery::class);
-    }
-
     public function searchableAs()
     {
         return 'product_index';

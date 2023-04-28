@@ -11,10 +11,10 @@
     <h1>Productos</h1>
 
     <div class="mb-3 card p-3 d-none" id="top-form">
-        <form action="" method="POST" id="product-form" enctype="multipart/form-data"
-            onsubmit="return validate(event)">
+        <form method="POST" id="product-form" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="_method" id="method">
+            <input type="hidden" id="product_id">
             <div class="row">
                 <div class="col-sm-9">
                     <label for="product_name">Nombre: <span class="text-danger">*</span></label>
@@ -28,7 +28,7 @@
 
                 <div class="col-sm-3 d-none">
                     <label for="image">Imagen: <span class="text-danger">*</span></label>
-                    <input class="form-control" type="file" accept=”image/*” name="image" id="image">
+                    <input class="form-control" type="file" accept=”image/*” name="images[]" id="image">
                 </div>
             </div>
 
@@ -55,20 +55,11 @@
             </div>
 
             <div class="row">
-                <div class="col-sm-6">
-                    @livewire('image-uploader')
-                </div>
-            </div>
-
-            <div class="row d-none">
-                <button type="button" class="ml-3 my-1 btn btn-primary" onclick="createInputImage()"><i class="fa fa-photo"></i>
+                <button type="button" class="ml-3 my-1 btn btn-primary" onclick="createImageUploadInput()"><i class="fa fa-photo"></i>
                     Agregar foto</button>
             </div>
-
-            
-
-            <div class="row d-none">
-                <input type="hidden" id="photosCount">
+            <div class="row">
+                <input class="d-none" type="hidden" id="photosCount">
                 <div class="col-sm-6" id="photos">
                 </div>
             </div>
@@ -159,6 +150,7 @@
             habilitar_botones();
             document.getElementById("dataList").style.display = "none";
             $("#top-form").removeClass('d-none');
+            $("#product_id").val(id)
 
             $('#product-form').attr({
                 'action': '/admin/products/' + id,
@@ -170,18 +162,20 @@
                 type: "GET",
                 url: "/admin/products/" + id,
                 success: function(resultado) {
-                    document.getElementById("product_name").value = resultado['name'];
-                    document.getElementById("description").value = resultado['description'];
-                    document.getElementById("price").value = resultado['price'];
-                    document.getElementById("quantity").value = resultado['quantity'];
-                    document.getElementById("collection_id").value = resultado['collection_id'];
+                    document.getElementById("product_name").value = resultado.product.name;
+                    document.getElementById("description").value = resultado.product.description;
+                    document.getElementById("price").value = resultado.product.price;
+                    document.getElementById("quantity").value = resultado.product.quantity;
+                    document.getElementById("collection_id").value = resultado.product.collection_id;
                     const photos = document.getElementById('photos');
                     photos.innerHTML = ''
-                    var photosCount = resultado['photos'].length;
+
+                    var photosCount = resultado.images.length;
                     document.getElementById('photosCount').value = photosCount
                     
-                    for (let index = 0; index < resultado['photos'].length; index++) {
-                        const element = resultado['photos'][index];
+                    for (let index = 0; index < photosCount; index++) {
+                        const element = resultado['images'][index];
+                        console.log(element)
                         const imgDisplay = document.createElement('img');
                         const primaryPhotoInput = document.createElement('input');
                         primaryPhotoInput.name = 'primary_photo';
@@ -278,14 +272,15 @@
                 });
         }
 
-        function validate(e) {
-            e.preventDefault()
-            name = document.getElementById('product_name').value
-            price = document.getElementById('price').value
-            quantity = document.getElementById('quantity').value
-            collection_id = document.getElementById('collection_id').value
+        function validate() {
+            var data = {};
+            data.name = document.getElementById('product_name').value
+            data.price = document.getElementById('price').value
+            data.quantity = document.getElementById('quantity').value
+            data.collection_id = document.getElementById('collection_id').value
+            data.product_id = document.getElementById('product_id').value
 
-            if (name == "" || price == "" || quantity == "" || collection_id == "") {
+            if (name == "" || price == "" || quantity == "" || collection_id == "" || product_id == "") {
                 Swal.fire(
                     'Alert',
                     'Faltan datos!',
@@ -306,7 +301,7 @@
             // }
 
             // Check inputs with value
-            $("input[name='image[]']").map(function() {
+            $("input[name='s']").map(function() {
                 value = $(this).val()
                 if (value != "") uploadedPhotos.push(value)
             }).get()
@@ -321,37 +316,114 @@
                 return
             }
 
-            document.getElementById('product-form').submit();
+            var form = document.querySelector('#product-form')
+            form.action = '{{ route("products.store") }}' + '/' + data.product_id;
+            
+            form.submit()
         }
 
-        function createInputImage() {
-            // Create the image input element
-            const imageInput = document.createElement('input');
-            imageInput.type = 'file';
-            imageInput.name = 'image[]';
-            imageInput.classList.add('form-control');
+        function createImageUploadInput() {
+            var emptyInput = false;
+            $("input[name='images[]']").map(function() {
+                value = $(this).val()
+                console.log($(this).val() == "")
+                if (value == "") emptyInput = true;
+            }).get()
 
-            // Create the delete button element
+            if(emptyInput) return;
+            
+            // create input element
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.name = 'images[]';
+            input.classList.add('form-control', 'my-2')
+            
+            const previewDiv = document.createElement('div');
+            // create image preview element
+            const preview = document.createElement('img');
+            previewDiv.style.display = 'none';
+            
+            const deleteButtonDiv = document.createElement('div');
             const deleteButton = document.createElement('button');
+            deleteButton.innerHTML = '<i class="fa fa-times"></i>';
+            deleteButtonDiv.style.display = 'none';
             deleteButton.type = 'button';
-            deleteButton.textContent = 'Borrar';
-            deleteButton.classList.add('btn', 'btn-danger', 'ml-2');
-
-            // Add an event listener to the delete button
-            deleteButton.addEventListener('click', function() {
-                // Remove the image input element when the delete button is clicked
-                imageInput.remove();
-                this.remove()
+            deleteButton.classList.add('btn', 'btn-danger')
+            
+            // add event listeners
+            input.addEventListener('change', () => {
+                const file = input.files[0];
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    input.style.display = 'none';
+                    preview.src = reader.result;
+                    previewDiv.style.display = 'block';
+                    deleteButtonDiv.style.display = 'block';
+                };
+            });
+            
+            deleteButton.addEventListener('click', () => {
+                input.value = '';
+                preview.src = '';
+                previewDiv.style.display = 'none';
+                deleteButtonDiv.style.display = 'none';
             });
 
-            // Create a container element to hold the image input and delete button
-            const container = document.createElement('div');
-            container.appendChild(imageInput);
-            container.appendChild(deleteButton);
-            container.classList.add('d-flex', 'd-flex-row', 'my-2')
 
-            // Append input to parent
-            document.getElementById('photos').append(container);
+            previewDiv.appendChild(preview);
+            deleteButtonDiv.appendChild(deleteButton);
+            
+            // create container element
+            const container = document.createElement('div');
+            container.appendChild(input);
+            container.classList.add('d-flex', 'justify-content-between', 'my-2')
+            container.appendChild(previewDiv);
+            container.appendChild(deleteButtonDiv);
+            console.log(container)
+            
+            // return container element
+            document.getElementById('photos').prepend(container);
         }
+
+        // const form = document.querySelector('product-form');
+        // const imageUploadInput = createImageUploadInput();
+        // form.appendChild(imageUploadInput);
+
+
+        function submitForm(formData) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '{{ route("products.store") }}');
+                xhr.onload = () => {
+                if (xhr.status === 200) {
+                    resolve(xhr.response);
+                } else {
+                    reject(xhr.statusText);
+                }
+                };
+                xhr.onerror = () => {
+                reject('Network error');
+                };
+                xhr.send(formData);
+            });
+        }
+
+        
+        //const form = document.querySelector('#product-form');
+        // const imageUploadInput = createImageUploadInput();
+        // form.appendChild(imageUploadInput);
+
+        // form.addEventListener('submit', async (event) => {
+        //     event.preventDefault();
+        //     validate();
+
+        //     const formData = $('#product-form').serialize();
+        //     const result = await submitForm(formData);
+        // });
+
+
+
     </script>
 @endsection

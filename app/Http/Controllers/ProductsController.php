@@ -20,7 +20,7 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         //$products = Product::with('photos')->orderBy('name', 'asc')->paginate(env('RECORDS_PER_PAGE'), ['*'], 'page', $request->page)
-        $products = Product::with('photos')->orderBy('name', 'asc')->get();
+        $products = Product::orderBy('name', 'asc')->get();
         $collections = Collection::orderBy('name', 'asc')->get();
         return view('dashboard.products.index', compact('products', 'collections'));
     }
@@ -38,6 +38,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         try {
             $data = $request->validate([
                 'name' => 'required|string|max:150',
@@ -81,8 +82,11 @@ class ProductsController extends Controller
      */
     public function show(Product $product)
     {
-        $product->photos = DB::select('SELECT * FROM galleries WHERE product_id = '.$product->id); 
-        return response()->json($product);
+       // dd($product->images);
+        return response()->json([
+            'product' => $product,
+            'images' => $product->images
+        ]);
     }
 
     /**
@@ -98,7 +102,7 @@ class ProductsController extends Controller
      */
     public function update(Product $product, Request $request)
     {
-        dd($product->images()->get());
+        dd($request->file('images'));
         try {
             $data = $request->validate([
                 'name' => 'required|string|max:150',
