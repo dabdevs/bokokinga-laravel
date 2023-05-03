@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Collection;
 use App\Models\Gallery;
+use App\Models\Image;
 use App\Models\Photo;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
 class ProductsController extends Controller
@@ -43,10 +45,10 @@ class ProductsController extends Controller
             $data = $request->validate([
                 'name' => 'required|string|max:150',
                 'description' => 'nullable|string|max:255',
-                'price' => 'required|integer',
+                'price' => 'required|numeric|gt:0',
                 'quantity' => 'required|integer',
                 'collection_id' => 'required|integer',
-                'image.*' => 'image|mimes:jpeg,jpg,png|max:2048'
+                'images.*' => 'nullable|image|mimes:jpeg,jpg,png|max:2048'
             ]);
 
             $data['slug'] = str_replace(' ', '-', $data['name']);
@@ -55,8 +57,8 @@ class ProductsController extends Controller
             $product = $product->create($data);
             $product->searchable(); 
 
-            if ($request->file('image')) {
-                foreach ($request->file('image') as $key => $file) {
+            if ($request->file('images')) {
+                foreach ($request->file('images') as $key => $file) {
                     $path = Photo::resizeAndUpload($file, $this->upload_dir, true);
 
                     Gallery::create([
@@ -78,23 +80,14 @@ class ProductsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
-    {
-       // dd($product->images);
-        return response()->json([
-            'product' => $product,
-            'images' => $product->images
-        ]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
-        //
+       return view('dashboard.products.edit')->with([
+            'product' => $product,
+            'collections' => Collection::orderBy('name', 'asc')->get()
+       ]);
     }
 
     /**
@@ -102,53 +95,71 @@ class ProductsController extends Controller
      */
     public function update(Product $product, Request $request)
     {
-        dd($request->file('images'));
         try {
+            DB::beginTransaction(); 
+
             $data = $request->validate([
                 'name' => 'required|string|max:150',
                 'description' => 'nullable|string|max:255',
-                'price' => 'required|integer',
+                'price' => 'required|numeric|gt:0',
                 'quantity' => 'required|integer',
                 'collection_id' => 'required|integer',
-                'image.*' => 'image|mimes:jpeg,jpg,png|max:2048'
+                'images.*' => 'nullable|image|mimes:jpeg,jpg,png|max:2048'
             ]);
 
-            if ($request->file('image')) {
-                foreach ($request->file('image') as $key => $file) {
+            if ($request->file('images')) {
+                foreach ($request->file('images') as $key => $file) {
                     $path = Photo::resizeAndUpload($file, $this->upload_dir, true);
 
-                    Gallery::create([
+                    $image = [
                         'product_id' => $product->id,
                         'path' => $path
-                    ]);
+                    ];
 
-                    if ($key == 0) {
-                        $data["image"] = $path;
+                    // If uploaded image is set as primary
+                    if (str_contains($request->primaryImage, $file->getClientOriginalName())) {
+                        $primaryImage = $product->primaryImage;
+                        $primaryImage->is_primary = 0;
+                        $primaryImage->save();
+                        $image['is_primary'] = 1;
                     }
+                    
+                    $product->images()->create($image);
                 }
             }
 
-            if ($request->primary_photo) {
-                $primary_photo = Gallery::findOrFail((int)$request->primary_photo);
-                $data["image"] = $primary_photo->path;
+            // If primary image is an already uploaded image
+            if (is_numeric($request->primaryImage)) {
+                $primaryImage = $product->primaryImage;
+                $primaryImage->is_primary = 0;
+                $primaryImage->save();
+
+                $image = Image::findOrFail($request->primaryImage);
+                $image->is_primary = 1;
+                $image->save();
             }
 
             $product->update($data);
             $product->searchable(); 
 
-            if ($request->photos_to_delete)
-                $gallery_ids_to_delete = explode("-", $request->photos_to_delete);
-           
-            if (isset($gallery_ids_to_delete)) {
-                foreach ($gallery_ids_to_delete as $gallery_id) {
-                    $gallery = Gallery::find($gallery_id);
-                    Photo::remove($gallery->path);
-                    $gallery->delete();
+            // Delete images
+            if ($request->delete_images) {
+                $photo_ids_to_delete = explode("-", $request->delete_images);
+                
+                foreach ($photo_ids_to_delete as $photo_id) {
+                    $image = Image::find($photo_id); 
+
+                    // Delete image from Amazon S3 storage
+                    Storage::disk('s3')->delete($image->path);
+                    $image->delete();
                 }
             }
 
+            DB::commit();
+            
             return URL::backWithSuccess('Product updated successfully!');
         } catch (\Throwable $th) {
+            DB::rollBack();
             throw $th;
         }
     }

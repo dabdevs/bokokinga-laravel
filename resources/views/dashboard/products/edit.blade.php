@@ -1,54 +1,52 @@
 @extends('dashboard/layout')
 
 @section('content')
-    {{ view('shared/messages') }}
-
-    @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-    @endforeach
-
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    
     <form id="delete-form" method="POST">
         <input type="hidden" name="_method" value="DELETE">
         @csrf
     </form>
 
-    <h1>Productos</h1>
+    <h1>{{ $product->name }}</h1>
 
-    <div class="mb-3 card p-3 d-none" id="top-form">
-        <form method="POST" id="product-form" enctype="multipart/form-data">
+    <div class="mb-3 card p-3" id="top-form">
+        <form method="POST" action="{{ route('products.update', $product->id) }}" id="product-form" enctype="multipart/form-data">
             @csrf
-            <input type="hidden" name="_method" id="method">
+            @method('PUT')
+
+            {{ view('shared/messages') }}
+
             <input type="hidden" id="product_id">
             <input type="hidden" id="delete_images" name="delete_images">
+            <input type="hidden" id="imagesCount" name="imagesCount">
             <div class="row">
                 <div class="col-sm-9">
                     <label for="product_name">Nombre: <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" id="product_name" name="name">
+                    <input class="form-control" type="text" id="product_name" name="name" value="{{ $product->name }}">
                 </div>
 
                 <div class="col-sm-3">
                     <label for="price">Price: <span class="text-danger">*</span></label>
-                    <input class="form-control" type="decimal" min="0" name="price" id="price">
+                    <input class="form-control" type="decimal" min="0" name="price" id="price" value="{{ $product->price }}">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-9 my-2 mt-4">
                     <label for="description">Descripción:</label>
-                    <textarea class="form-control" name="description" id="description" cols="30" rows="3"></textarea>
+                    <textarea class="form-control" name="description" id="description" cols="30" rows="3">{{ $product->description }}</textarea>
                 </div>
                 <div class="col-sm-3">
                     <div class="col-xs-12">
                         <label for="quantity">Quantity: <span class="text-danger">*</span></label>
-                        <input class="form-control" type="number" min="0" name="quantity" id="quantity">
+                        <input class="form-control" type="number" min="0" name="quantity" id="quantity" value="{{ $product->quantity }}">
                     </div>
                     <div class="col-xs-12">
                         <label for="collection">Collection: <span class="text-danger">*</span></label>
                         <select class="form-control" name="collection_id" id="collection_id">
                             <option value="">Selecciona una colección</option>
                             @foreach ($collections as $collection)
-                                <option value="{{ $collection->id }}">{{ $collection->name }}</option>
+                                <option value="{{ $collection->id }}" @if($product->collection_id == $collection->id) selected @endif  >{{ $collection->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -60,78 +58,47 @@
                     Agregar foto</button>
             </div>
             <div class="row">
-                <input class="d-none" type="hidden" id="photosCount">
+                <input class="d-none" type="hidden" id="photosCount" value="{{ $product->images->count() }}">
                 <div class="col-sm-12">
-                    <table>
-                        <thead class="d-none">
+                    <table style="max-width=100%">
+                        <thead>
                             <th class="col my-2 pl-0">Imágenes</th>
                             <th class="col my-2 p-2">Principal</th>
                             <th class="col my-2 p-2">Borrar</th>
                         </thead>
                         <tbody id="photos">
-                            
+                            @foreach ($product->images->reverse() as $image)
+                                <tr id="row-{{ $image->id }}">
+                                    <td class="border p-2">
+                                        <img width="250px" src="{{ env('S3_BASE_URL') }}/{{ $image->path }}" alt="product picture">
+                                    </td>
+                                    <td class="border p-2"><input type="radio" name="primaryImage" value="{{ $image->id }}" @if($image->is_primary) checked @endif></td>
+                                    <td class="border p-2">
+                                        <button class="btn btn-danger" onclick="deleteRow('{{ $image->id }}')"> <i class="fa fa-times"></i> </button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
 
             <div class="row p-3">
-                <button type="submit" class="col-sm-2 mr-1 btn btn-success" id="Guardar" disabled><i
+                <button type="submit" class="col-sm-2 mr-1 btn btn-success" id="Guardar"><i
                         class="fa fa-save"></i> Guardar</button>
-                <button type="button" class="col-sm-2 mr-1 btn btn-secondary" id="Cancelar" onclick="cancelar()"><i
-                        class="fa fa-times"></i> Cancelar</button>
+                <a href="{{ route('products.index') }}" class="col-sm-2 mr-1 btn btn-secondary" id="Cancelar"><i
+                        class="fa fa-times"></i> Cancelar</a>
             </div>
         </form>
     </div>
 
-    <div class="mb-3 card p-3" id="dataList">
-        <div class="row table-responsive pl-3">
-            <div class="col-xs-12">
-                <button class="btn btn-success my-3 float-right" onclick="agregar()"><i class="fa fa-plus"></i> Nuevo
-                    producto</button>
-            </div>
-
-            <div class="col-xs-12">
-                @if (!$products->isEmpty())
-                    <table class="table table-striped table-bordered table-condensed table-hover">
-                        <thead>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Imagen</th>
-                            <th></th>
-                        </thead>
-                        <tbody>
-                            @forelse ($products as $product)
-                                <tr>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->description }}</td>
-                                    <td>{{ $product->image }}</td>
-                                    <td>
-                                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-edit btn-warning"><i class="bx bx-pencil"></i></a>
-                                        <button type="button" class="btn btn-danger btn-delete ml-2"
-                                            onclick="remove({{ $product->id }})"><i class="bx bx-trash"></i></button>
-                                    </td>
-                                </tr>
-                            @empty
-                            @endforelse
-                        </tbody>
-                        <tfoot>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Imagen</th>
-                            <th></th>
-                        </tfoot>
-                    </table>
-                @else
-                    <center>
-                        <h5 class="my-5 py-5">No hay datos.</h5>
-                    </center>
-                @endif
-            </div>
-        </div>
-    </div>
-
     <script>
+        // String of images Ids to delete
+        var deleteImages = '';
+
+        // Number of product's images
+        var imagesCount = parseInt('{{ $product->images->count() }}');
+
         function habilitar_botones() {
             document.getElementById("Cancelar").disabled = false;
             document.getElementById("Guardar").disabled = false;
@@ -144,7 +111,6 @@
 
         function agregar() {
             $("#top-form").removeClass('d-none');
-            document.getElementById("dataList").style.display = "none";
             habilitar_botones()
             $("#product_id").val("")
             $("#product_name").val("")
@@ -159,7 +125,6 @@
         function edit(id) {
             habilitar_botones();
             $('thead').removeClass('d-none')
-            document.getElementById("dataList").style.display = "none";
             $("#top-form").removeClass('d-none');
             $("#product_id").val(id)
 
@@ -252,15 +217,6 @@
             });
         }
 
-        function cancelar() {
-            document.getElementById("product_name").value = "";
-            document.getElementById("description").value = "";
-            document.getElementById("image").value = "";
-            desabilitar_botones();
-            $("#top-form").addClass('d-none');
-            document.getElementById("dataList").style.display = "block";
-        }
-
         function remove(id) {
             var form = $('#delete-form');
 
@@ -290,9 +246,9 @@
             price = document.getElementById('price').value
             quantity = document.getElementById('quantity').value
             collection_id = document.getElementById('collection_id').value
-            product_id = document.getElementById('product_id').value
+            document.getElementById('imagesCount').value = imagesCount
 
-            if (name == "" || price == "" || quantity == "" || collection_id == "" || product_id == "") {
+            if (name == "" || price == "" || quantity == "" || collection_id == "") {
                 Swal.fire(
                     'Alert',
                     'Faltan datos!',
@@ -301,25 +257,13 @@
                 return
             }
 
-            var uploadedPhotos = [];
-
-            // if (!$('input[name="primary_photo"]').is(':checked') && uploadedPhotos.length > 0) {
-            //     Swal.fire(
-            //         'Alert',
-            //         'Selecciona una foto por defecto',
-            //         'error'
-            //     )
-            //     return
-            // }
-
-            // Check inputs with value
-            $("input[name='images']").map(function() {
-                value = $(this).val()
-                if (value != "") uploadedPhotos.push(value)
+            // If there is no images attached to the product
+            var emptyInputs = 0;
+            $("input[name='images[]']").map(function() {
+                if ($(this).val() == "") emptyInputs++;
             }).get()
 
-            // If there is no photos attached to the product
-            if ($('#photosCount').val() == 0 && uploadedPhotos.length == 0) {
+            if (imagesCount <= 0) {
                 Swal.fire(
                     'Alert',
                     'Debes cargar al menos una foto!',
@@ -328,8 +272,16 @@
                 return
             }
 
+            if (!$('input[name="primaryImage"]').is(':checked')) {
+                Swal.fire(
+                    'Alert',
+                    'Seleccioná una imagen principal',
+                    'error'
+                )
+                return
+            }
+
             var form = document.querySelector('#product-form')
-            form.action = '{{ route("products.store") }}' + '/' + product_id;
             form.submit()
         }
 
@@ -353,6 +305,7 @@
             // create image preview element
             const preview = document.createElement('img');
             preview.classList.add('my-2')
+            preview.style.width = '250px';
             const deleteButtonDiv = document.createElement('div');
             const deleteButton = document.createElement('button');
             const inputPrimaryImg = document.createElement('input')
@@ -388,20 +341,17 @@
                 inputPrimaryImg.value = input.value;
             });
 
-            // Select primary image
-            preview.addEventListener('click', function() {
-                // Remove the image input element when the delete button is clicked
-                $('img').removeClass('border-success img-thumbnail')
-                this.classList.add('border-success', 'img-thumbnail')
-                inputPrimaryImg.checked = true
-            });
-
             const tr = document.createElement('tr');
             tr.classList.add('my-3');
 
             const td1 = document.createElement('td');
             const td2 = document.createElement('td');
             const td3 = document.createElement('td');
+
+            td1.classList.add('border', 'p-2');
+            td2.classList.add('border', 'p-2');
+            td3.classList.add('border', 'p-2');
+
             td1.appendChild(input)
             td1.appendChild(preview)
             td2.appendChild(inputPrimaryImg)
@@ -415,9 +365,12 @@
             deleteButton.addEventListener('click', function() {
                 // Remove the row
                 tr.remove()
-                photosCount--
-                document.getElementById('photosCount').value = photosCount
+                imagesCount--
+                console.log(imagesCount)
             });
+
+            imagesCount++
+            console.log(imagesCount)
 
             // Append input to parent
             photos.prepend(tr);
@@ -452,12 +405,16 @@
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
             validate();
-
-            // const formData = $('#product-form').serialize();
-            // const result = await submitForm(formData);
         });
 
 
-
+        function deleteRow(id) {
+            var row = document.getElementById('row-'+id)
+            deleteImages += deleteImages == '' ? id : '-' + id
+            document.querySelector('#delete_images').value = deleteImages
+            imagesCount--
+            console.log(imagesCount)
+            row.remove()
+        }
     </script>
 @endsection
