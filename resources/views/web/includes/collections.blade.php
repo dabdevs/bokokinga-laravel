@@ -17,6 +17,7 @@
                         <div class="owl-men-item owl-carousel">
                             @foreach ($collection->latestProducts as $product)
                                 <x-product
+                                    :id="$product->id"
                                     :image="$product->primaryImage->path"
                                     :name="$product->name"
                                     :price="$product->price"

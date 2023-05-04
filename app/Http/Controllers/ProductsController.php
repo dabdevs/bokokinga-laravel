@@ -28,6 +28,14 @@ class ProductsController extends Controller
     }
 
     /**
+     * Show the product.
+     */
+    public function show(Product $product)
+    {
+        return view('web.products.show', compact('product'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

@@ -6,6 +6,9 @@
     </head>
 
     <body>
+        @php
+            $collections = App\Models\Collection::orderBy('name')->get();
+        @endphp
 
         {{ view('web/header', ['collections' => $collections]) }}
         

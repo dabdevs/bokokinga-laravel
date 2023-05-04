@@ -16,7 +16,8 @@
                 @forelse ($results as $product)
                     <div class="col-lg-4">
                         <x-product
-                            :image="$product->image"
+                            :id="$product->id"
+                            :image="$product->primaryImage->path"
                             :name="$product->name"
                             :price="$product->price"
                             :description="$product->description"
@@ -25,6 +26,7 @@
                 @empty 
                 @endforelse
             </div>
+
             <div class="row">
                 <div class="pagination mx-auto">
                     <ul>
