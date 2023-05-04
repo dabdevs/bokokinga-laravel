@@ -22,7 +22,7 @@ class ProductsController extends Controller
     public function index(Request $request)
     {
         //$products = Product::with('photos')->orderBy('name', 'asc')->paginate(env('RECORDS_PER_PAGE'), ['*'], 'page', $request->page)
-        $products = Product::orderBy('name', 'asc')->get();
+        $products = Product::with('collection')->orderBy('id', 'desc')->get();
         $collections = Collection::orderBy('name', 'asc')->get();
         return view('dashboard.products.index', compact('products', 'collections'));
     }
@@ -32,7 +32,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.products.create');
     }
 
     /**
@@ -40,8 +40,9 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         try {
+            DB::beginTransaction();
+
             $data = $request->validate([
                 'name' => 'required|string|max:150',
                 'description' => 'nullable|string|max:255',
@@ -51,30 +52,39 @@ class ProductsController extends Controller
                 'images.*' => 'nullable|image|mimes:jpeg,jpg,png|max:2048'
             ]);
 
-            $data['slug'] = str_replace(' ', '-', $data['name']);
-            
-            $product = new Product;
-            $product = $product->create($data);
-            $product->searchable(); 
+            $data['slug'] = str_replace(" ", "-", $request->name);
+
+            $product = new Product; 
+
+            $product->fill($data);
+            $product->save();
 
             if ($request->file('images')) {
                 foreach ($request->file('images') as $key => $file) {
                     $path = Photo::resizeAndUpload($file, $this->upload_dir, true);
 
-                    Gallery::create([
+                    $image = [
                         'product_id' => $product->id,
                         'path' => $path
-                    ]);
+                    ];
 
-                    if ($key == 0) {
-                        $product->image = $path;
-                        $product->save();
+                    // If uploaded image is set as primary
+                    if (str_contains($request->primaryImage, $file->getClientOriginalName())) {
+                        $image['is_primary'] = 1;
                     }
+
+                    $product->images()->create($image);
                 }
-            } 
+            }
+
+            
+            $product->searchable();
+
+            DB::commit();
 
             return URL::backWithSuccess('Product created successfully!');
         } catch (\Throwable $th) {
+            DB::rollBack();
             throw $th;
         }
     }

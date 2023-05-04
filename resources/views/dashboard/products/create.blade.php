@@ -96,152 +96,8 @@
         const form = document.querySelector('#product-form');
         const photos = document.getElementById('photos');
 
-        // String of images Ids to delete
-        var deleteImages = '';
-
         // Number of product's images
         var imagesCount = parseInt('{{ $product->images->count() }}');
-
-        function habilitar_botones() {
-            document.getElementById("Cancelar").disabled = false;
-            document.getElementById("Guardar").disabled = false;
-        }
-
-        function desabilitar_botones() {
-            document.getElementById("Cancelar").disabled = true;
-            document.getElementById("Guardar").disabled = true;
-        }
-
-        function agregar() {
-            $("#top-form").removeClass('d-none');
-            habilitar_botones()
-            $("#product_id").val("")
-            $("#product_name").val("")
-
-            $('#product-form').attr({
-                'action': '/admin/products',
-                'method': 'POST'
-            })
-            $('#method').val('POST')
-        }
-
-        function edit(id) {
-            habilitar_botones();
-            $('thead').removeClass('d-none')
-            $("#top-form").removeClass('d-none');
-            $("#product_id").val(id)
-
-            $('#product-form').attr({
-                'action': '/admin/products/' + id,
-                'method': 'POST'
-            })
-            $('#method').val('PUT')
-
-            $.ajax({
-                type: "GET",
-                url: "/admin/products/" + id,
-                success: function(resultado) {
-                    document.getElementById("product_name").value = resultado.product.name;
-                    document.getElementById("description").value = resultado.product.description;
-                    document.getElementById("price").value = resultado.product.price;
-                    document.getElementById("quantity").value = resultado.product.quantity;
-                    document.getElementById("collection_id").value = resultado.product.collection_id;
-                    photos.innerHTML = ''
-
-                    var photosCount = resultado.images.length;
-                    document.getElementById('photosCount').value = photosCount
-                    
-                    // Printing images
-                    for (let index = 0; index < photosCount; index++) {
-                        const element = resultado['images'][index];
-                        const imgDisplay = document.createElement('img');
-                        const inputPrimaryImg = document.createElement('input')
-                        const tr = document.createElement('tr');
-                        const td1 = document.createElement('td');
-                        const td2 = document.createElement('td');
-                        const td3 = document.createElement('td');
-
-                        inputPrimaryImg.type = 'radio';
-                        inputPrimaryImg.name = 'primaryImage';
-                        inputPrimaryImg.classList.add('form-control')
-                        inputPrimaryImg.value = element.id;
-
-                        tr.classList.add('my-3');
-                        imgDisplay.classList.add('cursor-pointer')
-                        imgDisplay.src = "{{ env('S3_BASE_URL') }}/" + element.path;
-                        
-                        if(element.is_primary) {
-                            imgDisplay.classList.add('img-thumbnail', 'border-success')
-                            imgDisplay.value = element.id
-                            inputPrimaryImg.checked = true;
-                        }
-
-                        // Select primary image
-                        imgDisplay.addEventListener('click', function() {
-                            // Remove the image input element when the delete button is clicked
-                            $('img').removeClass('border-success img-thumbnail')
-                            this.classList.add('border-success', 'img-thumbnail')
-                            primaryImage.value = element.id
-                        });
-
-                        // Create the delete button element
-                        const deleteButton = document.createElement('button');
-                        deleteButton.type = 'button';
-                        deleteButton.innerHTML = '<i class="fa fa-times"></i>';
-                        deleteButton.classList.add('btn', 'btn-danger', 'ml-2');
-
-                        var deleteImages = '';
-
-                        // Add an event listener to the delete button
-                        deleteButton.addEventListener('click', function() {
-                            // Remove the image input element when the delete button is clicked
-                            deleteImages += deleteImages == '' ? element.id : '-' + element.id
-                            imgDisplay.remove();
-                            inputPrimaryImg.remove();
-                            this.remove()
-                            photosCount--
-                            document.getElementById('photosCount').value = photosCount
-                            document.querySelector('#delete_images').value = deleteImages
-                        });
-
-                        td1.appendChild(imgDisplay)
-                        td2.appendChild(inputPrimaryImg)
-                        td3.appendChild(deleteButton)
-
-                        tr.appendChild(td1);
-                        tr.appendChild(td2);
-                        tr.appendChild(td3);
-
-                        // Append input to parent
-                        photos.append(tr);
-                    }
-                }
-            });
-        }
-
-        function remove(id) {
-            var form = $('#delete-form');
-
-            form.attr({
-                'action': 'products/' + id,
-                'method': 'POST'
-            })
-
-            Swal.fire({
-                    title: "Alerta",
-                    text: "Seguro quieres eliminar el producto!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Confirmar!'
-                })
-                .then((result) => {
-                    if (result.value) {
-                        form.submit();
-                    }
-                });
-        }
 
         function validate() {
             name = document.getElementById('product_name').value
@@ -283,7 +139,6 @@
                 return
             }
 
-            var form = document.querySelector('#product-form')
             form.submit()
         }
 
@@ -382,15 +237,5 @@
             event.preventDefault();
             validate();
         });
-
-
-        function deleteRow(id) {
-            var row = document.getElementById('row-'+id)
-            deleteImages += deleteImages == '' ? id : '-' + id
-            document.querySelector('#delete_images').value = deleteImages
-            imagesCount--
-            console.log(imagesCount)
-            row.remove()
-        }
     </script>
 @endsection

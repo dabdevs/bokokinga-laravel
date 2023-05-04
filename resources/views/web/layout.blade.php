@@ -6,13 +6,14 @@
     </head>
 
     <body>
-        {{ view('web/header') }}
+
+        {{ view('web/header', ['collections' => $collections]) }}
         
         <main class="container-fluid">
             @yield('content')
         </main>
         
-        {{ view('web/footer') }}
+        {{ view('web/footer', ['collections' => $collections]) }}
     </body>
 
 </html>

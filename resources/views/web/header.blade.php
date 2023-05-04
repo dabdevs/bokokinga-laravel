@@ -46,7 +46,7 @@
                         <li class="submenu">
                             <a href="javascript:;">Colecciones</a>
                             <ul>
-                                @forelse (App\Models\Collection::all() as $collection)
+                                @forelse ($collections as $collection)
                                     <li><a href="collection.php?name=<?= $collection->name ?>"><?= $collection->name ?></a></li>
                                 @empty
                                 @endforelse
@@ -63,4 +63,4 @@
         </div>
     </div>
 </header>
-<!-- ***** Header Area End ***** -->
+<!-- ***** Header Area End ***** -->@

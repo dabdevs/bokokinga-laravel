@@ -10,7 +10,7 @@ class WebController extends Controller
 {
    public function index()
    {
-        $collections = Collection::all();
+        $collections = Collection::orderBy('name', 'asc')->get(); 
         $configurations = [];
         return view('web.index', compact('collections', 'configurations'));
    }

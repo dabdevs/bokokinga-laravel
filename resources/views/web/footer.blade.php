@@ -21,10 +21,9 @@
             <div class="col-lg-3">
                 <h4>Colleciones</h4>
                 <ul>
-                    @forelse ($collections as $collection)
-                        <li><a href="collection.php?name=<?= $collection->name ?>"><?= $collection->name ?></a></li>
-                    @empty 
-                    @endforelse
+                    @foreach (App\Models\Collection::orderBy('name')->get() as $collection)
+                        <li><a href="{{ route('collections.show', $collection->id) }}"><?= $collection->name ?></a></li>
+                    @endforeach 
                 </ul>
             </div>
             <div class="col-lg-3">

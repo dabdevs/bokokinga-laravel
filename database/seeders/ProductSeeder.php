@@ -108,7 +108,6 @@ class ProductSeeder extends Seeder
         $product->price = $data["price"];
         $product->quantity = $data["quantity"];
         $product->collection_id = $data["collection_id"];
-        $product->image = $data["images"][0];
 
         $product->save();
 

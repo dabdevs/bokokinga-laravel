@@ -28,4 +28,13 @@ class Collection extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    /**
+     * Get the latest products for the Collection
+     *
+     */
+    public function latestProducts()
+    {
+        return $this->hasMany(Product::class)->limit(9);
+    }
 }

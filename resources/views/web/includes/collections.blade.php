@@ -15,9 +15,9 @@
                 <div class="col-lg-12">
                     <div class="men-item-carousel">
                         <div class="owl-men-item owl-carousel">
-                            @foreach (App\Models\Product::where('collection_id', $collection->id)->orderBy('id', 'desc')->limit(10)->get() as $product)
+                            @foreach ($collection->latestProducts as $product)
                                 <x-product
-                                    :image="$product->image"
+                                    :image="$product->primaryImage->path"
                                     :name="$product->name"
                                     :price="$product->price"
                                     :description="$product->description"
