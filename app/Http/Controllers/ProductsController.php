@@ -69,7 +69,7 @@ class ProductsController extends Controller
 
             if ($request->file('images')) {
                 foreach ($request->file('images') as $key => $file) {
-                    $path = Photo::resizeAndUpload($file, $this->upload_dir, true);
+                    $path = Photo::resizeAndUpload($file, $this->upload_dir, env('PRODUCT_IMAGE_MAX_WIDTH'), env('PRODUCT_IMAGE_MAX_HEIGTH'), true);
 
                     $image = [
                         'product_id' => $product->id,
@@ -127,7 +127,7 @@ class ProductsController extends Controller
 
             if ($request->file('images')) {
                 foreach ($request->file('images') as $key => $file) {
-                    $path = Photo::resizeAndUpload($file, $this->upload_dir, true);
+                    $path = Photo::resizeAndUpload($file, $this->upload_dir, env('PRODUCT_IMAGE_MAX_WIDTH'), env('PRODUCT_IMAGE_MAX_HEIGTH'), true);
 
                     $image = [
                         'product_id' => $product->id,

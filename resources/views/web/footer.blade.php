@@ -22,7 +22,7 @@
                 <h4>Colleciones</h4>
                 <ul>
                     @foreach (App\Models\Collection::orderBy('name')->get() as $collection)
-                        <li><a href="{{ route('collections.show', $collection->id) }}"><?= $collection->name ?></a></li>
+                        <li><a href="{{ route('web.collection.show', [$collection->id, Str::slug($collection->name)]) }}"><?= $collection->name ?></a></li>
                     @endforeach 
                 </ul>
             </div>

@@ -38,11 +38,12 @@ class CollectionsController extends Controller
             $data = $request->validate([
                 'name' => 'required|string|max:150',
                 'description' => 'nullable|string|max:255',
-                'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+                'image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
             ]);
 
             if ($request->file('image') != null)
-                $data['image'] = Photo::upload($request->file('image'), $this->upload_dir, true);
+                $data['image'] = Photo::resizeAndUpload($request->file('image'), $this->upload_dir, env('COLLECTION_IMAGE_MAX_WIDTH'), env('COLLECTION_IMAGE_MAX_HEIGTH'), true);
+                //$data['image'] = Photo::upload($request->file('image'), $this->upload_dir, true);
 
             $collection = new Collection;
             $collection->create($data);
@@ -81,8 +82,8 @@ class CollectionsController extends Controller
                 'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
             ]);
 
-            if ($request->file('image') != null) 
-                $data['image'] = Photo::upload($request->file('image'), $collection->image, false);
+            if ($request->file('image') != null)
+                $data['image'] = Photo::resizeAndUpload($request->file('image'), $collection->image, env('COLLECTION_IMAGE_MAX_WIDTH'), env('COLLECTION_IMAGE_MAX_HEIGTH'), false);
 
             $collection->update($data);
 

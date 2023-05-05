@@ -24,8 +24,8 @@ class WebController extends Controller
     {
         $query = $request->input('query');
 
-        $results = Product::search($query)->get(); 
+        $products = Product::search($query)->get(); 
 
-        return view('web.search', compact('results'));
+        return view('web.product.search', compact('products'));
     }
 }

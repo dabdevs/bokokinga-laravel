@@ -6,14 +6,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-heading">
-                        <h2>{{ $results->count() }} resultados</h2>
+                        <h2>{{ $products->count() }} resultados</h2>
                     </div>
                 </div>
             </div>
         </div>
         <div class="container">
             <div class="row">
-                @foreach ($results as $product)
+                @foreach ($products as $product)
                     <div class="col-lg-4">
                         <x-product
                             :id="$product->id"

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->float('price');
-            $table->integer('quantity');
+            $table->integer('quantity')->default(1);
             $table->string('description')->nullable();
             $table->unsignedBigInteger('collection_id');
             $table->foreign('collection_id')->references('id')->on('collections');

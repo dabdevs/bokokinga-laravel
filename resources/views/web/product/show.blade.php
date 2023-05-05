@@ -1,16 +1,12 @@
 @extends('web/layout')
 
 @section('content')
-    <section class="section" id="product">
+    <section class="section py-2" id="product">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
                     <div class="left-images">
                         <!-- Gallery -->
-                        
-                        {{-- @foreach ($product->images as $image)
-                            <img src="{{ env('S3_BASE_URL') . '/' . $image->path }}" alt="product image">
-                        @endforeach --}}
 
                         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -73,7 +69,7 @@
 
                         <div class="total">
                             <h4 id="total">Total: ${{ number_format($product->price, 2, '.', ',') }}</h4>
-                            <div class="main-border-button"><a href="#">Add To Cart</a></div>
+                            <div class="main-border-button"><a href="#">Añadir al carrito</a></div>
                         </div>
                     </div>
                 </div>
@@ -82,15 +78,15 @@
     </section>
 
     @if($product->similarProducts()->count() > 1)
-        <section>
+        <section class="section py-2">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h4 class="mt-5 mb-3">Recomendaciones</h4>
+                        <h2 class="mt-5 mb-3">Recomendaciones</h2>
                     </div>
-                    <div class="col-lg-4">
-                        @foreach ($product->similarProducts() as $item)
-                            @if($item->id != $product->id)
+                    @foreach ($product->similarProducts() as $item)
+                        @if($item->id != $product->id)
+                            <div class="col-lg-4">
                                 <x-product
                                     :id="$item->id"
                                     :slug="$item->slug"
@@ -99,9 +95,9 @@
                                     :price="$item->price"
                                     :description="$item->description"
                                 />
-                            @endif
-                        @endforeach
-                    </div>
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
             </div>
         </section>
