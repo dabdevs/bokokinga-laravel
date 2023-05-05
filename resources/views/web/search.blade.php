@@ -13,18 +13,18 @@
         </div>
         <div class="container">
             <div class="row">
-                @forelse ($results as $product)
+                @foreach ($results as $product)
                     <div class="col-lg-4">
                         <x-product
                             :id="$product->id"
+                            :slug="$product->slug"
                             :image="$product->primaryImage->path"
                             :name="$product->name"
                             :price="$product->price"
                             :description="$product->description"
                         />
                     </div>
-                @empty 
-                @endforelse
+                @endforeach
             </div>
 
             <div class="row">

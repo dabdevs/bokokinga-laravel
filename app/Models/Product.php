@@ -78,4 +78,12 @@ class Product extends Model
             $model->unsearchable();
         });
     }
+
+    public function similarProducts()
+    {
+        return Product::where('collection_id', $this->collection->id)
+                    ->orWhere('name', 'like', '%' . $this->name . '%')
+                    ->where('id', '<>', $this->id)
+                    ->get();  
+    }
 }

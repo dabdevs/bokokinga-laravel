@@ -18,6 +18,7 @@
                             @foreach ($collection->latestProducts as $product)
                                 <x-product
                                     :id="$product->id"
+                                    :slug="$product->slug"
                                     :image="$product->primaryImage->path"
                                     :name="$product->name"
                                     :price="$product->price"

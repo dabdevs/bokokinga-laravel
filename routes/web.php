@@ -6,6 +6,7 @@ use App\Http\Controllers\WebController;
 use App\Http\Controllers\CollectionsController;
 use App\Http\Controllers\ConfigurationsController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ShowProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,7 @@ Route::group(['prefix' => '/'], function () {
     Route::get('/', [WebController::class, 'index'])->name('web.index');
     Route::get('/login', [WebController::class, 'login'])->name('web.login');
     Route::get('/search', [WebController::class, 'search'])->name('web.search');
+    Route::get('/product/{slug}', ShowProductController::class)->name('web.product.show');
 });
 
 Route::prefix('admin')->group(function () {

@@ -9,6 +9,7 @@ use Illuminate\View\Component;
 class Product extends Component
 {
     public $id;
+    public $slug;
     public $image;
     public $name;
     public $description;
@@ -17,9 +18,10 @@ class Product extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($id, $image, $name, $description, $price)
+    public function __construct($id, $slug, $image, $name, $description, $price)
     {
         $this->id = $id;
+        $this->slug = $slug;
         $this->image = $image;
         $this->name = $name;
         $this->description = $description;
