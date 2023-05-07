@@ -8,12 +8,13 @@
                 <div class="col-lg-12">
                     <div class="section-heading">
                         <h2>{{ $products->count() }} resultado(s)</h2>
+                        <p>Búsqueda: {{ request('query') }}</p>
                     </div>
                 </div>
                 @endif 
 
                 @foreach ($products as $product)
-                    <div class="col-lg-4">
+                    <div class="col-sm-6 col-lg-3">
                         <x-product
                             :id="$product->id"
                             :slug="$product->slug"

@@ -1,5 +1,5 @@
 @forelse ($collections as $collection)
-    @if($loop->index <= 2 and $collection->latestProducts->count() >= 3)
+    @if($collection->latestProducts->count() >= 3)
         <section class="section" id="men">
             <div class="container">
                 <div class="row">

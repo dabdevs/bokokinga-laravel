@@ -78,22 +78,22 @@
     </section>
 
     @if($product->similarProducts()->count() > 1)
-        <section class="section py-2">
+        <section class="section py-2" id="men">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
                         <h2 class="mt-5 mb-3">Recomendaciones</h2>
                     </div>
-                    @foreach ($product->similarProducts() as $item)
-                        @if($item->id != $product->id)
-                            <div class="col-lg-4">
+                    @foreach ($product->similarProducts() as $similar_product)
+                        @if($similar_product->id != $product->id)
+                            <div class="col-sm-6 col-lg-3">
                                 <x-product
-                                    :id="$item->id"
-                                    :slug="$item->slug"
-                                    :image="$item->primaryImage->path"
-                                    :name="$item->name"
-                                    :price="$item->price"
-                                    :description="$item->description"
+                                    :id="$similar_product->id"
+                                    :slug="$similar_product->slug"
+                                    :image="$similar_product->primaryImage->path"
+                                    :name="$similar_product->name"
+                                    :price="$similar_product->price"
+                                    :description="$similar_product->description"
                                 />
                             </div>
                         @endif

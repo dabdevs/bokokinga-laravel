@@ -16,7 +16,7 @@
     </div>
     @endif
 
-    <section class="section" id="products">
+    <section class="section" id="men">
         <div class="container">
             <div class="row">
                 @if($collection->banner == null)
@@ -37,7 +37,7 @@
                 @endif
 
                 @forelse ($collection->products as $product)
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <x-product
                             :id="$product->id"
                             :slug="$product->slug"

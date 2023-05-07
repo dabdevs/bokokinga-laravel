@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use App\Models\Configuration;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,8 @@ class WebController extends Controller
    public function index()
    {
         $collections = Collection::orderBy('name')->get(); 
-        $configurations = [];
+        $configurations = Configuration::all();
+        
         return view('web.index', compact('collections', 'configurations'));
    }
 

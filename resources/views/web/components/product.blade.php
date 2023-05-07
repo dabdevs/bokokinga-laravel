@@ -7,7 +7,7 @@
                 <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
             </ul>
         </div>
-        <img src="{{ env('S3_BASE_URL'). "/" .$image }}" alt="">
+        <img class="w-100" src="{{ env('S3_BASE_URL'). "/" .$image }}" alt="">
     </div>
     <div class="down-content">
         <h4>{{ $name }}</h4>
