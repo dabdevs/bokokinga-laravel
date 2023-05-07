@@ -37,7 +37,7 @@
                                                         <h4><?= $collection->name ?></h4>
                                                         <p><?= $collection->description ?></p>
                                                         <div class="main-border-button">
-                                                            <a href="collections/{{ $collection->id }}">Ver más</a>
+                                                            <a href="{{ route('web.collection.show', [$collection->id, $collection->name]) }}">Ver más</a>
                                                         </div>
                                                     </div>
                                                 </div>

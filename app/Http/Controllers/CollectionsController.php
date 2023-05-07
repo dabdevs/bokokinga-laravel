@@ -39,10 +39,14 @@ class CollectionsController extends Controller
                 'name' => 'required|string|max:150',
                 'description' => 'nullable|string|max:255',
                 'image' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+                'banner' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
             ]);
 
-            if ($request->file('image') != null)
-                $data['image'] = Photo::resizeAndUpload($request->file('image'), $this->upload_dir, env('COLLECTION_IMAGE_MAX_WIDTH'), env('COLLECTION_IMAGE_MAX_HEIGTH'), true);
+            if ($request->file('image'))
+                $data['image'] = Photo::resizeAndUpload($request->file('image'), $this->upload_dir, env('STANDARD_IMAGE_MAX_WIDTH'), env('STANDARD_IMAGE_MAX_HEIGTH'), true);
+
+            if ($request->file('banner'))
+                $data['banner'] = Photo::resizeAndUpload($request->file('banner'), $this->upload_dir, env('COLLECTION_BANNER_MAX_WIDTH'), env('COLLECTION_BANNER_MAX_HEIGTH'), true);
 
             $collection = new Collection;
             $collection->create($data);
@@ -81,10 +85,18 @@ class CollectionsController extends Controller
                 'name' => 'required|string|max:150',
                 'description' => 'nullable|string|max:255',
                 'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+                'banner' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
             ]);
 
             if ($request->file('image'))
-                $data['image'] = Photo::resizeAndUpload($request->file('image'), $collection->image, env('COLLECTION_IMAGE_MAX_WIDTH'), env('COLLECTION_IMAGE_MAX_HEIGTH'), false);
+                $data['image'] = Photo::resizeAndUpload($request->file('image'), $collection->image, env('STANDARD_IMAGE_MAX_WIDTH'), env('STANDARD_IMAGE_MAX_HEIGTH'), false);
+
+            if ($request->file('banner')) {
+                $path = $collection->banner == null ? $this->upload_dir : $collection->banner;
+                $new = $collection->banner == null ? true : false;
+
+                $data['banner'] = Photo::resizeAndUpload($request->file('banner'), $path, env('COLLECTION_BANNER_MAX_WIDTH'), env('COLLECTION_BANNER_MAX_HEIGTH'), $new);
+            }
 
             $collection->update($data);
 
@@ -110,4 +122,3 @@ class CollectionsController extends Controller
         }
     }
 }
- 

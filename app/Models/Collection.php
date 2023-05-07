@@ -18,6 +18,7 @@ class Collection extends Model
         'name',
         'description',
         'image',
+        'banner',
     ];
 
     /**
@@ -35,6 +36,6 @@ class Collection extends Model
      */
     public function latestProducts()
     {
-        return $this->hasMany(Product::class)->limit(9);
+        return $this->hasMany(Product::class)->orderBy('id', 'desc')->limit(9);
     }
 }

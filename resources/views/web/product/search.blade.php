@@ -26,27 +26,30 @@
                 @endforeach
             </div>
 
-            <div class="row">
-                <div class="pagination mx-auto">
-                    <ul>
-                        <li>
-                            <a href="#">1</a>
-                        </li>
-                        <li class="active">
-                            <a href="#">2</a>
-                        </li>
-                        <li>
-                            <a href="#">3</a>
-                        </li>
-                        <li>
-                            <a href="#">4</a>
-                        </li>
-                        <li>
-                            <a href="#">&gt;</a>
-                        </li>
-                    </ul>
-                </div>
+            @if ($products->hasPages())
+            <div class="pagination mx-auto">
+                <ul>
+                    {{-- Previous Page Link --}}
+                    @if ($products->onFirstPage())
+                        <li class="disabled"><span><i class="fa fa-chevron-left"></i></span></li>
+                    @else
+                        <li><a href="{{ $products->previousPageUrl() }}" rel="prev"><i class="fa fa-chevron-left"></i></a></li>
+                    @endif
+                    
+                    
+                    
+                    {{ "Página " . $products->currentPage() . "  de  " . $products->lastPage() }}
+                
+                    
+                    {{-- Next Page Link --}}
+                    @if ($products->hasMorePages())
+                        <li><a href="{{ $products->nextPageUrl() }}" rel="next"><i class="fa fa-chevron-right"></i></a></li>
+                    @else
+                        <li class="disabled"><i class="fa fa-chevron-right"></i></li>
+                    @endif
+                </ul>
             </div>
+            @endif
         </div>
     </section>
 @endsection

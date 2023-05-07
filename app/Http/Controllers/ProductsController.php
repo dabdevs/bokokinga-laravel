@@ -21,7 +21,6 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
-        //$products = Product::with('photos')->orderBy('name', 'asc')->paginate(env('RECORDS_PER_PAGE'), ['*'], 'page', $request->page)
         $products = Product::with('collection')->orderBy('id', 'desc')->get();
         $collections = Collection::orderBy('name', 'asc')->get();
         return view('dashboard.products.index', compact('products', 'collections'));
@@ -62,14 +61,14 @@ class ProductsController extends Controller
 
             $data['slug'] = str_replace(" ", "-", $request->name);
 
-            $product = new Product; 
+            $product = new Product;
 
             $product->fill($data);
             $product->save();
 
             if ($request->file('images')) {
                 foreach ($request->file('images') as $key => $file) {
-                    $path = Photo::resizeAndUpload($file, $this->upload_dir, env('PRODUCT_IMAGE_MAX_WIDTH'), env('PRODUCT_IMAGE_MAX_HEIGTH'), true);
+                    $path = Photo::resizeAndUpload($file, $this->upload_dir, env('STANDARD_IMAGE_MAX_WIDTH'), env('STANDARD_IMAGE_MAX_HEIGTH'), true);
 
                     $image = [
                         'product_id' => $product->id,
@@ -85,7 +84,7 @@ class ProductsController extends Controller
                 }
             }
 
-            
+
             $product->searchable();
 
             DB::commit();
@@ -102,10 +101,10 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
-       return view('dashboard.products.edit')->with([
+        return view('dashboard.products.edit')->with([
             'product' => $product,
             'collections' => Collection::orderBy('name', 'asc')->get()
-       ]);
+        ]);
     }
 
     /**
@@ -114,7 +113,7 @@ class ProductsController extends Controller
     public function update(Product $product, Request $request)
     {
         try {
-            DB::beginTransaction(); 
+            DB::beginTransaction();
 
             $data = $request->validate([
                 'name' => 'required|string|max:150',
@@ -127,7 +126,7 @@ class ProductsController extends Controller
 
             if ($request->file('images')) {
                 foreach ($request->file('images') as $key => $file) {
-                    $path = Photo::resizeAndUpload($file, $this->upload_dir, env('PRODUCT_IMAGE_MAX_WIDTH'), env('PRODUCT_IMAGE_MAX_HEIGTH'), true);
+                    $path = Photo::resizeAndUpload($file, $this->upload_dir, env('STANDARD_IMAGE_MAX_WIDTH'), env('STANDARD_IMAGE_MAX_HEIGTH'), true);
 
                     $image = [
                         'product_id' => $product->id,
@@ -141,7 +140,7 @@ class ProductsController extends Controller
                         $primaryImage->save();
                         $image['is_primary'] = 1;
                     }
-                    
+
                     $product->images()->create($image);
                 }
             }
@@ -158,14 +157,14 @@ class ProductsController extends Controller
             }
 
             $product->update($data);
-            $product->searchable(); 
+            $product->searchable();
 
             // Delete images
             if ($request->delete_images) {
                 $photo_ids_to_delete = explode("-", $request->delete_images);
-                
+
                 foreach ($photo_ids_to_delete as $photo_id) {
-                    $image = Image::find($photo_id); 
+                    $image = Image::find($photo_id);
 
                     // Delete image from Amazon S3 storage
                     Storage::disk('s3')->delete($image->path);
@@ -174,7 +173,7 @@ class ProductsController extends Controller
             }
 
             DB::commit();
-            
+
             return URL::backWithSuccess('Product updated successfully!');
         } catch (\Throwable $th) {
             DB::rollBack();

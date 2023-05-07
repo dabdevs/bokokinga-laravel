@@ -53,9 +53,8 @@
     </div>
 
     {{ view('shared/messages') }}
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <form id="delete-form" method="POST">
-        <input type="hidden" name="_method" value="DELETE">
+        @method('DELETE')
         @csrf
     </form>
 
@@ -118,6 +117,30 @@
             event.preventDefault();
             validate();
         });
+
+        function remove(id) {
+            var form = $('#delete-form');
+
+            form.attr({
+                'action': 'collections/' + id,
+                'method': 'POST'
+            })
+
+            Swal.fire({
+                    title: "Alerta",
+                    text: "Seguro quieres eliminar la colección?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar!'
+                })
+                .then((result) => {
+                    if (result.value) {
+                        form.submit();
+                    }
+                });
+        }
 
         function validate() {
             if (name.value == "" || image.value == "") {

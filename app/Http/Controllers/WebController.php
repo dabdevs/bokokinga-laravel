@@ -10,7 +10,7 @@ class WebController extends Controller
 {
    public function index()
    {
-        $collections = Collection::orderBy('name', 'asc')->get(); 
+        $collections = Collection::orderBy('name')->get(); 
         $configurations = [];
         return view('web.index', compact('collections', 'configurations'));
    }
@@ -24,7 +24,7 @@ class WebController extends Controller
     {
         $query = $request->input('query');
 
-        $products = Product::search($query)->get(); 
+        $products = Product::search($query)->paginate(env('RECORDS_PER_PAGE')); 
 
         return view('web.product.search', compact('products'));
     }
