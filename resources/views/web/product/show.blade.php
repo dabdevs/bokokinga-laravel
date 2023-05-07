@@ -7,7 +7,6 @@
                 <div class="col-lg-8">
                     <div class="left-images">
                         <!-- Gallery -->
-
                         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -44,14 +43,18 @@
                             <li><i class="fa fa-star"></i></li>
                             <li><i class="fa fa-star"></i></li>
                         </ul>
-                        <span>{{ $product->description }}</span>
+
+                        @if($product->description != "")
+                            <span>{{ $product->description }}</span>
+                        @endif
+
                         <div class="quote d-none">
                             <i class="fa fa-quote-left"></i>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuski smod.</p>
                         </div>
 
                         @if ($product->quantity > 0)
-                            <div class="quantity-content">
+                            <div class="quantity-content my-1 border-top-0">
                                 <div class="left-content">
                                     <h6>Cantidad</h6>
                                 </div>
@@ -67,7 +70,7 @@
                             </div>
                         @endif
 
-                        <div class="total">
+                        <div class="total py-2">
                             <h4 id="total">Total: ${{ number_format($product->price, 2, '.', ',') }}</h4>
                             <div class="main-border-button"><a href="#">Añadir al carrito</a></div>
                         </div>
@@ -104,14 +107,13 @@
     @endif
 
     <script>
-
         function add() {
-            inputQuantity = document.getElementById('quantity');
+            inputQuantity = document.getElementById('quantity'); 
 
             if (inputQuantity.value == {{ $product->quantity }}) return;
 
-            inputQuantity.value = parseInt(inputQuantity.value) + 1
-            document.getElementById('total').innerText = 'Total: $' + inputQuantity.value * parseFloat('{{ $product->price }}');
+            inputQuantity.value = parseInt(inputQuantity.value) + 1;
+            document.getElementById('total').innerText = 'Total: $' + (inputQuantity.value * parseFloat('{{ $product->price }}')).toFixed(2);
         }
 
         function subtract() {
@@ -120,7 +122,7 @@
             if (inputQuantity.value == 1) return;
 
             inputQuantity.value = parseInt(inputQuantity.value) - 1;
-            document.getElementById('total').innerText = 'Total: $' + inputQuantity.value * parseFloat('{{ $product->price }}');
+            document.getElementById('total').innerText = 'Total: $' + (inputQuantity.value * parseFloat('{{ $product->price }}')).toFixed(2);
         }
     </script>
 @endsection
