@@ -28,7 +28,7 @@ class ProductsController extends Controller
     }
 
     /**
-     * Show the product.
+     * Show the product
      */
     public function show(Product $product)
     {

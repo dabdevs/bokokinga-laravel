@@ -20,4 +20,4 @@ class CollectionSeeder extends Seeder
                         (3,'Ropa', 'Ropa pintada y/o diseñada a mano','collections/clothes.jpg', 1),
                         (4,'Accesorios', 'Todo tipo de accesorios', 'collections/accessories.jpg', 1);");
     }
-}
+} 

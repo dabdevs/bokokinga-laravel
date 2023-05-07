@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('slug')->unique();
             $table->string('description')->nullable();
             $table->string('image');
             $table->boolean('show_in_banner')->default(0);
