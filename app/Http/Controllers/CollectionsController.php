@@ -43,7 +43,6 @@ class CollectionsController extends Controller
 
             if ($request->file('image') != null)
                 $data['image'] = Photo::resizeAndUpload($request->file('image'), $this->upload_dir, env('COLLECTION_IMAGE_MAX_WIDTH'), env('COLLECTION_IMAGE_MAX_HEIGTH'), true);
-                //$data['image'] = Photo::upload($request->file('image'), $this->upload_dir, true);
 
             $collection = new Collection;
             $collection->create($data);
@@ -65,9 +64,11 @@ class CollectionsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Collection $collection)
     {
-        //
+        return view('dashboard.collections.edit')->with([
+            'collection' => $collection
+        ]);
     }
 
     /**
@@ -82,7 +83,7 @@ class CollectionsController extends Controller
                 'image' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
             ]);
 
-            if ($request->file('image') != null)
+            if ($request->file('image'))
                 $data['image'] = Photo::resizeAndUpload($request->file('image'), $collection->image, env('COLLECTION_IMAGE_MAX_WIDTH'), env('COLLECTION_IMAGE_MAX_HEIGTH'), false);
 
             $collection->update($data);

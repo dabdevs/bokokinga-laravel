@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('description')->nullable();
             $table->string('image');
+            $table->string('banner')->nullable();
             $table->boolean('show_in_banner')->default(0);
             $table->unsignedBigInteger('collection_id')->nullable();
             $table->foreign('collection_id')->references('id')->on('collections');

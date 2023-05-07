@@ -97,7 +97,7 @@
 
     <h1>Productos</h1>
 
-    <div class="mb-3 card p-3 d-none" id="top-form">
+    {{-- <div class="mb-3 card p-3 d-none" id="top-form">
         <form method="POST" id="product-form" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="_method" id="method">
@@ -164,7 +164,7 @@
                         class="fa fa-times"></i> Cancelar</button>
             </div>
         </form>
-    </div>
+    </div> --}}
 
     <div class="mb-3 card p-3" id="dataList">
         <div class="row table-responsive pl-3">

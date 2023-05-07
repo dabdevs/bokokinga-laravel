@@ -4,15 +4,14 @@
     <section class="section py-5" id="products">
         <div class="container">
             <div class="row">
+                @if($products->count() > 0)
                 <div class="col-lg-12">
                     <div class="section-heading">
-                        <h2>{{ $products->count() }} resultados</h2>
+                        <h2>{{ $products->count() }} resultado(s)</h2>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
+                @endif 
+
                 @foreach ($products as $product)
                     <div class="col-lg-4">
                         <x-product
