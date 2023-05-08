@@ -27,9 +27,19 @@
         }
 
         function remove(id) {
-            if(confirm("Seguro quieres borrar el producto?")) {
-                eliminar(id);
-            }
+            Swal.fire({
+                    title: "Atención",
+                    text: "Seguro quieres borrar el producto?",
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar!'
+                })
+                .then((result) => {
+                    if (result.value) {
+                        eliminar(id);
+                    }
+                });
         }
 
         function update(id) {

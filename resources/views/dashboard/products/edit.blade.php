@@ -219,30 +219,6 @@
             });
         }
 
-        function remove(id) {
-            var form = $('#delete-form');
-
-            form.attr({
-                'action': 'products/' + id,
-                'method': 'POST'
-            })
-
-            Swal.fire({
-                    title: "Alerta",
-                    text: "Seguro quieres eliminar el producto!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Confirmar!'
-                })
-                .then((result) => {
-                    if (result.value) {
-                        form.submit();
-                    }
-                });
-        }
-
         function validate() {
             name = document.getElementById('product_name').value
             price = document.getElementById('price').value

@@ -235,7 +235,7 @@
             })
 
             Swal.fire({
-                    title: "Alerta",
+                    title: "Atención",
                     text: "Seguro quieres eliminar el producto?",
                     icon: "warning",
                     showCancelButton: true,

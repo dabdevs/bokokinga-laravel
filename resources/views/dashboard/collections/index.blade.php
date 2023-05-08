@@ -127,7 +127,7 @@
             })
 
             Swal.fire({
-                    title: "Alerta",
+                    title: "Atención",
                     text: "Seguro quieres eliminar la colección?",
                     icon: "warning",
                     showCancelButton: true,

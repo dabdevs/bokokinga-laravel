@@ -58,7 +58,7 @@ class ShoppingCartController extends Controller
             $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
             $cartQuantity = $this->cartQuantity();
-            session()->put('products_quantity', $cartQuantity);
+            session()->put('cartQuantity', $cartQuantity);
 
             return [
                 'html' => view('web.cart.includes.products', compact('cartQuantity'))->render(),
