@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Session;
 use Aws\S3\S3Client;
-use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,8 +14,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Cashier::ignoreMigrations(); 
-
         $this->app->bind(S3Client::class, function ($app) {
             return new S3Client([
                 'region' => env('AWS_DEFAULT_REGION'),

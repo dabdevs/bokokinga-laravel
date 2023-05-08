@@ -184,7 +184,6 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         Livewire\LivewireServiceProvider::class, 
-        Laravel\Cashier\CashierServiceProvider::class,
 
         /*
          * Package Service Providers...
