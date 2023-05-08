@@ -38,9 +38,13 @@ class ShoppingCartController extends Controller
         }
 
         session()->put('cart', $cart);
-        session()->put('products_quantity', $this->cartQuantity());
-        
-        return ['success' => 'Producto agregado!'];
+        $cartQuantity = $this->cartQuantity();
+        session()->put('cartQuantity', $cartQuantity);
+
+        return [
+            'success' => 'Producto agregado!',
+            'cartQuantity' => $cartQuantity
+        ];
     }
 
     /**
@@ -53,9 +57,14 @@ class ShoppingCartController extends Controller
             $cart = session()->get('cart');
             $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
-            session()->put('products_quantity', $this->cartQuantity());
+            $cartQuantity = $this->cartQuantity();
+            session()->put('products_quantity', $cartQuantity);
 
-            return view('web.cart.includes.products');
+            return [
+                'html' => view('web.cart.includes.products', compact('cartQuantity'))->render(),
+                'cartQuantity' => $cartQuantity,
+                'success' => 'Carrito actualizado!'
+            ];
         }
     }
 
@@ -70,10 +79,15 @@ class ShoppingCartController extends Controller
             if (isset($cart[$request->id])) {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
-                session()->put('products_quantity', $this->cartQuantity());
+                $cartQuantity = $this->cartQuantity();
+                session()->put('cartQuantity', $cartQuantity);
             }
 
-            return view('web.cart.includes.products');
+            return [
+                'html' => view('web.cart.includes.products', compact('cartQuantity'))->render(),
+                'cartQuantity' => $cartQuantity,
+                'success' => 'Producto eliminado!'
+            ];
         } 
     }
 
@@ -82,7 +96,7 @@ class ShoppingCartController extends Controller
         $count = 0;
 
         foreach (session('cart') as $product) {
-            $count += $product['quantity'];
+            $count += (int)$product['quantity'];
         }
 
         return $count;

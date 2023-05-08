@@ -33,6 +33,7 @@
                     <img class="my-2" style="max-width:600px" src="{{ env('S3_BASE_URL'). "/" .$collection->image }}" alt="">
                 </div>
             </div>
+            <div class="row">
                 <div class="col-sm-8 my-2">
                     <label for="banner">Banner: <small class="text-info"> <br> Extensión: jpg, jpeg, png. Dimensión recomendada: 1600px x 500px</small></label>
                     <input class="form-control" type="file" id="banner" name="banner">

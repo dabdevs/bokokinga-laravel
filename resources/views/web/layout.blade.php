@@ -38,8 +38,8 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function (response) {
-                        console.log(response)
-                        toast(response.success)
+                        toast(response.success);
+                        $('#cart-count').text(response.cartQuantity)
                     }
                 });
             }

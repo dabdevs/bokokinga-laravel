@@ -19,10 +19,9 @@
                     id: id
                 },
                 success: function (response) {
-                    $('section').html(response)
-                    toast('Producto eliminado!');
-                    cartCount = "{{ session('products_quantity') }}";
-                    $('#cart-count').text(cartCount)
+                    $('section').html(response.html)
+                    toast(response.success);
+                    $('#cart-count').text(response.cartQuantity)
                 }
             });
         }
@@ -50,11 +49,9 @@
                     quantity: quantity
                 },
                 success: function (response) {
-                    $('section').html(response)
-                    toast('Carrito de compra actualizado!');
-                    cartCount = "{{ session('products_quantity') }}";
-                    alert(cartCount)
-                    $('#cart-count').text(cartCount)
+                    $('section').html(response.html)
+                    toast(response.success);
+                    $('#cart-count').text(response.cartQuantity)
                 }
             });
         }

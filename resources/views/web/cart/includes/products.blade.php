@@ -1,6 +1,6 @@
 <table id="cart" class="table table-hover table-condensed">
     <thead>
-        <tr>
+        <tr> 
             <th style="width:50%">Producto</th>
             <th style="width:10%">Precio</th>
             <th style="width:5%">Cantidad</th>
