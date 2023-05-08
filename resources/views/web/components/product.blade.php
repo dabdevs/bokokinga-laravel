@@ -11,7 +11,7 @@
     </div>
     <div class="down-content">
         <h4>{{ $name }}</h4>
-        <span>{{ number_format($price, 2, '.', ','); }}</span>
+        <span>{{ number_format($price * 100, 2, '.', ','); }}</span>
         <ul class="stars d-none">
             <li><i class="fa fa-star"></i></li>
             <li><i class="fa fa-star"></i></li>

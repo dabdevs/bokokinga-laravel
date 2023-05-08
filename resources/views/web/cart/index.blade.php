@@ -2,23 +2,22 @@
 
 @section('content')
     <section class="container py-5 my-5">
-        {{ view('web.cart.includes.products') }}
+        {{ view('web.cart.includes.items') }}
     </section>
 @endsection
 
 
 @section('js')
     <script type="text/javascript">
-
         function eliminar(id) {
             $.ajax({
                 url: '{{ route('web.remove_from_cart') }}',
                 method: "DELETE",
                 data: {
-                    _token: '{{ csrf_token() }}', 
+                    _token: '{{ csrf_token() }}',
                     id: id
                 },
-                success: function (response) {
+                success: function(response) {
                     $('section').html(response.html)
                     toast(response.success);
                     $('#cart-count').text(response.cartQuantity)
@@ -43,7 +42,7 @@
         }
 
         function update(id) {
-            quantity = document.getElementById('quantity-'+id).value;
+            quantity = document.getElementById('quantity-' + id).value;
 
             if (quantity == 0) {
                 eliminar(id);
@@ -54,18 +53,16 @@
                 url: '{{ route('web.update_cart') }}',
                 method: "PATCH",
                 data: {
-                    _token: '{{ csrf_token() }}', 
-                    id: id, 
+                    _token: '{{ csrf_token() }}',
+                    id: id,
                     quantity: quantity
                 },
-                success: function (response) {
+                success: function(response) {
                     $('section').html(response.html)
                     toast(response.success);
                     $('#cart-count').text(response.cartQuantity)
                 }
             });
         }
-    
     </script>
 @endsection
-

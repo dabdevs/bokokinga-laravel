@@ -21,7 +21,7 @@ class ShoppingCartController extends Controller
      */
     public function add($id)
     {
-        $product = Product::findOrFail($id); 
+        $product = Product::findOrFail($id);
 
         $cart = session()->get('cart', []);
 
@@ -31,6 +31,7 @@ class ShoppingCartController extends Controller
             $cart[$id] = [
                 "id" => $product->id,
                 "name" => $product->name,
+                "description" => $product->description,
                 "quantity" => 1,
                 "price" => $product->price,
                 "image" => $product->primaryImage->path
@@ -39,7 +40,6 @@ class ShoppingCartController extends Controller
 
         session()->put('cart', $cart);
         $cartQuantity = $this->cartQuantity();
-        session()->put('cartQuantity', $cartQuantity);
 
         return [
             'success' => 'Producto agregado!',
@@ -58,10 +58,9 @@ class ShoppingCartController extends Controller
             $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
             $cartQuantity = $this->cartQuantity();
-            session()->put('cartQuantity', $cartQuantity);
 
             return [
-                'html' => view('web.cart.includes.products', compact('cartQuantity'))->render(),
+                'html' => view('web.cart.includes.items', compact('cartQuantity'))->render(),
                 'cartQuantity' => $cartQuantity,
                 'success' => 'Carrito actualizado!'
             ];
@@ -80,24 +79,28 @@ class ShoppingCartController extends Controller
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
                 $cartQuantity = $this->cartQuantity();
-                session()->put('cartQuantity', $cartQuantity);
             }
 
             return [
-                'html' => view('web.cart.includes.products', compact('cartQuantity'))->render(),
+                'html' => view('web.cart.includes.items', compact('cartQuantity'))->render(),
                 'cartQuantity' => $cartQuantity,
                 'success' => 'Producto eliminado!'
             ];
-        } 
+        }
     }
 
-    private function cartQuantity() 
+    private function cartQuantity()
     {
         $count = 0;
+        $total_price = 0;
 
         foreach (session('cart') as $product) {
             $count += (int)$product['quantity'];
+            $total_price += (float)($product['price'] * $product['quantity']);
         }
+
+        session()->put('cartQuantity', $count);
+        session()->put('totalPrice', $total_price);
 
         return $count;
     }

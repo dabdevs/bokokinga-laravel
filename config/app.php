@@ -183,7 +183,8 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
-        Livewire\LivewireServiceProvider::class,
+        Livewire\LivewireServiceProvider::class, 
+        Laravel\Cashier\CashierServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -214,6 +215,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Form' => \Collective\Html\FormFacade::class,
+        'Html' => \Collective\Html\HtmlFacade::class,
     ])->toArray(),
 
 ];

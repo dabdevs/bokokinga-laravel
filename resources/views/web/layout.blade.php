@@ -3,6 +3,7 @@
 
     <head>
         {{ view('web/head_tags') }}
+        @yield('css')
     </head>
 
     <body>
