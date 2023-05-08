@@ -75,6 +75,7 @@
 <script src="{{ asset('front/js/slick.js') }}"></script>
 <script src="{{ asset('front/js/lightbox.js') }}"></script>
 <script src="{{ asset('front/js/isotope.js') }}"></script>
+<script src="{{ asset('front/js/toastify-js.js') }}"></script>
 
 <!-- Global Init -->
 <script src="{{ asset('front/js/custom.js') }}"></script>
@@ -85,4 +86,14 @@
         $('#searchModal').modal('show')
         $('#query').focus()
     })
+
+    function toast(message, className='info') {
+        Toastify({
+            text: message,
+            className: className,
+            style: {
+                background: "#198754",
+            }
+        }).showToast();
+    }
 </script>

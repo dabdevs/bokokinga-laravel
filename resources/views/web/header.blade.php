@@ -1,3 +1,14 @@
+<style>
+    #cart-count {
+        color:#fff;
+        position: relative;
+        bottom: 33px;
+        left: 10px;
+        font-size: 12px;
+        line-height: 10px;
+    }
+</style>
+
 <!-- ***** Preloader Start ***** -->
 <div id="preloader">
     <div class="jumper">
@@ -52,7 +63,12 @@
                                 @endforelse
                             </ul>
                         </li>
-                        <li class="scroll-to-section"><a href="#explore"><i class="fa fa-shopping-cart fa-2x"></i></a></li>
+                        <li class="scroll-to-section">
+                            <a href="{{ route('web.cart') }}">
+                                <i class="fa fa-shopping-cart fa-2x"></i>
+                                <p id="cart-count">{{ session('products_quantity') ?? '' }}</p>
+                            </a>
+                        </li>
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -63,4 +79,4 @@
         </div>
     </div>
 </header>
-<!-- ***** Header Area End ***** -->@
+<!-- ***** Header Area End ***** -->
