@@ -3,16 +3,16 @@
 @section('content')
     @php
         // SDK Mercado Pago
-        require base_path('vendor/autoload.php'); 
+        require base_path('vendor/autoload.php');
         // Credentials
         MercadoPago\SDK::setAccessToken(env('MERCADOPAGO_SECRET'));
-
+        
         // Create a preference object
         $preference = new MercadoPago\Preference();
         $shipments = new MercadoPago\Shipments();
-        $shipments->cost = (int)env('SHIPMENTS_COST');
-        $shipments->mode = "not_specified";
-
+        $shipments->cost = (int) env('SHIPPING_COST');
+        $shipments->mode = 'not_specified';
+        
         $preference->shipments = $shipments;
     @endphp
     <section class="container">
@@ -28,14 +28,14 @@
                     <span class="badge badge-secondary badge-pill">{{ session('cartQuantity') }} productos</span>
                 </h4>
                 <ul class="list-group mb-3">
-                    @php 
+                    @php
                         $total = 0;
                     @endphp
-                    @if(session('cart'))
-                        @foreach(session('cart') as $key => $product)
-                            @php 
-                                $total += $product['price'] * $product['quantity']; 
-
+                    @if (session('cart'))
+                        @foreach (session('cart') as $key => $product)
+                            @php
+                                $total += $product['price'] * $product['quantity'];
+                                
                                 // Create an item for preference
                                 $item = new MercadoPago\Item();
                                 $item->title = $product['name'];
@@ -46,9 +46,11 @@
 
                             <li class="list-group-item d-flex justify-content-between lh-condensed">
                                 <div class="my-0 mr-auto">
-                                    <h6 class="my-0 p-0">{{ $product['name'] }} <small class="px-1 bg-secondary text-white">{{ $product['quantity'] }}</small></h6>
+                                    <h6 class="my-0 p-0">{{ $product['name'] }} <small
+                                            class="px-1 bg-secondary text-white">{{ $product['quantity'] }}</small></h6>
                                     <small class="text-muted">{{ $product['description'] }}</small> <br>
-                                    <img src="{{ env('S3_BASE_URL'). "/" .$product['image'] }}" width="60" height="60" class="img-responsive my-0" alt="">
+                                    <img src="{{ env('S3_BASE_URL') . '/' . $product['image'] }}" width="60"
+                                        height="60" class="img-responsive my-0" alt="">
                                 </div>
                                 <div class="ml-auto">
                                     {{ $product['price'] }}
@@ -57,13 +59,13 @@
                         @endforeach
 
                         @php
-                            $preference->items = $products_list; 
-                            $preference->back_urls = array(
-                                "pending" => route('web.payment.webhook', $order->id),
-                                "success" => route('web.payment.webhook', $order->id),
-                                "failure" => route('web.payment.webhook', $order->id)
-                            );
-                            $preference->auto_return = "approved"; 
+                            $preference->items = $products_list;
+                            $preference->back_urls = [
+                                'pending' => route('web.payment.webhook', $order->id),
+                                'success' => route('web.payment.webhook', $order->id),
+                                'failure' => route('web.payment.webhook', $order->id),
+                            ];
+                            $preference->auto_return = 'approved';
                             $preference->save();
                         @endphp
 
@@ -105,6 +107,5 @@
                 preferenceId: "{{ $preference->id }}",
             },
         });
-
     </script>
 @endsection

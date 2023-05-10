@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->enum('status', ['pending', 'approved', 'failure'])->default('pending');
             $table->string('payment_id')->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('shipping_price', 8, 2)->nullable();
             $table->string('country')->default('Argentina');
             $table->string('city')->nullable();
-            $table->string('zip_code');
+            $table->string('zip_code')->nullable();
             $table->string('address')->nullable();
             $table->string('telephone')->nullable();
             $table->string('tracking_number')->nullable();

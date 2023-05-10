@@ -43,7 +43,7 @@ class OrderController extends Controller
     {
         $orderItems = $order->items;
 
-        return view('orders.show', compact('order', 'orderItems'));
+        return view('web.order.show', compact('order', 'orderItems'));
     }
 
 

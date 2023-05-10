@@ -45,8 +45,11 @@
         </tr>
         <tr>
             <td colspan="5" class="text-right">
-                <button onclick="window.history.go(-1); return false;" class="btn btn-warning"><i class="fa fa-chevron-left"></i> Seguir de compra</button>
-                <a href="{{ route('web.checkout.order') }}" class="btn btn-success"><i class="fa fa-chevron-right"></i> Checkout</a>
+                <form method="POST" action="{{ route('web.checkout.order') }}">
+                    @csrf
+                    <button onclick="window.history.go(-1); return false;" class="btn btn-warning"><i class="fa fa-chevron-left"></i> Seguir de compra</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-chevron-right"></i> Checkout</button>
+                </form>
             </td>
         </tr>
     </tfoot>
