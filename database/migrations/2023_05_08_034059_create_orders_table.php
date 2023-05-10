@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id')->nullable();
             $table->foreign('customer_id')->references('id')->on('customers');
-            $table->enum('status', ['pending', 'approved', 'failure'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'cancelled', 'refunded'])->default('pending');
             $table->string('payment_id')->nullable();
             $table->decimal('total_price', 8, 2);
             $table->decimal('shipping_price', 8, 2)->nullable();
