@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class WebhooksController extends Controller
 {
@@ -16,11 +17,13 @@ class WebhooksController extends Controller
         $response = Http::get("https://api.mercadopago.com/v1/payments/$payment_id?access_token=$mp_token");
         $response = json_decode($response);
 
-        if ($response->status) {
+        if ($response->status != null) {
             $order->status = $response->status;
             $order->save();
+
+            Session::forget(['cart', 'cartQuantity', 'totalPrice']);
         }
 
-        return $response;
+        return redirect()->route('web.payment.success');
     }
 }

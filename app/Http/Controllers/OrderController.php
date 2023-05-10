@@ -46,5 +46,9 @@ class OrderController extends Controller
         return view('web.order.show', compact('order', 'orderItems'));
     }
 
+    public function success()
+    {
+        return view('web.payment.success');
+    }
 
 }

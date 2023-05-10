@@ -50,6 +50,7 @@ Route::group(['prefix' => '/'], function () {
     Route::get('order/{id}/checkout/payment/webhook', WebhooksController::class)->name('web.payment.webhook');
     Route::resource('customers', CustomerController::class);
     Route::resource('orders', OrderController::class);
+    Route::get('order/payment/success', [OrderController::class, 'success'])->name('web.payment.success');
 });
 
 Route::prefix('admin')->group(function () {
