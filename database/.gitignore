@@ -1,1 +1,4 @@
 *.sqlite*
+/vendor
+/.env
+/nod_modules

@@ -15,9 +15,19 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers');
-            $table->enum('status', ['unpaid', 'paid'])->default('unpaid');
-            $table->string('session_id')->nullable();
-            $table->decimal('price', 8, 2);
+            $table->enum('status', ['pending', 'approved', 'failure'])->default('pending');
+            $table->string('payment_id')->nullable();
+            $table->decimal('total_price', 8, 2);
+            $table->decimal('shipping_price', 8, 2)->nullable();
+            $table->string('country')->default('Argentina');
+            $table->string('city')->nullable();
+            $table->string('zip_code');
+            $table->string('address')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('tracking_number')->nullable();
+            $table->datetime('delivery_date')->nullable();
+            $table->string('comments')->nullable();
+            $table->string('payment_method')->nullable();
             $table->timestamps();
         });
     }

@@ -1,0 +1,47 @@
+Curl commands to create user
+============================
+curl -X POST \
+      'https://api.mercadopago.com/users/test' \
+      -H 'Authorization: Bearer TEST-2216420778615764-050820-72b0442d29dd3d899eb7db2c3aea0f95-228321165' \
+      -H 'Content-Type: application/json' \ 
+      -d '{
+  "site_id": "MLA",
+  "description": "a description"
+}'
+
+
+Usuario Vendedor
+================
+usuario: TTEST33144
+email: test_user_334714487@testuser.com
+contraseña: AUeFfrIAMY
+
+Usuario Comprador
+================
+usuario: TTEST20471
+email: test_user_299663833@testuser.com
+contraseña: Qyl3FbrANo
+
+Tarjetas de prueba
+================
+Mastercard: 5031 7557 3453 0604
+Código de seguridad: 123
+Fecha de caducidad: 11/25
+
+American Express: 3711 803032 57522
+Código de seguridad: 1234
+Fecha de caducidad: 11/25
+
+Titulares
+==============
+APRO
+Pago aprobado
+(DNI) 12345678
+
+OTHE
+Rechazado por error general
+(DNI) 12345678
+
+CONT
+Pendiente de pago
+-
