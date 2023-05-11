@@ -1,7 +1,9 @@
 @extends('web/layout')
 
+@section('title', $product->name)
+
 @section('content')
-    <section class="section py-2" id="product">
+    <section class="section py-5" id="product">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
@@ -118,8 +120,6 @@
 
             inputQuantity.value = parseInt(inputQuantity.value) + 1;
             document.getElementById('total').innerText = 'Total: $' + (inputQuantity.value * parseFloat('{{ $product->price }}')).toFixed(2);
-            
-            update('{{ $product->id }}', inputQuantity.value);
         }
 
         function subtract() {
@@ -128,8 +128,6 @@
             if (inputQuantity.value == 1) return;
 
             inputQuantity.value = parseInt(inputQuantity.value) - 1;
-
-            update('{{ $product->id }}', inputQuantity.value)
         }
 
         function update(id, productQuantity) {

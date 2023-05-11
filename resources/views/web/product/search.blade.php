@@ -1,5 +1,7 @@
 @extends('web/layout')
 
+@section('title', 'Búsqueda')
+
 @section('content')
     <section class="section py-5" id="products">
         <div class="container">

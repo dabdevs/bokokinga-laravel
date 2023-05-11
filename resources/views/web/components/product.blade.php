@@ -1,4 +1,4 @@
-<div class="item">
+<div role="button" class="item product-card" data-url="{{ route('web.product.show', Str::lower($slug)) }}">
     <div class="thumb">
         <div class="hover-content">
             <ul>

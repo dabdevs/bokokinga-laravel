@@ -54,7 +54,9 @@
         <tr>
             <td colspan="5" class="text-right">
                 <button onclick="window.history.go(-1); return false;" class="btn btn-warning"><i class="fa fa-chevron-left"></i> Seguir de compra</button>
-                <a href="{{ route('web.order.checkout') }}" class="btn btn-success"><i class="fa fa-chevron-right"></i> Checkout</a>
+                @if(session('cart'))
+                    <a href="{{ route('web.order.checkout') }}" class="btn btn-success"><i class="fa fa-chevron-right"></i> Checkout</a>
+                @endif
             </td>
         </tr>
     </tfoot>

@@ -1,11 +1,12 @@
 @extends('web/layout')
 
+@section('title', 'Carrito')
+
 @section('content')
     <section class="container py-5 my-5">
         {{ view('web.cart.includes.items') }}
     </section>
 @endsection
-
 
 @section('js')
     <script type="text/javascript">

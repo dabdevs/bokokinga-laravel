@@ -22,18 +22,19 @@ class ShoppingCartController extends Controller
     public function add($id)
     {
         $product = Product::findOrFail($id);
+        $quantity = request('quantity');
 
-        $cart = session()->get('cart', []);
+        $cart = session()->get('cart', []); 
 
         if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+            $quantity == null ? $cart[$id]['quantity']++ : $cart[$id]['quantity'] += $quantity;
         } else {
             $cart[$id] = [
                 "id" => $product->id,
                 "name" => $product->name,
                 "slug" => $product->slug,
                 "description" => $product->description,
-                "quantity" => 1,
+                "quantity" => $quantity == null ? 1 : $quantity,
                 "price" => $product->price,
                 "image" => $product->primaryImage->path,
                 "product_quantity" => $product->quantity
@@ -41,7 +42,7 @@ class ShoppingCartController extends Controller
         }
 
         session()->put('cart', $cart); 
-        $cartQuantity = $this->cartQuantity();
+        $cartQuantity = $this->cartQuantity(); 
 
         return [
             'success' => 'Producto agregado!',

@@ -1,5 +1,7 @@
 @extends('web/layout')
 
+@section('title', $collection->name)
+
 @section('content')
     @if($collection->banner != null)
     <div class="page-heading" id="top" style="background-image: url('{{ env('S3_BASE_URL'). "/" .$collection->banner }}')">
