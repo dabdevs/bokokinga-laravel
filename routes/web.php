@@ -11,7 +11,6 @@ use App\Http\Controllers\ShowProductController;
 use App\Http\Controllers\ShowCollectionController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\WebhooksController;
 use Illuminate\Support\Facades\Route;
 
