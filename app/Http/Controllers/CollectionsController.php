@@ -42,6 +42,8 @@ class CollectionsController extends Controller
                 'banner' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
             ]);
 
+            $data['slug'] = strtolower(str_replace(" ", "-", $request->name));
+
             if ($request->file('image'))
                 $data['image'] = Photo::resizeAndUpload($request->file('image'), $this->upload_dir, env('STANDARD_IMAGE_MAX_WIDTH'), env('STANDARD_IMAGE_MAX_HEIGTH'), true);
 

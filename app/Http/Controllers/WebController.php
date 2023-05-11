@@ -11,7 +11,7 @@ class WebController extends Controller
 {
    public function index()
    {
-        $collections = Collection::orderBy('name')->get(); 
+        $collections = Collection::has('products')->orderBy('name')->get(); 
         $configurations = Configuration::all();
         
         return view('web.index', compact('collections', 'configurations'));

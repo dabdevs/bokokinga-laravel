@@ -7,7 +7,7 @@
             <div class="modal-content">
                 <!-- Modal header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Crear colección</h4>
+                    <h4 class="modal-title">Nueva colección</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 

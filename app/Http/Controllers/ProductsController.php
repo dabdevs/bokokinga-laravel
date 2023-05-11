@@ -59,7 +59,7 @@ class ProductsController extends Controller
                 'images.*' => 'nullable|image|mimes:jpeg,jpg,png|max:2048'
             ]);
 
-            $data['slug'] = str_replace(" ", "-", $request->name);
+            $data['slug'] = strtolower(str_replace(" ", "-", $request->name));
 
             $product = new Product;
 

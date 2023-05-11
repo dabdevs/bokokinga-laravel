@@ -31,14 +31,16 @@ class ShoppingCartController extends Controller
             $cart[$id] = [
                 "id" => $product->id,
                 "name" => $product->name,
+                "slug" => $product->slug,
                 "description" => $product->description,
                 "quantity" => 1,
                 "price" => $product->price,
-                "image" => $product->primaryImage->path
+                "image" => $product->primaryImage->path,
+                "product_quantity" => $product->quantity
             ];
         }
 
-        session()->put('cart', $cart);
+        session()->put('cart', $cart); 
         $cartQuantity = $this->cartQuantity();
 
         return [
@@ -62,6 +64,7 @@ class ShoppingCartController extends Controller
             return [
                 'html' => view('web.cart.includes.items', compact('cartQuantity'))->render(),
                 'cartQuantity' => $cartQuantity,
+                'subtotal' => session('totalPrice'),
                 'success' => 'Carrito actualizado!'
             ];
         }

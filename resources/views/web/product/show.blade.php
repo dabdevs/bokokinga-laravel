@@ -35,7 +35,7 @@
                 <div class="col-lg-4">
                     <div class="right-content">
                         <h4>{{ $product->name }}</h4>
-                        <span class="price">{{ number_format($product->price, 2, '.', ',') }}</span>
+                        <span class="price">${{ number_format($product->price, 2, '.', ',') }}</span>
                         <ul class="stars d-none">
                             <li><i class="fa fa-star"></i></li>
                             <li><i class="fa fa-star"></i></li>
@@ -72,7 +72,11 @@
 
                         <div class="total py-2">
                             <h4 id="total">Total: ${{ number_format($product->price, 2, '.', ',') }}</h4>
-                            <div class="main-border-button"><a href="#">Añadir al carrito</a></div>
+                            <div class="main-border-button">
+                                <a href="#" onclick="addToCart('{{ $product->id }}')">
+                                    <i class="fa fa-shopping-cart"></i> Añadir al carrito
+                                </a>
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -114,6 +118,8 @@
 
             inputQuantity.value = parseInt(inputQuantity.value) + 1;
             document.getElementById('total').innerText = 'Total: $' + (inputQuantity.value * parseFloat('{{ $product->price }}')).toFixed(2);
+            
+            update('{{ $product->id }}', inputQuantity.value);
         }
 
         function subtract() {
@@ -122,7 +128,38 @@
             if (inputQuantity.value == 1) return;
 
             inputQuantity.value = parseInt(inputQuantity.value) - 1;
-            document.getElementById('total').innerText = 'Total: $' + (inputQuantity.value * parseFloat('{{ $product->price }}')).toFixed(2);
+
+            update('{{ $product->id }}', inputQuantity.value)
+        }
+
+        function update(id, productQuantity) {
+            quantity = document.getElementById('quantity');
+            
+            if (quantity.value > productQuantity) {
+                quantity.value = quantity.defaultValue;
+                toast('Solo hay '+productQuantity+' disponibles', 'danger')
+                return;
+            }
+
+            if (quantity.value == 0) {
+                eliminar(id);
+                return;
+            }
+            
+            $.ajax({
+                url: '{{ route('web.update_cart') }}',
+                method: "PATCH",
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: id,
+                    quantity: quantity.value
+                },
+                success: function(response) {
+                    toast(response.success);
+                    document.querySelector('#cart-count').innerText = response.cartQuantity
+                    document.getElementById('total').innerText = 'Total: $' + (quantity.value * parseFloat('{{ $product->price }}')).toFixed(2);
+                }
+            });
         }
     </script>
 @endsection

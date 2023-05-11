@@ -23,13 +23,13 @@
                         <div class="row">
                             <div class="col-sm-3 hidden-xs"><img src="{{ env('S3_BASE_URL'). "/" .$product['image'] }}" width="100" height="100" class="img-responsive"/></div>
                             <div class="col-sm-9">
-                                <h4 class="nomargin">{{ $product['name'] }}</h4>
+                                <h4 class="nomargin"><a href="{{ route('web.product.show', Str::lower($product['slug'])) }}" class="text-dark">{{ $product['name'] }}</a></h4>
                             </div>
                         </div>
                     </td>
                     <td data-th="Price">${{ number_format($product['price'], 2, '.', ','); }}</td>
                     <td data-th="Quantity">
-                        <input id="quantity-{{ $product['id'] }}" type="number" value="{{ $product['quantity'] }}" class="form-control quantity" onchange="update({{ $product['id'] }})" />
+                        <input id="quantity-{{ $product['id'] }}" type="number" value="{{ $product['quantity'] }}" class="form-control quantity" onchange="update({{ $product['id'] }}, {{ $product['product_quantity'] }})" />
                     </td>
                     <td data-th="Subtotal" class="text-center">${{ number_format($product['price'] * $product['quantity'], 2, '.', ','); }}</td>
                     <td class="actions" data-th="">
@@ -40,8 +40,16 @@
         @endif
     </tbody>
     <tfoot>
+        @if(session('cart') == null)
+            <tr class="py-5">
+                <td colspan="5">
+                    <p class="py-5 text-center">Tu carrito está vacío. <a href="/">Ir a la tienda</a> </p>
+                </td>
+            </tr>
+        @endif
         <tr>
-            <td colspan="5" class="text-right"><h3><strong>Total ${{ number_format($total, 2, '.', ','); }}</strong></h3></td>
+            <input type="hidden" id="totalPrice" value="{{ number_format($total, 2, '.', ','); }}">
+            <td colspan="5" class="text-right"><h3><strong id="subtotal">Subtotal: ${{ number_format($total, 2, '.', ','); }}</strong></h3></td>
         </tr>
         <tr>
             <td colspan="5" class="text-right">

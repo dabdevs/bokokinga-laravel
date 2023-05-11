@@ -58,7 +58,7 @@
                             <a href="javascript:;">Colecciones</a>
                             <ul>
                                 @forelse ($collections as $collection)
-                                    <li><a href="{{ route('web.collection.show', [$collection->id, Str::slug($collection->name)]) }}"><?= $collection->name ?></a></li>
+                                    <li><a href="{{ route('web.collection.show', Str::slug($collection->name)) }}"><?= $collection->name ?></a></li>
                                 @empty
                                 @endforelse
                             </ul>

@@ -53,7 +53,7 @@
                                         height="60" class="img-responsive my-0" alt="">
                                 </div>
                                 <div class="ml-auto">
-                                    {{ $product['price'] }}
+                                    ${{ number_format($product['price'], 2, '.', ','); }}
                                 </div>
                             </li>
                         @endforeach
@@ -69,9 +69,17 @@
                             $preference->save();
                         @endphp
 
-                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                            <h2 class="mr-auto">Total:</h2>
-                            <h2 class="ml-auto">${{ session('totalPrice') }}</h2>
+                         <li class="list-group-item d-flex justify-content-between lh-condensed">
+                            <div class="my-0 mr-auto">
+                                <h6 class="my-0 p-0">Subtotal:</h6>
+                                <h6 class="mr-auto">Envío:</h6>
+                                <h2 class="mr-auto">Total</h2>
+                            </div>
+                            <div class="ml-auto p-0">
+                                <h6 class="ml-auto text-right">${{ session('totalPrice') }}</h6>
+                                <h6 class="ml-auto text-right">${{ number_format(env('SHIPPING_COST'), 2, '.', ','); }}</h6>
+                                <h2 class="ml-auto text-right">${{ session('totalPrice') + (int)env('SHIPPING_COST') }}</h2>
+                            </div>
                         </li>
                         <li class="list-group-item d-flex lh-condensed">
                             <div id="wallet_container" class="ml-auto"></div>

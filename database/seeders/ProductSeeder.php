@@ -18,7 +18,7 @@ class ProductSeeder extends Seeder
             'name' => 'Uñas acrílicas hojas verdes',
             'slug' => 'Uñas-acrílicas-hojas-verdes',
             'description' => 'Uñas de plástico...',
-            'price' =>  12.99,
+            'price' =>  12.9,
             'quantity' => 50,
             'collection_id' => 4,
             'images' => ["products/unas-hojas-verdes.jpg"]
@@ -90,7 +90,7 @@ class ProductSeeder extends Seeder
             'name' => 'Antique painting plate',
             'slug' => 'Antique-painting-plate',
             'description' => '',
-            'price' =>  9.99,
+            'price' =>  9,
             'quantity' => 200,
             'collection_id' => 1,
             'images' => ["products/antique-painting-plate.jpg"]

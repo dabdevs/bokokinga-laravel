@@ -1,6 +1,3 @@
-@php
-    $collections = [];    
-@endphp
 <!-- ***** Footer Start ***** -->
 <footer>
     <div class="container">
@@ -21,8 +18,8 @@
             <div class="col-lg-3">
                 <h4>Colleciones</h4>
                 <ul>
-                    @foreach (App\Models\Collection::orderBy('name')->get() as $collection)
-                        <li><a href="{{ route('web.collection.show', [$collection->id, Str::slug($collection->name)]) }}"><?= $collection->name ?></a></li>
+                    @foreach ($collections as $collection)
+                        <li><a href="{{ route('web.collection.show', [$collection->id, Str::slug($collection->name)]) }}">{{ $collection->name }}</a></li>
                     @endforeach 
                 </ul>
             </div>
@@ -88,12 +85,24 @@
         $('#query').focus()
     })
 
-    function toast(message, className='info') {
+    function toast(message, type='success') {
+        if (type == 'success') {
+            $color = '#198754';
+        }
+        else if (type == 'danger') {
+            $color = '#FF5252';
+        }
+        else if (type == 'warning') {
+            $color = '#FFC107';
+        }
+        else if (type == 'info') {
+            $color = '#2196F3';
+        }
+        
         Toastify({
             text: message,
-            className: className,
             style: {
-                background: "#198754",
+                background: $color
             }
         }).showToast();
     }

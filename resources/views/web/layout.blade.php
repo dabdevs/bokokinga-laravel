@@ -8,27 +8,18 @@
 
     <body>
         @php
-            $collections = App\Models\Collection::orderBy('name')->get();
+            $collections = App\Models\Collection::has('products')->orderBy('name')->get(); 
         @endphp
 
-        {{ view('web/header', ['collections' => $collections]) }}
+        @include('web/header', ['collections' => $collections])
         
         <main class="container-fluid">
             @yield('content')
         </main>
         
-        {{ view('web/footer', ['collections' => $collections]) }}
+        @include('web/footer', ['collections' => $collections])
 
         <script>
-            function toast(message) {
-                Toastify({
-                    text: message,
-                    style: {
-                        background: "#198754",
-                    }
-                }).showToast();
-            }
-
             function addToCart(productId) {
                 url = "{{ route('web.add_to_cart', ':id') }}";
 

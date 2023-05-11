@@ -10,10 +10,10 @@ class ShowCollectionController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke($id, $name)
+    public function __invoke(string $slug)
     {
         $collection = Collection::with('products')
-                                ->where('id', $id)
+                                ->where('slug', $slug)
                                 ->first(); 
 
         return view('web.collection.show', compact('collection'));
