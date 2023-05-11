@@ -39,6 +39,14 @@ class OrderController extends Controller
         return redirect()->route('orders.show', $order);
     }
 
+    public function payment($customer_id, $order_id)
+    {
+        $customer = Customer::findOrFail($customer_id); 
+        $order = Order::findOrFail($order_id);
+
+        return view('web.order.payment', compact('customer', 'order'));
+    }
+
     public function show(Order $order)
     {
         $orderItems = $order->items;
@@ -49,6 +57,11 @@ class OrderController extends Controller
     public function success()
     {
         return view('web.payment.success');
+    }
+
+    public function checkout()
+    {
+        return view('web.order.create');
     }
 
 }

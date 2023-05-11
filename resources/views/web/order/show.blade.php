@@ -12,6 +12,7 @@
     @php
         // SDK Mercado Pago
         require base_path('vendor/autoload.php');
+
         // Credentials
         MercadoPago\SDK::setAccessToken(env('MERCADOPAGO_SECRET'));
         
@@ -98,7 +99,8 @@
                             </div>
                         </li>
                         <li class="list-group-item d-flex lh-condensed">
-                            <div id="wallet_container" class="ml-auto"></div>
+                            <div id="wallet_container" class="ml-auto @if(session('customer') == null) d-none @endif"></div>
+                            <button type="submit" class="btn btn-primary ml-auto @if(session('customer')) d-none @endif" id="continue-checkout"><i class="fa fa-chevron-right"></i> Continuar</button>
                         </li>
                     @endif
                 </ul>
@@ -113,113 +115,129 @@
                 </form>
             </div>
 
-            <div class="col-md-8 order-md-1">
-                <h4 class="mb-3">Datos de envío</h4>
-                <form class="needs-validation" novalidate="" method="POST" action="">
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="firstName">Nombre</label>
-                            <input type="text" class="form-control" name="firstname" id="firstName" placeholder="" value=""
-                                required="">
-                            @error('firstname')
-                                <div class="invalid-feedback">
-                                    $message
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="lastname">Apellido</label>
-                            <input type="text" class="form-control" name="lastname" id="lastname" placeholder="" value=""
-                                required="">
-                            @error('lastname')
-                                <div class="invalid-feedback">
-                                    $message
-                                </div>
-                            @enderror
-                        </div>
+            <div class="col-md-8 order-md-1"> 
+                @if(session('customer'))
+                    @php
+                        $customer = session('customer');
+                    @endphp
+                    <h4 class="mb-3">Dirección de envío</h4>
+                    <div class="border p-2">
+                        <address>
+                            {{ $customer->address }} <br>
+                            {{ $customer->province }} <br>
+                            {{ $customer->city }} <br>
+                            {{ $customer->postal_code }} <br>
+                        </address>
                     </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
-                            @error('email')
-                                <div class="invalid-feedback">
-                                    $message
-                                </div>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-6 mb-3">
-                            <label for="telephone">Teléfono</label>
-                            <input type="text" class="form-control" id="telephone" name="telephone">
-                            @error('telephone')
-                                <div class="invalid-feedback">
-                                    $message
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="address">Dirección</label>
-                        <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required="">
-                        @error('address')
-                            <div class="invalid-feedback">
-                                $message
+                @else
+                    <h4 class="mb-3">Datos de envío</h4>
+                    <form class="needs-validation" novalidate="" method="POST" action="{{ route('customers.store') }}" id="customer-form">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">Nombre</label>
+                                <input type="text" class="form-control" name="firstname" id="firstName" value=""
+                                    required="">
+                                @error('firstname')
+                                    <small class="text-danger">
+                                        {{ $errors->first('firstname') }}
+                                    </small>
+                                @enderror
                             </div>
-                        @enderror
-                    </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastname">Apellido</label>
+                                <input type="text" class="form-control" name="lastname" id="lastname" value=""
+                                    required="">
+                                @error('lastname')
+                                    <small class="text-danger">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
+                        </div>
 
-                    <div class="row">
-                        <div class="col-md-2 mb-3">
-                            <label for="postalCode">Cód. postal</label>
-                            <input type="text" class="form-control" name="postal_code" id="postalCode" placeholder="" required="">
-                            @error('postal_code')
-                                <div class="invalid-feedback">
-                                    $message
-                                </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email">
+                                @error('email')
+                                    <small class="text-danger">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="telephone">Teléfono</label>
+                                <input type="text" class="form-control" id="telephone" name="telephone">
+                                @error('telephone')
+                                    <small class="text-danger">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address">Dirección</label>
+                            <input type="text" class="form-control" id="address" name="address" required="">
+                            @error('address')
+                                <small class="text-danger">
+                                    {{ $message }}
+                                </small>
                             @enderror
                         </div>
-                        <div class="col-md-5 mb-3">
-                            <label for="province">Provincia</label>
-                            <select class="custom-select d-block w-100" id="province" name="province" required="">
-                                <option value="">Elegir...</option>
-                                <option>Capital Federal</option>
-                            </select>
-                            @error('province')
-                                <div class="invalid-feedback">
-                                    $message
-                                </div>
-                            @enderror
+
+                        <div class="row">
+                            <div class="col-md-2 mb-3">
+                                <label for="postalCode">Cód. postal</label>
+                                <input type="text" class="form-control" name="postal_code" id="postalCode" required="">
+                                @error('postal_code')
+                                    <small class="text-danger">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
+                            <div class="col-md-5 mb-3">
+                                <label for="province">Provincia</label>
+                                <select class="custom-select d-block w-100" id="province" name="province" required="">
+                                    <option value="">Elegir...</option>
+                                    <option>Capital Federal</option>
+                                </select>
+                                @error('province')
+                                    <small class="text-danger">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
+                            <div class="col-md-5 mb-3">
+                                <label for="city">Localidad o Barrio</label>
+                                <select class="custom-select d-block w-100" id="city" name="city" required="">
+                                    <option value="">Elegir...</option>
+                                    <option>San Nicolas</option>
+                                </select>
+                                @error('city')
+                                    <small class="text-danger">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
                         </div>
-                        <div class="col-md-5 mb-3">
-                            <label for="province">Localidad o Barrio</label>
-                            <select class="custom-select d-block w-100" id="province" name="province" required="">
-                                <option value="">Elegir...</option>
-                                <option>San Nicolas</option>
-                            </select>
-                            @error('province')
-                                <div class="invalid-feedback">
-                                    $message
-                                </div>
-                            @enderror
+                        <hr class="mb-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="same-billing-address" name="same-billing-address">
+                            <label class="custom-control-label" for="same-billing-address">
+                                La dirección de facturación es la misma
+                            </label>
                         </div>
-                    </div>
-                    <hr class="mb-4">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="same-billing-address" name="same-billing-address">
-                        <label class="custom-control-label" for="same-billing-address">
-                            La dirección de facturación es la misma
-                        </label>
-                    </div>
-                    <div class="custom-control custom-checkbox d-none">
-                        <input type="checkbox" class="custom-control-input" id="save-info" name="save-info">
-                        <label class="custom-control-label" for="save-info">Guardar la información para la próxima vez</label>
-                    </div>
-                    <hr>
-                </form>
+                        <div class="custom-control custom-checkbox d-none">
+                            <input type="checkbox" class="custom-control-input" id="save-info" name="save-info">
+                            <label class="custom-control-label" for="save-info">Guardar la información para la próxima vez</label>
+                        </div>
+                        <input type="hidden" name="order_id" value="{{ $order->id }}">
+                        <hr>
+                    </form>
+                @endif
             </div>
         </div>
     </section>
@@ -229,6 +247,13 @@
     <script src="https://sdk.mercadopago.com/js/v2"></script>
 
     <script>
+        const continueBtn = document.getElementById('continue-checkout');
+        const customerForm = document.getElementById('customer-form');
+
+        continueBtn.addEventListener('click', function() {
+            customerForm.submit();
+        })
+
         const mp = new MercadoPago("{{ env('MERCADOPAGO_KEY') }}", {
             locale: 'es-AR'
         });
