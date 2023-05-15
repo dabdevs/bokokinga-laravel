@@ -30,7 +30,7 @@
                     <input class="form-control" type="file" id="image" name="image">
                 </div>
                 <div class="col-sm-12" id="imageDisplay">
-                    <img class="my-2" style="max-width:600px" src="{{ env('S3_BASE_URL'). "/" .$collection->image }}" alt="">
+                    <img class="my-2" style="max-width:600px" src="{{ $collection->image }}" alt="">
                 </div>
             </div>
             <div class="row">
@@ -39,7 +39,7 @@
                     <input class="form-control" type="file" id="banner" name="banner">
                 </div>
                 <div class="col-sm-12" id="bannerDisplay">
-                    <img class="my-2" style="max-width:1000px" src="{{ env('S3_BASE_URL'). "/" .$collection->banner }}" alt="">
+                    <img class="my-2" style="max-width:1000px" src="{{ $collection->banner }}" alt="">
                 </div>
             </div>
 

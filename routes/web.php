@@ -39,7 +39,8 @@ Route::group(['prefix' => '/'], function () {
     Route::get('', [WebController::class, 'index'])->name('web.index');
     Route::get('login', [WebController::class, 'login'])->name('web.login');
     Route::get('buscar', [WebController::class, 'search'])->name('web.search');
-    Route::get('producto/{slug}', ShowProductController::class)->name('web.product.show');
+    Route::get('producto/{slug}', [ShowProductController::class, 'show'])->name('web.product.show');
+    Route::get('producto/{id}/quick-view', [ShowProductController::class, 'quickView'])->name('web.product.quick_view');
     Route::get('colecciones/{slug}', ShowCollectionController::class)->name('web.collection.show');
     Route::get('cart', [ShoppingCartController::class, 'cart'])->name('web.cart');
     Route::post('add-to-cart/{id}', [ShoppingCartController::class, 'add'])->name('web.add_to_cart');

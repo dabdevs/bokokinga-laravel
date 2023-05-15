@@ -21,8 +21,9 @@ class ProductSeeder extends Seeder
             'price' =>  12.9,
             'quantity' => 50,
             'collection_id' => 4,
-            'images' => ["products/unas-hojas-verdes.jpg"]
+            'images' => ["https://bokokinga-dev.s3.amazonaws.com/public/products/unas-hojas-verdes.jpg"]
         ];
+        
 
         $this->createOne($product1);
 
@@ -33,7 +34,7 @@ class ProductSeeder extends Seeder
             'price' =>  24.99,
             'quantity' => 20,
             'collection_id' => 4,
-            'images' => ["products/unas-spider-amarrillo.jpg", "products/unas-spider-amarrillo-2.jpg", "products/unas-spider-amarrillo-3.jpg"]
+            'images' => ["https://bokokinga-dev.s3.amazonaws.com/public/products/unas-spider-amarrillo.jpg", "https://bokokinga-dev.s3.amazonaws.com/public/products/unas-spider-amarrillo-2.jpg", "https://bokokinga-dev.s3.amazonaws.com/public/products/unas-spider-amarrillo-3.jpg"]
         ];
 
         $this->createOne($product2);
@@ -45,7 +46,7 @@ class ProductSeeder extends Seeder
             'price' =>  99.99,
             'quantity' => 15,
             'collection_id' => 3,
-            'images' => ["products/jacket-verde-sun.jpg"]
+            'images' => ["https://bokokinga-dev.s3.amazonaws.com/public/products/jacket-verde-sun.jpg"]
         ];
 
         $this->createOne($product3);
@@ -57,7 +58,7 @@ class ProductSeeder extends Seeder
             'price' =>  12.99,
             'quantity' => 150,
             'collection_id' => 4,
-            'images' => ["products/lentes-aviator-marron.jpg"]
+            'images' => ["https://bokokinga-dev.s3.amazonaws.com/public/products/lentes-aviator-marron.jpg"]
         ];
 
         $this->createOne($product4);
@@ -69,7 +70,7 @@ class ProductSeeder extends Seeder
             'price' =>  24.99,
             'quantity' => 23,
             'collection_id' => 3,
-            'images' => ["products/i-dont-smoke-tshirt.jpg"]
+            'images' => ["https://bokokinga-dev.s3.amazonaws.com/public/products/i-dont-smoke-tshirt.jpg"]
         ];
 
         $this->createOne($product5);
@@ -81,7 +82,7 @@ class ProductSeeder extends Seeder
             'price' =>  24.99,
             'quantity' => 30,
             'collection_id' => 2,
-            'images' => ["products/anillo-redondo-pidra-azul.jpg", "url2", "url3"]
+            'images' => ["https://bokokinga-dev.s3.amazonaws.com/public/products/anillo-redondo-pidra-azul.jpg", "url2", "url3"]
         ];
 
         $this->createOne($product5);
@@ -93,7 +94,7 @@ class ProductSeeder extends Seeder
             'price' =>  9,
             'quantity' => 200,
             'collection_id' => 1,
-            'images' => ["products/antique-painting-plate.jpg"]
+            'images' => ["https://bokokinga-dev.s3.amazonaws.com/public/products/antique-painting-plate.jpg"]
         ];
 
         $this->createOne($product6);

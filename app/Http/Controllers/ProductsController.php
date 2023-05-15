@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
-use App\Models\Gallery;
 use App\Models\Image;
 use App\Models\Photo;
 use App\Models\Product;
@@ -11,10 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use Aws\S3\S3Client;
 
 class ProductsController extends Controller
 {
-    private $upload_dir = 'products';
+    private $upload_dir = 'public/products';
 
     /**
      * Display a listing of the resource.
@@ -47,6 +47,15 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+        $s3 = new S3Client([
+            'region' => env('AWS_DEFAULT_REGION'),
+            'version' => 'latest',
+            'credentials' => [
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY')
+            ]
+        ]);
+
         try {
             DB::beginTransaction();
 
@@ -67,8 +76,9 @@ class ProductsController extends Controller
             $product->save();
 
             if ($request->file('images')) {
-                foreach ($request->file('images') as $key => $file) {
-                    $path = Photo::resizeAndUpload($file, $this->upload_dir, env('STANDARD_IMAGE_MAX_WIDTH'), env('STANDARD_IMAGE_MAX_HEIGTH'), true);
+                foreach ($request->file('images') as $file) {
+                    $image_path = Photo::resizeAndUpload($file, $this->upload_dir, env('STANDARD_IMAGE_MAX_WIDTH'), env('STANDARD_IMAGE_MAX_HEIGTH'), true);
+                    $path = $s3->getObjectUrl(env('S3_BUCKET'), $image_path);
 
                     $image = [
                         'product_id' => $product->id,
@@ -112,6 +122,15 @@ class ProductsController extends Controller
      */
     public function update(Product $product, Request $request)
     {
+        $s3 = new S3Client([
+            'region' => env('AWS_DEFAULT_REGION'),
+            'version' => 'latest',
+            'credentials' => [
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY')
+            ]
+        ]);
+        
         try {
             DB::beginTransaction();
 
@@ -125,8 +144,9 @@ class ProductsController extends Controller
             ]);
 
             if ($request->file('images')) {
-                foreach ($request->file('images') as $key => $file) {
-                    $path = Photo::resizeAndUpload($file, $this->upload_dir, env('STANDARD_IMAGE_MAX_WIDTH'), env('STANDARD_IMAGE_MAX_HEIGTH'), true);
+                foreach ($request->file('images') as $file) {
+                    $image_path = Photo::resizeAndUpload($file, $this->upload_dir, env('STANDARD_IMAGE_MAX_WIDTH'), env('STANDARD_IMAGE_MAX_HEIGTH'), true);
+                    $path = $s3->getObjectUrl(env('S3_BUCKET'), $image_path);
 
                     $image = [
                         'product_id' => $product->id,

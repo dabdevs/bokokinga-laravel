@@ -21,7 +21,7 @@
                 <tr data-id="{{ $key }}" id="row-{{ $product['id'] }}">
                     <td data-th="Product">
                         <div class="row">
-                            <div class="col-sm-3 hidden-xs"><img src="{{ env('S3_BASE_URL'). "/" .$product['image'] }}" width="100" height="100" class="img-responsive"/></div>
+                            <div class="col-sm-3 hidden-xs"><img src="{{ $product['image'] }}" width="100" height="100" class="img-responsive"/></div>
                             <div class="col-sm-9">
                                 <h4 class="nomargin"><a href="{{ route('web.product.show', Str::lower($product['slug'])) }}" class="text-dark">{{ $product['name'] }}</a></h4>
                             </div>

@@ -17,8 +17,8 @@
                         </ol>
                         <div class="carousel-inner" style="max-height:500px">
                             @foreach ($product->images as $image)
-                            <div class="carousel-item @if($product->primaryImage->id == $image->id) active @endif">
-                                <img class="d-block w-100" src="{{ env('S3_BASE_URL') . '/' . $image->path }}" alt="product image">
+                            <div class="carousel-item @if($image->is_primary) active @endif">
+                                <img class="d-block w-100" src="{{ $image->path }}" alt="product image">
                             </div>
                             @endforeach
                         </div>
@@ -32,7 +32,6 @@
                         </a>
                         </div>
                     </div>
-
                 </div>
                 <div class="col-lg-4">
                     <div class="right-content">
@@ -62,11 +61,11 @@
                                 </div>
                                 <div class="right-content">
                                     <div class="quantity buttons_added">
-                                        <input type="button" value="-" class="minus" onclick="subtract()">
+                                        <input type="button" value="-" class="minus" onclick="subtract({{ $product->id }}, {{ number_format($product->price, 2, '.', ',') }}, {{ $product->quantity }})">
                                         <input type="number" step="1" min="1" max="{{ $product->quantity }}"
                                             name="quantity" value="1" title="Quantidad" class="input-text qty text"
                                             size="4" pattern="" inputmode="" id="quantity">
-                                        <input type="button" value="+" class="plus" onclick="add()">
+                                        <input type="button" value="+" class="plus" onclick="add({{ $product->id }}, {{ number_format($product->price, 2, '.', ',') }}, {{ $product->quantity }})">
                                     </div>
                                 </div>
                             </div>
@@ -111,53 +110,4 @@
             </div>
         </section>
     @endif
-
-    <script>
-        function add() {
-            inputQuantity = document.getElementById('quantity'); 
-
-            if (inputQuantity.value == {{ $product->quantity }}) return;
-
-            inputQuantity.value = parseInt(inputQuantity.value) + 1;
-            document.getElementById('total').innerText = 'Total: $' + (inputQuantity.value * parseFloat('{{ $product->price }}')).toFixed(2);
-        }
-
-        function subtract() {
-            inputQuantity = document.getElementById('quantity');
-
-            if (inputQuantity.value == 1) return;
-
-            inputQuantity.value = parseInt(inputQuantity.value) - 1;
-        }
-
-        function update(id, productQuantity) {
-            quantity = document.getElementById('quantity');
-            
-            if (quantity.value > productQuantity) {
-                quantity.value = quantity.defaultValue;
-                toast('Solo hay '+productQuantity+' disponibles', 'danger')
-                return;
-            }
-
-            if (quantity.value == 0) {
-                eliminar(id);
-                return;
-            }
-            
-            $.ajax({
-                url: '{{ route('web.update_cart') }}',
-                method: "PATCH",
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    id: id,
-                    quantity: quantity.value
-                },
-                success: function(response) {
-                    toast(response.success);
-                    document.querySelector('#cart-count').innerText = response.cartQuantity
-                    document.getElementById('total').innerText = 'Total: $' + (quantity.value * parseFloat('{{ $product->price }}')).toFixed(2);
-                }
-            });
-        }
-    </script>
 @endsection

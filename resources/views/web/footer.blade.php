@@ -74,6 +74,7 @@
 <script src="{{ asset('front/js/isotope.js') }}"></script>
 <script src="{{ asset('front/js/toastify-js.js') }}"></script>
 <script src="{{ asset('dashboard/js/sweetalert2.all.min.js') }}"></script>
+<script src="{{ asset('front/js/owl.carousel.min.js') }}"></script>
 
 <!-- Global Init -->
 <script src="{{ asset('front/js/custom.js') }}"></script>

@@ -7,16 +7,14 @@
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" type="text/css" href="{{ asset('front/css/bootstrap.min.css') }}">
-
     <link rel="stylesheet" type="text/css" href="{{ asset('front/css/font-awesome.css') }}">
-
     <link rel="stylesheet" href="{{ asset('front/css/templatemo-hexashop.css') }}">
-
     <link rel="stylesheet" href="{{ asset('front/css/owl-carousel.css') }}">
-
     <link rel="stylesheet" href="{{ asset('front/css/lightbox.css') }}">
-
     <link rel="stylesheet" href="{{ asset('front/css/toastify.min.css') }}">
-
     <link rel="stylesheet" href="{{ asset('front/css/custom.css') }}">
+
+    <!-- Owl Carousel Assets -->
+    <link href="{{ asset('front/css/owl.carousel.css') }}" rel="stylesheet">
+    <link href="{{ asset('front/css/owl.theme.css') }}" rel="stylesheet">
 </head>

@@ -6,11 +6,12 @@ use App\Models\Collection;
 use App\Models\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use Aws\S3\S3Client;
 
 
 class CollectionsController extends Controller
 {
-    private $upload_dir = 'collections';
+    private $upload_dir = 'public/collections';
 
     /**
      * Display a listing of the resource.
@@ -34,6 +35,15 @@ class CollectionsController extends Controller
      */
     public function store(Request $request)
     {
+        $s3 = new S3Client([
+            'region' => env('AWS_DEFAULT_REGION'),
+            'version' => 'latest',
+            'credentials' => [
+                'key' => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY')
+            ]
+        ]);
+
         try {
             $data = $request->validate([
                 'name' => 'required|string|max:150',
@@ -44,8 +54,10 @@ class CollectionsController extends Controller
 
             $data['slug'] = strtolower(str_replace(" ", "-", $request->name));
 
-            if ($request->file('image'))
-                $data['image'] = Photo::resizeAndUpload($request->file('image'), $this->upload_dir, env('STANDARD_IMAGE_MAX_WIDTH'), env('STANDARD_IMAGE_MAX_HEIGTH'), true);
+            if ($request->file('image')) {
+                $image_path = Photo::resizeAndUpload($request->file('image'), $this->upload_dir, env('STANDARD_IMAGE_MAX_WIDTH'), env('STANDARD_IMAGE_MAX_HEIGTH'), true);
+                $data['image'] = $s3->getObjectUrl(env('S3_BUCKET'), $image_path);
+            }
 
             if ($request->file('banner'))
                 $data['banner'] = Photo::resizeAndUpload($request->file('banner'), $this->upload_dir, env('COLLECTION_BANNER_MAX_WIDTH'), env('COLLECTION_BANNER_MAX_HEIGTH'), true);

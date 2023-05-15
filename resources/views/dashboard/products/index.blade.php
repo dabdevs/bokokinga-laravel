@@ -53,7 +53,7 @@
 
                         <div class="row">
                             <button type="button" class="ml-3 my-1 btn btn-primary" onclick="createImageUploadInput()"><i class="fa fa-photo"></i>
-                                Agregar foto</button>
+                                Agregar fotos</button>
                         </div>
                         <div class="row">
                             <input class="d-none" type="hidden" id="photosCount">
@@ -96,75 +96,6 @@
     </form>
 
     <h1>Productos</h1>
-
-    {{-- <div class="mb-3 card p-3 d-none" id="top-form">
-        <form method="POST" id="product-form" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="_method" id="method">
-            <input type="hidden" id="product_id">
-            <input type="hidden" id="delete_images" name="delete_images">
-            <div class="row">
-                <div class="col-sm-9">
-                    <label for="product_name">Nombre: <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" id="product_name" name="name">
-                </div>
-
-                <div class="col-sm-3">
-                    <label for="price">Price: <span class="text-danger">*</span></label>
-                    <input class="form-control" type="decimal" min="0" name="price" id="price">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-9 my-2 mt-4">
-                    <label for="description">Descripción:</label>
-                    <textarea class="form-control" name="description" id="description" cols="30" rows="3"></textarea>
-                </div>
-                <div class="col-sm-3">
-                    <div class="col-xs-12">
-                        <label for="quantity">Quantity: <span class="text-danger">*</span></label>
-                        <input class="form-control" type="number" min="0" name="quantity" id="quantity">
-                    </div>
-                    <div class="col-xs-12">
-                        <label for="collection">Collection: <span class="text-danger">*</span></label>
-                        <select class="form-control" name="collection_id" id="collection_id">
-                            <option value="">Selecciona una colección</option>
-                            @foreach ($collections as $collection)
-                                <option value="{{ $collection->id }}">{{ $collection->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <button type="button" class="ml-3 my-1 btn btn-primary" onclick="createImageUploadInput()"><i class="fa fa-photo"></i>
-                    Agregar foto</button>
-            </div>
-            <div class="row">
-                <input class="d-none" type="hidden" id="photosCount">
-                <div class="col-sm-12">
-                    <table>
-                        <thead class="d-none">
-                            <th class="col my-2 pl-0">Imágenes</th>
-                            <th class="col my-2 p-2">Principal</th>
-                            <th class="col my-2 p-2">Borrar</th>
-                        </thead>
-                        <tbody id="photos">
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="row p-3">
-                <button type="submit" class="col-sm-2 mr-1 btn btn-success" id="Guardar" disabled><i
-                        class="fa fa-save"></i> Guardar</button>
-                <button type="button" class="col-sm-2 mr-1 btn btn-secondary" id="Cancelar" onclick="cancelar()"><i
-                        class="fa fa-times"></i> Cancelar</button>
-            </div>
-        </form>
-    </div> --}}
 
     <div class="mb-3 card p-3" id="dataList">
         <div class="row table-responsive pl-3">

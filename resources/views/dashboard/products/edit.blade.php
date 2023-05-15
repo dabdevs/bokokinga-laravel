@@ -70,7 +70,7 @@
                             @foreach ($product->images->reverse() as $image)
                                 <tr id="row-{{ $image->id }}">
                                     <td class="border p-2">
-                                        <img width="250px" src="{{ env('S3_BASE_URL') }}/{{ $image->path }}" alt="product picture">
+                                        <img width="250px" src="{{ $image->path }}" alt="product picture">
                                     </td>
                                     <td class="border p-2"><input type="radio" name="primaryImage" value="{{ $image->id }}" @if($image->is_primary) checked @endif></td>
                                     <td class="border p-2">
@@ -168,7 +168,7 @@
 
                         tr.classList.add('my-3');
                         imgDisplay.classList.add('cursor-pointer')
-                        imgDisplay.src = "{{ env('S3_BASE_URL') }}/" + element.path;
+                        imgDisplay.src = element.path;
                         
                         if(element.is_primary) {
                             imgDisplay.classList.add('img-thumbnail', 'border-success')

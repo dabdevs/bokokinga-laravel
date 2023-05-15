@@ -41,7 +41,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <img height="283px" src="{{ $collection->image == null ? COLLECTION_INDEX_FOLDER . "/category-default.png" : env('S3_BASE_URL') . "/" . $collection->image }}">
+                                                <img height="283px" src="{{ $collection->image == null ? asset('front/img/baner-right-image-01') : $collection->image }}">
                                             </div>
                                         </div>
                                     </div>

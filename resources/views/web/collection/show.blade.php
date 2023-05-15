@@ -4,7 +4,7 @@
 
 @section('content')
     @if($collection->banner != null)
-    <div class="page-heading" id="top" style="background-image: url('{{ env('S3_BASE_URL'). "/" .$collection->banner }}')">
+    <div class="page-heading" id="top" style="background-image: url('{{ $collection->banner }}')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

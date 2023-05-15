@@ -16,6 +16,8 @@ class ShowCollectionController extends Controller
                                 ->where('slug', $slug)
                                 ->first(); 
 
+        if (!$collection) return redirect()->back();
+
         return view('web.collection.show', compact('collection'));
     }
 }

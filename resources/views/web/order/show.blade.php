@@ -68,7 +68,7 @@
                                     </div>
                                     <div class="px-1 col-2">
                                         <p class="text-right">${{ number_format($product['price'], 2, '.', ',') }}</p>
-                                        <img src="{{ env('S3_BASE_URL') . '/' . $product['image'] }}" width="60"
+                                        <img src="{{ $product['image'] }}" width="60"
                                             height="60" class="img-responsive my-0 float-right" alt="">
                                     </div>
                                 </div>
