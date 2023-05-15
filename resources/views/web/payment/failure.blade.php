@@ -1,6 +1,6 @@
 @extends('web/layout')
 
-@section('title', 'Payment successfull')
+@section('title', 'Payment failed')
 
 @section('css')
     <style>
@@ -22,8 +22,8 @@
                     </svg>
                 </div>
                 <div class="text-center">
-                    <h1>¡Gracias por tu compra!</h1>
-                    <p>Hemos enviado un link a tu correo para confirmar la compra. </p>
+                    <h1 class="text-danger">¡Error!</h1>
+                    <p>Hubo un error al procesar el pago</p>
                     <a href="/" class="btn btn-primary mt-2"><i class="fa fa-chevron-left"></i> Seguir comprando</a>
                 </div>
             </div>

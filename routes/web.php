@@ -52,6 +52,7 @@ Route::group(['prefix' => '/'], function () {
     Route::resource('customers', CustomerController::class);
     Route::resource('orders', OrderController::class);
     Route::get('order/payment/success', [OrderController::class, 'success'])->name('web.payment.success');
+    Route::get('order/payment/failed', [OrderController::class, 'failure'])->name('web.payment.failure');
 });
 
 Route::prefix('admin')->group(function () {

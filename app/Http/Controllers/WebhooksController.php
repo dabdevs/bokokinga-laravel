@@ -19,9 +19,15 @@ class WebhooksController extends Controller
 
         if ($response->status != null) {
             $order->status = $response->status;
+            $order->payment_method = $response->payment_method_id;
+            $order->paid_on = $response->date_created;
             $order->save();
 
             Session::forget(['cart', 'cartQuantity', 'totalPrice']);
         }
+
+        if ($response->status == "rejected" || $response->status == "cancelled") return redirect()->route('web.payment.failure');
+
+        return redirect()->route('web.payment.success');
     }
 }

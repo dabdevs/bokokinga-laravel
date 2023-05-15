@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('telephone')->nullable();
             $table->string('tracking_number')->nullable();
             $table->datetime('delivery_date')->nullable();
+            $table->datetime('paid_on')->nullable();
             $table->string('comments')->nullable();
             $table->string('payment_method')->nullable();
             $table->timestamps();
