@@ -23,7 +23,5 @@ class WebhooksController extends Controller
 
             Session::forget(['cart', 'cartQuantity', 'totalPrice']);
         }
-
-        return redirect()->route('web.payment.success');
     }
 }

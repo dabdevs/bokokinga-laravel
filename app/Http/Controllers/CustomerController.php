@@ -14,20 +14,26 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'firstname' => 'required|string|max:150',
-            'lastname' => 'required|string|max:150',
-            'email' => 'required|string|unique:customers|max:150',
-            'telephone' => 'required|string|max:150',
-            'address' => 'required|string|max:150',
-            'postal_code' => 'required|string|max:150',
-            'city' => 'required|string|max:150',
-            'province' => 'required|string|max:150',
-        ]); 
+        if (session('customer') == null) {
+            $data = $request->validate([
+                'firstname' => 'required|string|max:150',
+                'lastname' => 'required|string|max:150',
+                'email' => 'required|string|max:150',
+                'telephone' => 'required|string|max:150',
+                'address' => 'required|string|max:150',
+                'postal_code' => 'required|string|max:150',
+                'city' => 'required|string|max:150',
+                'province' => 'required|string|max:150',
+            ]);
 
-        // Create new customer
-        $customer = Customer::create($data);
-        session()->put('customer', $customer);
+            $customer = Customer::whereEmail($data['email'])->first();
+
+            if (!$customer) $customer = Customer::create($data);
+
+            session()->put('customer', $customer);
+        } else {
+            $customer = session('customer');
+        }
 
         // Create new order
         $order = new Order; 

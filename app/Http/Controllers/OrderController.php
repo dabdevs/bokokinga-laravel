@@ -17,6 +17,7 @@ class OrderController extends Controller
 
     public function create()
     {
+        if (!session('cart')) return redirect('/');
         return view('web.order.create');
     }
 
@@ -41,6 +42,8 @@ class OrderController extends Controller
 
     public function payment($customer_id, $order_id)
     {
+        if (!session('cart')) return redirect('/');
+        
         $customer = Customer::findOrFail($customer_id); 
         $order = Order::findOrFail($order_id);
 
@@ -61,6 +64,8 @@ class OrderController extends Controller
 
     public function checkout()
     {
+        if (!session('cart')) return redirect('/');
+        
         return view('web.order.create');
     }
 

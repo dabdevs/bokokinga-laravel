@@ -1,5 +1,7 @@
 @extends('web/layout')
 
+@section('title', 'Payment')
+
 @section('css')
     <style>
         header {
@@ -30,9 +32,9 @@
         <div class="text-center mb-5">
             <img class="d-block mx-auto mt-4" src="{{ asset('front/img/cart.png') }}" alt="" width="72"
                 height="72">
-            <h2>Completando tu orden</h2>
+            <h2>Pago</h2>
             <p class="lead">
-                Ingresa los datos de contacto y de envío.
+                Continuar con MercadoLibro
             </p>
         </div>
 
