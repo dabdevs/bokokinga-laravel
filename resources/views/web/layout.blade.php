@@ -101,13 +101,15 @@
         function addToCart(productId, modal=false) {
             inputQuantity = modal? document.getElementById('modal-quantity') : document.getElementById('quantity');
             url = "{{ route('web.add_to_cart', ':id') }}";
+            
+            quantity = inputQuantity == null ? 1 : inputQuantity.value;
 
             $.ajax({
                 url: url.replace(':id', productId),
                 method: "POST",
                 data: {
                     _token: '{{ csrf_token() }}',
-                    quantity: inputQuantity.value
+                    quantity: quantity
                 },
                 success: function(response) {
                     toast(response.success);
@@ -151,14 +153,6 @@
 
                         inputQuantity.before(minusInput)
                         inputQuantity.after(plusInput)
-
-                        /*
-                        <input type="button" value="-" class="minus" onclick="subtract()">
-                            <input type="number" step="1" min="1" max=""
-                                name="quantity" value="1" title="Quantidad" class="input-text qty text"
-                                size="4" pattern="" inputmode="" id="modal-quantity">
-                            <input type="button" value="+" class="plus" onclick="add()">
-                        */
 
                         cartIcon = document.querySelector('#product-add-to-cart')
                         cartIcon.addEventListener('click', function() {
