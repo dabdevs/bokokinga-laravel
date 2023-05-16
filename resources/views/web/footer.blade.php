@@ -108,7 +108,7 @@
         }).showToast();
     }
 
-    var splide = new Splide( '#main-carousel', '#modal-main-carousel', {
+    var splide = new Splide( '#main-carousel', {
         pagination: false,
     } );
 

@@ -13,14 +13,14 @@
                                 <ul class="splide__list">
                                     @foreach ($product->images as $image)
                                         <li class="splide__slide">
-                                            <img src="{{ $image->path }}" alt="" style="height: 500px">
+                                            <img src="{{ $image->path }}" alt="" style="height: 550px">
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
                         </section>
 
-                        <ul id="thumbnails" class="thumbnails">
+                        <ul id="thumbnails" class="thumbnails mt-0">
                             @foreach ($product->images as $image)
                                 <li class="thumbnail">
                                     <img src="{{ $image->path }}" alt="">

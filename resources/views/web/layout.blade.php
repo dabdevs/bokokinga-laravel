@@ -150,18 +150,18 @@
                         product.images.forEach(image => {
                             // Carousel
                             const carouselItem = document.createElement('li')
-                            carouselItem.classList.add('thumbnail', 'w-100')
+                            carouselItem.classList.add('splide__slide')
 
                             const img = document.createElement('img')
                             img.src = image.path
 
                             carouselItem.append(img)
 
-                            $('#modal-main-carousel').append(carouselItem)
+                            $('#modal-carousel-items').append(carouselItem)
 
                             // thumbnails
                             const thumbnailsItem = document.createElement('li')
-                            thumbnailsItem.classList.add('thumbnails')
+                            thumbnailsItem.classList.add('thumbnail')
 
                             const thumbnailsImg = document.createElement('img')
                             thumbnailsImg.src = image.path
@@ -170,6 +170,12 @@
 
                             $('#modal-thumbnails').append(thumbnailsItem)
                         });
+
+                        var splide = new Splide('#modal-main-carousel', {
+                            pagination: false,
+                        } );
+
+                        splide.mount();
 
                         $modal = $('#product-quickview');
                         $modal.find('.modal-title').text(product.name)
