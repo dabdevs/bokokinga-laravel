@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <!-- ***** Search modal ***** -->
+    <!-- ***** Quick view modal ***** -->
     <div class="modal" id="product-quickview">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -23,27 +23,15 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="left-images">
-                                <!-- Gallery -->
-                                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
-                                        </li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                                    </ol>
-                                    <div class="carousel-inner" style="max-height:500px" id="product-images">
+                                <section id="modal-main-carousel" class="splide main-carousel" aria-label="My Awesome Gallery">
+                                    <div class="splide__track">
+                                        <ul class="splide__list" id="modal-carousel-items">
+                                        </ul>
                                     </div>
-                                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
-                                        data-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
-                                        data-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </div>
+                                </section>
+
+                                <ul id="modal-thumbnails" class="thumbnails">
+                                </ul>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -160,18 +148,27 @@
                         })
 
                         product.images.forEach(image => {
-                            const carouselItem = document.createElement('div')
-                            carouselItem.classList.add('carousel-item')
-
-                            if (image.is_primary) carouselItem.classList.add('active')
+                            // Carousel
+                            const carouselItem = document.createElement('li')
+                            carouselItem.classList.add('thumbnail', 'w-100')
 
                             const img = document.createElement('img')
-                            img.classList.add('d-block', 'w-100')
                             img.src = image.path
 
                             carouselItem.append(img)
 
-                            $('#product-images').append(carouselItem)
+                            $('#modal-main-carousel').append(carouselItem)
+
+                            // thumbnails
+                            const thumbnailsItem = document.createElement('li')
+                            thumbnailsItem.classList.add('thumbnails')
+
+                            const thumbnailsImg = document.createElement('img')
+                            thumbnailsImg.src = image.path
+
+                            thumbnailsItem.append(thumbnailsImg)
+
+                            $('#modal-thumbnails').append(thumbnailsItem)
                         });
 
                         $modal = $('#product-quickview');

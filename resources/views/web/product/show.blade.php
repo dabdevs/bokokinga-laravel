@@ -8,29 +8,25 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="left-images">
-                        <!-- Gallery -->
-                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                        </ol>
-                        <div class="carousel-inner" style="max-height:500px">
-                            @foreach ($product->images as $image)
-                            <div class="carousel-item @if($image->is_primary) active @endif">
-                                <img class="d-block w-100" src="{{ $image->path }}" alt="product image">
+                        <section id="main-carousel" class="splide main-carousel">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    @foreach ($product->images as $image)
+                                        <li class="splide__slide">
+                                            <img src="{{ $image->path }}" alt="" style="height: 500px">
+                                        </li>
+                                    @endforeach
+                                </ul>
                             </div>
+                        </section>
+
+                        <ul id="thumbnails" class="thumbnails">
+                            @foreach ($product->images as $image)
+                                <li class="thumbnail">
+                                    <img src="{{ $image->path }}" alt="">
+                                </li>
                             @endforeach
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                        </div>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-lg-4">
