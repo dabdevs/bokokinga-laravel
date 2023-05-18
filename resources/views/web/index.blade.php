@@ -9,13 +9,16 @@
 
 @section('js')
     <script>
-        $(document).ready(function($) {
-        $("#owl-latest-products").owlCarousel({
-            autoPlay: 3000, //Set AutoPlay to 3 seconds
-            items : 4,
-            itemsDesktop : [1199,3],
-            itemsDesktopSmall : [979,3]
-        });
+        $(document).ready(function() {
+            $('.latest-products').slick({
+                dots: true,
+                infinite: true,
+                slidesToShow: 1,
+                centerMode: true,
+                variableWidth: true,
+                autoplay: true,
+                autoplaySpeed: 2000,
+            });
         });
     </script>
 @endsection

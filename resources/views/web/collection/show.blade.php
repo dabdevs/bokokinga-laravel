@@ -33,13 +33,15 @@
                 @if($collection->products->count() > 0)
                 <div class="col-lg-12">
                     <div class="section-heading">
-                        <h2>{{ $collection->products->count() }} resultado(s)</h2>
+                        <h3>{{ $collection->products->count() }} resultado(s)</h2>
                     </div>
                 </div>
                 @endif
+            </div>
 
+            <div class="row">
                 @forelse ($collection->products as $product)
-                    <div class="col-lg-3">
+                    <div class="col-sm-6 col-lg-3">
                         <x-product
                             :id="$product->id"
                             :slug="$product->slug"
@@ -50,7 +52,9 @@
                         />
                     </div>
                 @empty 
+                <div class="col-sm-12">
                     <p class="p-5 text-center mx-auto">Collección vacía.</p>
+                </div>
                 @endforelse
             </div>
         </div>

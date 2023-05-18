@@ -46,7 +46,7 @@
                                         <h6>Cantidad</h6>
                                     </div>
                                     <div class="right-content">
-                                        <div class="quantity buttons_added">
+                                        <div class="quantity buttons_added" id="quantity-box">
                                             <input type="number" step="1" min="1" max=""
                                                 name="quantity" value="1" title="Quantidad"
                                                 class="input-text qty text" size="4" pattern="" inputmode=""
@@ -118,6 +118,10 @@
                         $('#product-name').text(product.name)
                         $('#product-description').text(product.description)
                         $('input[name="product-quantity"]').attr('max', product.quantity);
+                        const quantityBox = document.getElementById('quantity-box')
+                        inputQuantity = document.getElementById('modal-quantity')
+                        quantityBox.innerHTML = ''
+                        quantityBox.append(inputQuantity)
 
                         minusInput = document.createElement('input')
                         minusInput.type = 'button'
@@ -137,8 +141,6 @@
                             add(product.id, product.price, product.quantity, true)
                         })
 
-                        inputQuantity = document.getElementById('modal-quantity')
-
                         inputQuantity.before(minusInput)
                         inputQuantity.after(plusInput)
 
@@ -153,6 +155,8 @@
                             carouselItem.classList.add('splide__slide')
 
                             const img = document.createElement('img')
+                            img.style.heigth = '100%'
+                            img.style.width = '100%'
                             img.src = image.path
 
                             carouselItem.append(img)

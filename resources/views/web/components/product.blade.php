@@ -7,7 +7,7 @@
                 <li><a style="cursor: pointer" onclick="addToCart('{{ $id }}')"><i class="fa fa-shopping-cart"></i></a></li>
             </ul>
         </div>
-        <img data-url="{{ route('web.product.show', Str::lower($slug)) }}" class="w-100" src="{{ $image }}" alt="">
+        <img data-url="{{ route('web.product.show', Str::lower($slug)) }}" src="{{ $image }}" alt="">
     </div>
     <div class="down-content">
         <h4>

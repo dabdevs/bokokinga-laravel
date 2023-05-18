@@ -10,11 +10,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="container">
+                
                 <div class="row">
                     <div class="col-sm-12">
-                        <div id="owl-latest-products">
+                        <div class="latest-products">
                             @foreach ($collection->latestProducts as $product)
                                 <div class="item p-2">
                                     <x-product

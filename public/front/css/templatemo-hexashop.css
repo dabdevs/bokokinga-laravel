@@ -777,6 +777,15 @@ Men
   margin-bottom: 60px;
 }
 
+#men .thumb {
+  height: 280px;
+}
+
+#men .thumb img {
+  height: 100%;
+  width: 100%;
+}
+
 #men .item .down-content {
   padding-top: 30px;
   position: relative;
@@ -785,7 +794,7 @@ Men
 }
 
 #men .item .down-content h4 {
-  font-size: 22px;
+  font-size: 20px;
   color: #2a2a2a;
   font-weight: 700;
   margin-bottom: 8px;

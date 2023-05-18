@@ -107,3 +107,13 @@
         </section>
     @endif
 @endsection
+
+@section('js')
+<script>
+    var splide = new Splide( '#main-carousel', {
+        pagination: false,
+    } );
+
+    splide.mount();
+</script>
+@endsection

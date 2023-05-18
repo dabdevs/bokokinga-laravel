@@ -13,5 +13,7 @@
     <link rel="stylesheet" href="{{ asset('front/css/lightbox.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/toastify.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/splide.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/slick/slick.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/slick/slick-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/custom.css') }}">
 </head>

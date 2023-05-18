@@ -69,12 +69,12 @@
 <script src="{{ asset('front/js/waypoints.min.js') }}"></script>
 <script src="{{ asset('front/js/jquery.counterup.min.js') }}"></script>
 <script src="{{ asset('front/js/imgfix.min.js') }}"></script>
-<script src="{{ asset('front/js/slick.js') }}"></script>
 <script src="{{ asset('front/js/lightbox.js') }}"></script>
 <script src="{{ asset('front/js/isotope.js') }}"></script>
 <script src="{{ asset('front/js/toastify-js.js') }}"></script>
 <script src="{{ asset('dashboard/js/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset('front/js/splide.min.js') }}"></script>
+<script src="{{ asset('front/slick/slick.min.js') }}"></script>
 
 <!-- Global Init -->
 <script src="{{ asset('front/js/custom.js') }}"></script>
@@ -107,10 +107,4 @@
             }
         }).showToast();
     }
-
-    var splide = new Splide( '#main-carousel', {
-        pagination: false,
-    } );
-
-    splide.mount();
 </script>
