@@ -18,15 +18,15 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-12">
-                    <div class="right-content">
-                        <div class="row">
+                    <div class="right-content h-100">
+                        <div class="row h-100 p-0">
                             @php
                                 $count = 0;
                             @endphp
                             @forelse ($collections as $collection)
                                 @if($collection->image != null && $count < 4)
                                     <div class="col-sm-6">
-                                        <div class="right-first-image">
+                                        <div class="right-first-image h-100">
                                             <div class="thumb">
                                                 <div class="inner-content">
                                                     <h4><?= $collection->name ?></h4>
@@ -41,7 +41,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <img height="283px" src="{{ $collection->image == null ? asset('front/img/baner-right-image-01') : $collection->image }}">
+                                                <img src="{{ $collection->image == null ? asset('front/img/baner-right-image-01') : $collection->image }}">
                                             </div>
                                         </div>
                                     </div>

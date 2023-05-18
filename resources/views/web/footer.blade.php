@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <h4>Colleciones</h4>
+                <h4>Colecciones</h4>
                 <ul>
                     @foreach ($collections as $collection)
                         <li><a href="{{ route('web.collection.show', [$collection->id, Str::slug($collection->name)]) }}">{{ $collection->name }}</a></li>

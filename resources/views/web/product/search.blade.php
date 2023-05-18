@@ -6,14 +6,12 @@
     <section class="section py-5" id="products">
         <div class="container">
             <div class="row">
-                @if($products->count() > 0)
-                <div class="col-lg-12">
+                <div class="col-lg-12 {{ $products->count() == 0 ? 'py-5' : '' }}">
                     <div class="section-heading">
-                        <h2>{{ $products->count() }} resultado(s)</h2>
-                        <p>Búsqueda: {{ request('query') }}</p>
+                        <h2>Búsqueda: {{ request('query') }}</h2>
+                        <p>{{ $products->count() > 0 ? $products->count() : 0 }} resultado(s)</p>
                     </div>
                 </div>
-                @endif 
 
                 @foreach ($products as $product)
                     <div class="col-sm-6 col-lg-3">
