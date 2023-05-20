@@ -3,7 +3,7 @@
 @section('title', 'Búsqueda')
 
 @section('content')
-    <section class="section py-5" id="products">
+    <section class="section py-5 products" id="products">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 {{ $products->count() == 0 ? 'py-5' : '' }}">

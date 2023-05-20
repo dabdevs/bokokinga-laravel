@@ -1,13 +1,3 @@
-<style>
-    #cart-count {
-        color:#fff;
-        position: relative;
-        bottom: 33px;
-        left: 10px;
-        font-size: 12px;
-        line-height: 10px;
-    }
-</style>
 
 <!-- ***** Preloader Start ***** -->
 <div id="preloader">
@@ -66,7 +56,7 @@
                         <li class="scroll-to-section">
                             <a href="{{ route('web.cart') }}">
                                 <i class="fa fa-shopping-cart fa-2x"></i>
-                                <p id="cart-count">{{ session('cartQuantity') ?? '' }}</p>
+                                <p class="cart-count">{{ session('cartQuantity') ?? '' }}</p>
                             </a>
                         </li>
                     </ul>

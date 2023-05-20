@@ -1,6 +1,6 @@
 @forelse ($collections as $collection)
     @if ($collection->latestProducts->count() >= 3)
-        <section class="section" id="men">
+        <section class="section products" id="men">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">

@@ -27,8 +27,24 @@
     cursor: pointer;
 }
 
-
 .thumbnail img {
     width: 100%;
     height: auto;
+}
+
+.cart-count {
+    color: #fff;
+    position: relative;
+    bottom: 33px;
+    left: 10px;
+    font-size: 12px;
+    line-height: 10px;
+}
+
+.product-name {
+    width: 100px;
+    color: #151515;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
 }
