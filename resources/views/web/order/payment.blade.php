@@ -14,14 +14,14 @@
     @php
         // SDK Mercado Pago
         require base_path('vendor/autoload.php');
-
+        
         // Credentials
         MercadoPago\SDK::setAccessToken(env('MERCADOPAGO_SECRET'));
         
         // Create a preference object
         $preference = new MercadoPago\Preference();
         $shipments = new MercadoPago\Shipments();
-        $shipments->cost = (int) env('SHIPPING_COST');
+        $shipments->cost = (int) $shipping_cost;
         $shipments->mode = 'not_specified';
         
         $preference->shipments = $shipments;
@@ -65,13 +65,14 @@
                             <li class="list-group-item lh-condensed">
                                 <div class="row">
                                     <div class="px-1 col-10">
-                                        <h6 class="my-0 mr-auto">{{ $product['name'] }} <br> <small>({{ $product['quantity'] }} un.)</small></h6>
+                                        <h6 class="my-0 mr-auto">{{ $product['name'] }} <br>
+                                            <small>({{ $product['quantity'] }} un.)</small></h6>
                                         <small class="text-muted">{{ $product['description'] }}</small>
                                     </div>
                                     <div class="px-1 col-2">
                                         <p class="text-right">${{ number_format($product['price'], 2, '.', ',') }}</p>
-                                        <img src="{{ $product['image'] }}" width="60"
-                                            height="60" class="img-responsive my-0 float-right" alt="">
+                                        <img src="{{ $product['image'] }}" width="60" height="60"
+                                            class="img-responsive my-0 float-right" alt="">
                                     </div>
                                 </div>
                             </li>
@@ -95,14 +96,17 @@
                                 <h2 class="mr-auto">Total<small>(ARS)</small></h2>
                             </div>
                             <div class="ml-auto p-0">
-                                <h6 class="ml-auto text-right">${{ session('totalPrice') }}</h6>
-                                <h6 class="ml-auto text-right">${{ number_format(env('SHIPPING_COST'), 2, '.', ',') }}</h6>
-                                <h2 class="ml-auto text-right">${{ session('totalPrice') + (int) env('SHIPPING_COST') }}</h2>
+                                <h6 class="ml-auto text-right">${{ session('subtotal') }}</h6>
+                                <h6 class="ml-auto text-right">${{ number_format($shipping_cost, 2, '.', ',') }}</h6>
+                                <h2 class="ml-auto text-right">${{ session('subtotal') + (int) $shipping_cost }}</h2>
                             </div>
                         </li>
                         <li class="list-group-item d-flex lh-condensed">
-                            <div id="wallet_container" class="ml-auto @if(session('customer') == null) d-none @endif"></div>
-                            <button type="submit" class="btn btn-primary ml-auto @if(session('customer')) d-none @endif" id="continue-checkout"><i class="fa fa-chevron-right"></i> Continuar</button>
+                            <div id="wallet_container" class="ml-auto">
+                            </div>
+                            <button type="submit"
+                                class="btn btn-primary ml-auto @if ($customer) d-none @endif"
+                                id="continue-checkout"><i class="fa fa-chevron-right"></i> Continuar</button>
                         </li>
                     @endif
                 </ul>
@@ -121,10 +125,9 @@
                 <h4 class="mb-3">Dirección de envío</h4>
                 <div class="border p-2">
                     <address>
-                        {{ $customer->address }} <br>
-                        {{ $customer->province }} <br>
-                        {{ $customer->city }} <br>
-                        {{ $customer->postal_code }} <br>
+                        {{ $order->address->street }}, {{ $order->address->number }}<br>
+                        {{ $order->address->city->name }}, {{ $order->address->country->code }} <br>
+                        CP: {{ $order->address->postal_code }} <br>
                     </address>
                 </div>
             </div>

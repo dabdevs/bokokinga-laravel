@@ -65,7 +65,7 @@ class ShoppingCartController extends Controller
             return [
                 'html' => view('web.cart.includes.items', compact('cartQuantity'))->render(),
                 'cartQuantity' => $cartQuantity,
-                'subtotal' => session('totalPrice'),
+                'subtotal' => session('subtotal'),
                 'success' => 'Carrito actualizado!'
             ];
         }
@@ -104,7 +104,7 @@ class ShoppingCartController extends Controller
         }
 
         session()->put('cartQuantity', $count);
-        session()->put('totalPrice', $total_price);
+        session()->put('subtotal', $total_price);
 
         return $count;
     }

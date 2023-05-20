@@ -16,12 +16,7 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->string('email')->unique();
-            $table->string('telephone');
-            $table->string('address');
-            $table->string('postal_code');
-            $table->string('city');
-            $table->string('province');
-            $table->string('country')->default('Argentina');
+            $table->string('cellphone');
             $table->timestamps();
         });
     }

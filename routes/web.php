@@ -47,7 +47,7 @@ Route::group(['prefix' => '/'], function () {
     Route::patch('update-cart', [ShoppingCartController::class, 'update'])->name('web.update_cart');
     Route::delete('remove-from-cart', [ShoppingCartController::class, 'remove'])->name('web.remove_from_cart');
     Route::get('order/checkout', [OrderController::class, 'checkout'])->name('web.order.checkout');
-    Route::get('{customer_id}/order/{order}/checkout/payment', [OrderController::class, 'payment'])->name('web.checkout.payment');
+    Route::get('{customer_id}/order/{order}/payment', [OrderController::class, 'payment'])->name('web.order.payment');
     Route::get('order/{id}/checkout/payment/webhook', WebhooksController::class)->name('web.payment.webhook');
     Route::resource('customers', CustomerController::class);
     Route::resource('orders', OrderController::class);

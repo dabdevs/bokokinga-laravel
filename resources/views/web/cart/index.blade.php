@@ -10,7 +10,7 @@
 
 @section('js')
     <script type="text/javascript">
-        var currentTotal = document.getElementById('totalPrice').value;
+        var currentTotal = document.getElementById('subtotal').value;
 
         function eliminar(id) {
             $.ajax({

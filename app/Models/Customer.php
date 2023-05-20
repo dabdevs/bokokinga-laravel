@@ -13,15 +13,26 @@ class Customer extends Model
         'firstname',
         'lastname', 
         'email', 
-        'telephone',
-        'address',
-        'postal_code',
-        'city',
-        'province'
+        'cellphone'
     ];
 
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }

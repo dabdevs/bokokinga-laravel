@@ -12,7 +12,7 @@
     @php
         // SDK Mercado Pago
         require base_path('vendor/autoload.php');
-
+        
         // Credentials
         MercadoPago\SDK::setAccessToken(env('MERCADOPAGO_SECRET'));
         
@@ -63,13 +63,14 @@
                             <li class="list-group-item lh-condensed">
                                 <div class="row">
                                     <div class="px-1 col-10">
-                                        <h6 class="my-0 mr-auto">{{ $product['name'] }} <br> <small>({{ $product['quantity'] }} un.)</small></h6>
+                                        <h6 class="my-0 mr-auto">{{ $product['name'] }} <br>
+                                            <small>({{ $product['quantity'] }} un.)</small></h6>
                                         <small class="text-muted">{{ $product['description'] }}</small>
                                     </div>
                                     <div class="px-1 col-2">
                                         <p class="text-right">${{ number_format($product['price'], 2, '.', ',') }}</p>
-                                        <img src="{{ $product['image'] }}" width="60"
-                                            height="60" class="img-responsive my-0 float-right" alt="">
+                                        <img src="{{ $product['image'] }}" width="60" height="60"
+                                            class="img-responsive my-0 float-right" alt="">
                                     </div>
                                 </div>
                             </li>
@@ -93,14 +94,18 @@
                                 <h2 class="mr-auto">Total<small>(ARS)</small></h2>
                             </div>
                             <div class="ml-auto p-0">
-                                <h6 class="ml-auto text-right">${{ session('totalPrice') }}</h6>
+                                <h6 class="ml-auto text-right">${{ session('subtotal') }}</h6>
                                 <h6 class="ml-auto text-right">${{ number_format(env('SHIPPING_COST'), 2, '.', ',') }}</h6>
-                                <h2 class="ml-auto text-right">${{ session('totalPrice') + (int) env('SHIPPING_COST') }}</h2>
+                                <h2 class="ml-auto text-right">${{ session('subtotal') + (int) env('SHIPPING_COST') }}
+                                </h2>
                             </div>
                         </li>
                         <li class="list-group-item d-flex lh-condensed">
-                            <div id="wallet_container" class="ml-auto @if(session('customer') == null) d-none @endif"></div>
-                            <button type="submit" class="btn btn-primary ml-auto @if(session('customer')) d-none @endif" id="continue-checkout"><i class="fa fa-chevron-right"></i> Continuar</button>
+                            <div id="wallet_container" class="ml-auto @if (session('customer') == null) d-none @endif">
+                            </div>
+                            <button type="submit"
+                                class="btn btn-primary ml-auto @if (session('customer')) d-none @endif"
+                                id="continue-checkout"><i class="fa fa-chevron-right"></i> Continuar</button>
                         </li>
                     @endif
                 </ul>
@@ -115,8 +120,8 @@
                 </form>
             </div>
 
-            <div class="col-md-8 order-md-1"> 
-                @if(session('customer'))
+            <div class="col-md-8 order-md-1">
+                @if (session('customer'))
                     @php
                         $customer = session('customer');
                     @endphp
@@ -131,13 +136,14 @@
                     </div>
                 @else
                     <h4 class="mb-3">Datos de envío</h4>
-                    <form class="needs-validation" novalidate="" method="POST" action="{{ route('customers.store') }}" id="customer-form">
+                    <form class="needs-validation" novalidate="" method="POST" action="{{ route('customers.store') }}"
+                        id="customer-form">
                         @csrf
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">Nombre</label>
-                                <input type="text" class="form-control" name="firstname" id="firstName" value=""
-                                    required="">
+                                <input type="text" class="form-control" name="firstname" id="firstName"
+                                    value="{{ old('firstname') }}" required="">
                                 @error('firstname')
                                     <small class="text-danger">
                                         {{ $errors->first('firstname') }}
@@ -146,8 +152,8 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="lastname">Apellido</label>
-                                <input type="text" class="form-control" name="lastname" id="lastname" value=""
-                                    required="">
+                                <input type="text" class="form-control" name="lastname" id="lastname"
+                                    value="{{ old('lastname') }}" required="">
                                 @error('lastname')
                                     <small class="text-danger">
                                         {{ $message }}
@@ -159,7 +165,8 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email">
+                                <input type="email" class="form-control" id="email" name="email"
+                                    value="{{ old('email') }}">
                                 @error('email')
                                     <small class="text-danger">
                                         {{ $message }}
@@ -169,7 +176,8 @@
 
                             <div class="col-md-6 mb-3">
                                 <label for="telephone">Teléfono</label>
-                                <input type="text" class="form-control" id="telephone" name="telephone">
+                                <input type="text" class="form-control" id="telephone" name="telephone"
+                                    value="{{ old('telephone') }}">
                                 @error('telephone')
                                     <small class="text-danger">
                                         {{ $message }}
@@ -180,7 +188,8 @@
 
                         <div class="mb-3">
                             <label for="address">Dirección</label>
-                            <input type="text" class="form-control" id="address" name="address" required="">
+                            <input type="text" class="form-control" id="address" name="address" required=""
+                                {{ old('address') }}>
                             @error('address')
                                 <small class="text-danger">
                                     {{ $message }}
@@ -191,7 +200,8 @@
                         <div class="row">
                             <div class="col-md-2 mb-3">
                                 <label for="postalCode">Cód. postal</label>
-                                <input type="text" class="form-control" name="postal_code" id="postalCode" required="">
+                                <input type="text" class="form-control" name="postal_code" id="postalCode"
+                                    required="" {{ old('postal_code') }}>
                                 @error('postal_code')
                                     <small class="text-danger">
                                         {{ $message }}
@@ -200,7 +210,8 @@
                             </div>
                             <div class="col-md-5 mb-3">
                                 <label for="province">Provincia</label>
-                                <select class="custom-select d-block w-100" id="province" name="province" required="">
+                                <select class="custom-select d-block w-100" id="province" name="province"
+                                    required="" {{ old('province') }}>
                                     <option value="">Elegir...</option>
                                     <option>Capital Federal</option>
                                 </select>
@@ -212,7 +223,8 @@
                             </div>
                             <div class="col-md-5 mb-3">
                                 <label for="city">Localidad o Barrio</label>
-                                <select class="custom-select d-block w-100" id="city" name="city" required="">
+                                <select class="custom-select d-block w-100" id="city" name="city" required=""
+                                    {{ old('city') }}>
                                     <option value="">Elegir...</option>
                                     <option>San Nicolas</option>
                                 </select>
@@ -225,14 +237,16 @@
                         </div>
                         <hr class="mb-4">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="same-billing-address" name="same-billing-address">
+                            <input type="checkbox" class="custom-control-input" id="same-billing-address"
+                                name="is_billing_address" value="{{ old('is_billing_address') }}">
                             <label class="custom-control-label" for="same-billing-address">
                                 La dirección de facturación es la misma
                             </label>
                         </div>
                         <div class="custom-control custom-checkbox d-none">
                             <input type="checkbox" class="custom-control-input" id="save-info" name="save-info">
-                            <label class="custom-control-label" for="save-info">Guardar la información para la próxima vez</label>
+                            <label class="custom-control-label" for="save-info">Guardar la información para la próxima
+                                vez</label>
                         </div>
                         <input type="hidden" name="order_id" value="{{ $order->id }}">
                         <hr>

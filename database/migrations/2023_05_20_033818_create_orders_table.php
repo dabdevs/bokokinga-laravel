@@ -13,22 +13,23 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers');
-            $table->string('status')->default('pending');
+            $table->string('payment_status')->default('pending');
             $table->string('payment_id')->nullable();
+            $table->decimal('subtotal', 8, 2);
+            $table->decimal('shipping_price', 8, 2);
             $table->decimal('total_price', 8, 2);
-            $table->decimal('shipping_price', 8, 2)->nullable();
-            $table->string('country')->default('Argentina');
-            $table->string('city')->nullable();
-            $table->string('zip_code')->nullable();
-            $table->string('address')->nullable();
-            $table->string('telephone')->nullable();
-            $table->string('tracking_number')->nullable();
-            $table->datetime('delivery_date')->nullable();
-            $table->datetime('paid_on')->nullable();
+            $table->unsignedBigInteger('address_id');
+            $table->foreign('address_id')->references('id')->on('addresses');
             $table->string('comments')->nullable();
+            $table->datetime('payment_date')->nullable();
             $table->string('payment_method')->nullable();
+            $table->datetime('shipping_date')->nullable();
+            $table->boolean('shipped')->default(false);
+            $table->datetime('delivery_date')->nullable();
+            $table->boolean('delivered')->default(false);
+            $table->string('tracking_number')->nullable();
             $table->timestamps();
         });
     }

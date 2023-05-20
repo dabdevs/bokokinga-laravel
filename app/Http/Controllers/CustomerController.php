@@ -14,30 +14,31 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        if (session('customer') == null) {
-            $data = $request->validate([
-                'firstname' => 'required|string|max:150',
-                'lastname' => 'required|string|max:150',
-                'email' => 'required|string|max:150',
-                'telephone' => 'required|string|max:150',
-                'address' => 'required|string|max:150',
-                'postal_code' => 'required|string|max:150',
-                'city' => 'required|string|max:150',
-                'province' => 'required|string|max:150',
-            ]);
+        $data = $request->validate([
+            'firstname' => 'required|string|max:150',
+            'lastname' => 'required|string|max:150',
+            'email' => 'required|string|max:150',
+            'telephone' => 'nullable|numeric',
+            'cellphone' => 'required|numeric',
+            'street' => 'required|string|max:150', 
+            'number' => 'required|numeric',
+            'postal_code' => 'required|string|max:150',
+            'is_billing_address' => 'nullable|boolean',
+            'city_id' => 'required|numeric',
+            'country_id' => 'required|numeric',
+        ]); 
 
-            $customer = Customer::whereEmail($data['email'])->first();
+        $customer = Customer::whereEmail($data['email'])->first();
 
-            if (!$customer) $customer = Customer::create($data);
+        if (!$customer) $customer = Customer::create($data);
 
-            session()->put('customer', $customer);
-        } else {
-            $customer = session('customer');
-        }
+        session()->put('customer', $customer);
+        
+        $customer->addresses()->create($data);
 
         // Create new order
         $order = new Order; 
-        $order->total_price = session('totalPrice');
+        $order->total_price = session('subtotal');
         $order->save();
 
         foreach (session('cart') as $product) {
@@ -49,7 +50,7 @@ class CustomerController extends Controller
             $order_item->save();
         }
 
-        $customer->orders()->create($order->toArray());
+        $customer->orders()->firstOrNew($order->toArray());
 
         return redirect()->route('web.checkout.payment', [$customer->id, $order->id]);
     }

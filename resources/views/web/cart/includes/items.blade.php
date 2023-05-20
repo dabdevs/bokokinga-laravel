@@ -48,7 +48,7 @@
             </tr>
         @endif
         <tr>
-            <input type="hidden" id="totalPrice" value="{{ number_format($total, 2, '.', ','); }}">
+            <input type="hidden" id="subtotal" value="{{ number_format($total, 2, '.', ','); }}">
             <td colspan="5" class="text-right"><h3><strong id="subtotal">Subtotal: ${{ number_format($total, 2, '.', ','); }}</strong></h3></td>
         </tr>
         <tr>
