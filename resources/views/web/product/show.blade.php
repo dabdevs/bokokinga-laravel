@@ -3,7 +3,7 @@
 @section('title', $product->name)
 
 @section('content')
-    <section class="section py-5" id="product">
+    <section class="section py-5 products" id="product">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
@@ -82,7 +82,7 @@
     </section>
 
     @if($product->similarProducts()->count() > 1)
-        <section class="section py-2" id="men">
+        <section class="section py-2 products">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">

@@ -87,6 +87,7 @@
 
     <script>
         function addToCart(productId, modal=false) {
+            console.log('add to cart')
             inputQuantity = modal? document.getElementById('modal-quantity') : document.getElementById('quantity');
             url = "{{ route('web.add_to_cart', ':id') }}";
             

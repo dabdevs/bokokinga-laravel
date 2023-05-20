@@ -18,7 +18,7 @@
     </div>
     @endif
 
-    <section class="section" id="men">
+    <section class="section products">
         <div class="container">
             <div class="row">
                 @if($collection->banner == null)
