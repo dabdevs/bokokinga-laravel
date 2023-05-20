@@ -31,10 +31,10 @@
         function remove(id) {
             Swal.fire({
                     title: "Atención",
-                    text: "Seguro quieres eliminar el producto?",
+                    text: "Seguro quieres eliminar el producto del carrito?",
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#ccc',
                     confirmButtonText: 'Confirmar!'
                 })
                 .then((result) => {
@@ -46,6 +46,7 @@
 
         function update(id, productQuantity) {
             quantity = document.getElementById('quantity-' + id);
+            console.log(id, productQuantity, quantity.value)
             
             if (quantity.value > productQuantity) {
                 quantity.value = quantity.defaultValue;
@@ -53,8 +54,8 @@
                 return;
             }
 
-            if (quantity.value == 0) {
-                eliminar(id);
+            if (parseInt(quantity.value) == 0) {
+                quantity.value = quantity.defaultValue
                 return;
             }
             
@@ -69,7 +70,7 @@
                 success: function(response) {
                     $('section').html(response.html)
                     toast(response.success);
-                    document.querySelector('#cart-count').innerText = response.cartQuantity
+                    document.querySelector('.cart-count').innerText = response.cartQuantity
                     document.getElementById('subtotal').innerText = 'Subtotal: $'+(response.subtotal).toFixed(2);
                 }
             });

@@ -98,7 +98,7 @@
                                     :name="$similar_product->name"
                                     :price="$similar_product->price"
                                     :description="$similar_product->description"
-                                />
+                                /> 
                             </div>
                         @endif
                     @endforeach

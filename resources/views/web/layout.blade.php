@@ -36,10 +36,10 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="right-content">
-                                <h4 id="product-name"></h4>
+                                <h3 id="product-name"></h3>
                                 <span class="price" id="product-price"></span>
 
-                                <span id="product-description"></span>
+                                <div id="product-description"></div> 
 
                                 <div class="quantity-content my-1 border-top-0">
                                     <div class="left-content">
@@ -256,7 +256,7 @@
                 },
                 success: function(response) {
                     toast(response.success);
-                    document.querySelector('#cart-count').innerText = response.cartQuantity
+                    document.querySelector('.cart-count').innerText = response.cartQuantity
                     document.getElementById('total').innerText = 'Total: $' + (quantity.value * parseFloat(
                         price)).toFixed(2);
                 }

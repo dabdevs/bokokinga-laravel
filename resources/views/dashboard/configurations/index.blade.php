@@ -148,8 +148,8 @@
                     text: "Seguro quieres eliminar la colección!",
                     icon: "warning",
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#ccc',
                     confirmButtonText: 'Confirmar!'
                 })
                 .then((result) => {

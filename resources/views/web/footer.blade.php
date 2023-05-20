@@ -88,22 +88,25 @@
 
     function toast(message, type='success') {
         if (type == 'success') {
-            $color = '#198754';
+            color = '#198754';
         }
         else if (type == 'danger') {
-            $color = '#FF5252';
+            color = '#FF5252';
         }
         else if (type == 'warning') {
-            $color = '#FFC107';
+            color = '#FFC107';
         }
         else if (type == 'info') {
-            $color = '#2196F3';
+            color = '#2196F3';
         }
         
         Toastify({
             text: message,
+            gravity: "bottom", 
+            position: "right", 
+            close: true,
             style: {
-                background: $color
+                background: color
             }
         }).showToast();
     }
