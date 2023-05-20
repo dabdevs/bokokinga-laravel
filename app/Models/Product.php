@@ -82,9 +82,16 @@ class Product extends Model
 
     public function similarProducts()
     {
-        return Product::where('collection_id', $this->collection->id)
-                    ->orWhere('name', 'like', '%' . $this->name . '%')
-                    ->where('id', '<>', $this->id)
-                    ->get();  
+        $qs = explode(" ", $this->name);
+        $queries = "";
+
+        foreach ($qs as $key => $keyword) {
+            $queries .= $key == 0 ? "name LIKE '%$keyword%'" : " OR name LIKE '%$keyword%'";
+        } 
+
+        return Product::with('images')
+                        ->where('collection_id', $this->collection_id)
+                        ->whereRaw($queries)
+                        ->get();
     }
 }

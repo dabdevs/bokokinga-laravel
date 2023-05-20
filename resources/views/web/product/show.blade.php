@@ -86,7 +86,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
-                        <h2 class="mt-5 mb-3">Productos similares</h2>
+                        <h2 class="my-5">Productos similares</h2>
                     </div>
                     @foreach ($product->similarProducts() as $similar_product)
                         @if($similar_product->id != $product->id)
