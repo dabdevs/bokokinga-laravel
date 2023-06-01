@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->unsignedBigInteger('customer_id');
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
-            $table->string('telephone');
+            $table->string('telephone')->nullable();
             $table->boolean('is_billing_address')->default(false);
             $table->boolean('is_default')->default(false);
             $table->timestamps();

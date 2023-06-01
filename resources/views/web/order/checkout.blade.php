@@ -61,13 +61,6 @@
                                     CP: {{ $address->postal_code }} <br>
                                 </address>
                             </div>
-                            <div data-address_id="5" class="border mb-1 p-2 shipping_address" style="cursor: pointer;">
-                                <address>
-                                    {{ $address->street }}, {{ $address->number }}<br>
-                                    {{ $address->city->name }}, {{ $address->country->code }} <br>
-                                    CP: {{ $address->postal_code }} <br>
-                                </address>
-                            </div>
                         @endforeach
                     @else
                         <h4 class="mb-3">Datos personales</h4>

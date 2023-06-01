@@ -68,11 +68,11 @@ class OrderController extends Controller
                 if (isset($data['is_billing_address'])) $address['is_billing_address'] = true;
 
                 // Create customer address
-                $new_address = $customer->addresses()->firstOrCreate($address); 
+                $new_address = $customer->addresses()->firstOrNew($address); 
             }
             
             // Create new order
-            $order = $customer->orders()->firstOrCreate([
+            $order = $customer->orders()->firstOrNew([
                 'subtotal' => session('subtotal'),
                 'shipping_price' => $request->total_price - session('subtotal'),
                 'total_price' => $request->total_price,
@@ -87,6 +87,8 @@ class OrderController extends Controller
                 $order_item->price = $product['price'];
                 $order_item->save();
             }
+           
+            session()->put('customer', $customer);
 
             DB::commit();
 
