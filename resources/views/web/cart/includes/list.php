@@ -1,4 +1,4 @@
-<table id="cart" class="table table-hover table-condensed">
+<!-- <table id="cart" class="table table-hover table-condensed">
     <thead>
         <tr> 
             <th style="width:50%">Producto</th>
@@ -12,7 +12,6 @@
         @php 
             $total = 0;
         @endphp
-
         @if(session('cart'))
             @foreach(session('cart') as $key => $product)
                 @php 
@@ -61,4 +60,4 @@
             </td>
         </tr>
     </tfoot>
-</table>
+</table> -->

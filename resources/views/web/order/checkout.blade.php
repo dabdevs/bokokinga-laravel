@@ -44,10 +44,9 @@
                     
                     @php
                         $customer = session('customer');
-                        $subtotal = 0;
                     @endphp
 
-                    <input type="hidden" name="total_price" value="{{ $subtotal + $shipping_cost }}">
+                    <input type="hidden" name="total_price" value="{{ session('subtotal') + $shipping_cost }}">
 
                     @if ($customer != null && $customer->addresses->count() > 0)
                         <h4 class="mb-3">Dirección de envío</h4>
@@ -198,11 +197,8 @@
                 </h4>
 
                 <ul class="list-group mb-3">
-                    @if (session('cart'))
-                        @foreach (session('cart') as $key => $product)
-                            @php
-                                $subtotal += $product['quantity'] * $product['price'];
-                            @endphp
+                    @if (session('cart')['items']) 
+                        @foreach (session('cart')['items'] as $key => $product)
                             <li class="list-group-item lh-condensed">
                                 <div class="row">
                                     <div class="px-1 col-10">
@@ -227,9 +223,9 @@
                                 <h2 class="mr-auto">Total<small>(ARS)</small></h2>
                             </div>
                             <div class="ml-auto p-0">
-                                <h6 class="ml-auto text-right">${{ $subtotal }}</h6>
+                                <h6 class="ml-auto text-right">${{ session('subtotal') }}</h6>
                                 <h6 class="ml-auto text-right">${{ number_format($shipping_cost, 2, '.', ',') }}</h6>
-                                <h2 class="ml-auto text-right">${{ $subtotal + $shipping_cost }}
+                                <h2 class="ml-auto text-right">${{ session('subtotal') + $shipping_cost }}
                                 </h2>
                             </div>
                         </li>

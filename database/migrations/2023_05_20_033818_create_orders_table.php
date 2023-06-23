@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('shipping_price', 8, 2);
             $table->decimal('total_price', 8, 2);
             $table->unsignedBigInteger('address_id');
-            $table->foreign('address_id')->references('id')->on('addresses')->onDelete('set null');
+            $table->foreign('address_id')->references('id')->on('addresses');
             $table->string('comments')->nullable();
             $table->datetime('payment_date')->nullable();
             $table->string('payment_method')->nullable();

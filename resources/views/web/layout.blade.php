@@ -102,7 +102,7 @@
                 },
                 success: function(response) {
                     toast(response.success);
-                    $('#cart-count').text(response.cartQuantity)
+                    $('.cart-count').text(response.cartCount)
                 }
             });
         }
@@ -230,38 +230,43 @@
             total.innerText = 'Total: $' + (inputQuantity.value * price).toFixed(2);
         }
 
-        function update(id, productQuantity) {
-            quantity = document.getElementById('quantity');
-            price = $('input-data').data('price');
+        // function update(id, productQuantity) {
+        //     quantity = document.getElementById('quantity-'+id);
+        //     price = $('input-data').data('price');
+        //     console.log('0')
 
+        //     if (quantity.value > productQuantity) {
+        //         quantity.value = quantity.defaultValue;
+        //         console.log('1')
+        //         toast('Solo hay ' + productQuantity + ' disponibles', 'danger')
+        //         return;
+        //     }
 
-            if (quantity.value > productQuantity) {
-                quantity.value = quantity.defaultValue;
-                toast('Solo hay ' + productQuantity + ' disponibles', 'danger')
-                return;
-            }
+        //     if (quantity.value == 0) {
+        //         console.log('2')
+        //         eliminar(id);
+        //         return;
+        //     }
 
-            if (quantity.value == 0) {
-                eliminar(id);
-                return;
-            }
+        //     console.log('3')
+        //     return;
 
-            $.ajax({
-                url: '{{ route('web.update_cart') }}',
-                method: "PATCH",
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    id: id,
-                    quantity: quantity.value
-                },
-                success: function(response) {
-                    toast(response.success);
-                    document.querySelector('.cart-count').innerText = response.cartQuantity
-                    document.getElementById('total').innerText = 'Total: $' + (quantity.value * parseFloat(
-                        price)).toFixed(2);
-                }
-            });
-        }
+        //     $.ajax({
+        //         url: '{{ route('web.update_cart') }}',
+        //         method: "PATCH",
+        //         data: {
+        //             _token: '{{ csrf_token() }}',
+        //             id: id,
+        //             quantity: quantity.value
+        //         },
+        //         success: function(response) {
+        //             toast(response.success);
+        //             document.querySelector('.cart-count').innerText = response.cartQuantity
+        //             document.getElementById('total').innerText = 'Total: $' + (quantity.value * parseFloat(
+        //                 price)).toFixed(2);
+        //         }
+        //     });
+        // }
     </script>
 
     @yield('js')

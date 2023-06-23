@@ -24,12 +24,12 @@ class ShoppingCartController extends Controller
         $product = Product::findOrFail($id);
         $quantity = request('quantity');
 
-        $cart = session()->get('cart', []); 
+        $cart = session('cart', []);  
 
-        if (isset($cart[$id])) {
-            $quantity == null ? $cart[$id]['quantity']++ : $cart[$id]['quantity'] += $quantity;
+        if (isset($cart["items"][$id])) {
+            $quantity == null ? $cart["items"][$id]['quantity']++ : $cart["items"][$id]['quantity'] += $quantity;
         } else {
-            $cart[$id] = [
+            $cart["items"][$id] = [
                 "id" => $product->id,
                 "name" => $product->name,
                 "slug" => $product->slug,
@@ -41,12 +41,14 @@ class ShoppingCartController extends Controller
             ];
         }
 
-        session()->put('cart', $cart); 
-        $cartQuantity = $this->cartQuantity(); 
+        session()->put('cart', $cart);
+        $cart_data = $this->cartCount();
 
         return [
             'success' => 'Producto agregado!',
-            'cartQuantity' => $cartQuantity
+            'cart' => $cart,
+            'cartCount' => $cart_data['cartCount'],
+            'subtotal' => $cart_data['subtotal'],
         ];
     }
 
@@ -58,15 +60,14 @@ class ShoppingCartController extends Controller
     {
         if ($request->id && $request->quantity) {
             $cart = session()->get('cart');
-            $cart[$request->id]["quantity"] = $request->quantity;
+            $cart["items"][$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
-            $cartQuantity = $this->cartQuantity();
+            $cart_data = $this->cartCount(); 
 
             return [
-                'html' => view('web.cart.includes.items', compact('cartQuantity'))->render(),
-                'cartQuantity' => $cartQuantity,
-                'subtotal' => session('subtotal'),
-                'success' => 'Carrito actualizado!'
+                'success' => 'Carrito actualizado!',
+                'cartCount' => $cart_data['cartCount'],
+                'subtotal' => $cart_data['subtotal'],
             ];
         }
     }
@@ -79,33 +80,35 @@ class ShoppingCartController extends Controller
     {
         if ($request->id) {
             $cart = session()->get('cart');
-            if (isset($cart[$request->id])) {
-                unset($cart[$request->id]);
+            if (isset($cart["items"][$request->id])) {
+                unset($cart["items"][$request->id]);
                 session()->put('cart', $cart);
-                $cartQuantity = $this->cartQuantity();
+                $cart_data = $this->cartCount();
             }
 
             return [
-                'html' => view('web.cart.includes.items', compact('cartQuantity'))->render(),
-                'cartQuantity' => $cartQuantity,
+                'cartCount' => $cart_data['cartCount'],
+                'subtotal' => $cart_data['subtotal'],
                 'success' => 'Producto eliminado!'
             ];
         }
     }
 
-    private function cartQuantity()
+    private function cartCount()
     {
         $count = 0;
-        $total_price = 0;
+        $subtotal = 0;
 
-        foreach (session('cart') as $product) {
-            $count += (int)$product['quantity'];
-            $total_price += (float)($product['price'] * $product['quantity']);
+        if (isset(session('cart')['items'])) {
+            foreach (session('cart')['items'] as $product) {
+                $count += (int)$product['quantity'];
+                $subtotal += (float)($product['price'] * $product['quantity']);
+            }
         }
 
-        session()->put('cartQuantity', $count);
-        session()->put('subtotal', $total_price);
+        session()->put('cartCount', $count);
+        session()->put('subtotal', $subtotal);
 
-        return $count;
+        return ['cartCount' => $count, 'subtotal' => $subtotal];
     }
 }

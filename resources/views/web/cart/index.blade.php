@@ -4,7 +4,7 @@
 
 @section('content')
     <section class="container py-5 my-5">
-        {{ view('web.cart.includes.items') }}
+        <x-cart />
     </section>
 @endsection
 
@@ -21,9 +21,10 @@
                     id: id
                 },
                 success: function(response) {
-                    $('section').html(response.html)
+                    document.querySelector('.cart-count').innerText = response.cartCount
+                    document.getElementById('subtotal').innerText = 'Subtotal: $'+ parseFloat(response.subtotal).toFixed(2);
+                    document.getElementById('row-' + id).remove()
                     toast(response.success);
-                    $('#cart-count').text(response.cartQuantity)
                 }
             });
         }
@@ -44,19 +45,19 @@
                 });
         }
 
-        function update(id, productQuantity) {
+        function update(id, productQuantity, price) {
             quantity = document.getElementById('quantity-' + id);
-            console.log(id, productQuantity, quantity.value)
+            totalPricePerProduct = document.getElementById('priceQty-'+id).textContent.replace('$', '')
             
-            if (quantity.value > productQuantity) {
-                quantity.value = quantity.defaultValue;
+            if (parseInt(quantity.value) > productQuantity) {
+                quantity.value = parseInt(totalPricePerProduct / price)
                 toast('Solo hay '+productQuantity+' disponibles', 'danger')
                 return;
             }
 
             if (parseInt(quantity.value) == 0) {
-                quantity.value = quantity.defaultValue
-                return;
+                quantity.value = parseInt(totalPricePerProduct / price)
+                return; 
             }
             
             $.ajax({
@@ -68,10 +69,10 @@
                     quantity: quantity.value
                 },
                 success: function(response) {
-                    $('section').html(response.html)
                     toast(response.success);
-                    document.querySelector('.cart-count').innerText = response.cartQuantity
-                    document.getElementById('subtotal').innerText = 'Subtotal: $'+(response.subtotal).toFixed(2);
+                    document.querySelector('.cart-count').innerText = response.cartCount
+                    document.getElementById('subtotal').innerText = 'Subtotal: $'+ parseFloat(response.subtotal).toFixed(2);
+                    document.getElementById('priceQty-' + id).innerText = '$'+ (quantity.value * parseFloat(price)).toFixed(2)
                 }
             });
         }

@@ -19,6 +19,7 @@ class ProductSeeder extends Seeder
             'slug' => 'Uñas-acrílicas-hojas-verdes',
             'description' => 'Uñas de plástico...',
             'price' =>  12.9,
+            'sale_price' =>  8.5,
             'quantity' => 50,
             'collection_id' => 4,
             'images' => ["https://bokokinga-dev.s3.amazonaws.com/public/products/unas-hojas-verdes.jpg"]
@@ -32,6 +33,7 @@ class ProductSeeder extends Seeder
             'slug' => 'Uñas-Spider-Amarrillo',
             'description' => 'Uñas Spider Amarrillo...',
             'price' =>  24.99,
+            'sale_price' =>  19.75,
             'quantity' => 20,
             'collection_id' => 4,
             'images' => ["https://bokokinga-dev.s3.amazonaws.com/public/products/unas-spider-amarrillo.jpg", "https://bokokinga-dev.s3.amazonaws.com/public/products/unas-spider-amarrillo-2.jpg", "https://bokokinga-dev.s3.amazonaws.com/public/products/unas-spider-amarrillo-3.jpg"]
@@ -68,6 +70,7 @@ class ProductSeeder extends Seeder
             'slug' => 'I-dont-smoke-t-shirt',
             'description' => 'I dont smoke t-shirt...',
             'price' =>  24.99,
+            'sale_price' =>  22.99,
             'quantity' => 23,
             'collection_id' => 3,
             'images' => ["https://bokokinga-dev.s3.amazonaws.com/public/products/i-dont-smoke-tshirt.jpg"]
@@ -92,6 +95,7 @@ class ProductSeeder extends Seeder
             'slug' => 'Antique-painting-plate',
             'description' => '',
             'price' =>  9,
+            'sale_price' =>  7,
             'quantity' => 200,
             'collection_id' => 1,
             'images' => ["https://bokokinga-dev.s3.amazonaws.com/public/products/antique-painting-plate.jpg"]
