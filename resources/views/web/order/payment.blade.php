@@ -50,7 +50,7 @@
                         $total = 0;
                     @endphp
                     @if (session('cart'))
-                        @foreach (session('cart') as $key => $product)
+                        @foreach (session('cart')['items'] as $key => $product)
                             @php
                                 $total += $product['price'] * $product['quantity'];
                                 

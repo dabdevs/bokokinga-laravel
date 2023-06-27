@@ -68,18 +68,18 @@ class OrderController extends Controller
                 if (isset($data['is_billing_address'])) $address['is_billing_address'] = true;
 
                 // Create customer address
-                $new_address = $customer->addresses()->firstOrNew($address); 
+                $new_address = $customer->addresses()->firstOrCreate($address); 
             }
             
             // Create new order
-            $order = $customer->orders()->firstOrNew([
+            $order = $customer->orders()->firstOrCreate([
                 'subtotal' => session('subtotal'),
                 'shipping_price' => $request->total_price - session('subtotal'),
                 'total_price' => $request->total_price,
                 'address_id' => isset($new_address) ? $new_address->id : $request->address_id
-            ]);
+            ]); 
 
-            foreach (session('cart') as $product) {
+            foreach (session('cart')['items'] as $product) {
                 $order_item = new OrderItem;
                 $order_item->order_id = $order->id;
                 $order_item->product_id = $product['id'];
