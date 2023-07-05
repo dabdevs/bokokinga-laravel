@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -126,7 +127,7 @@ class OrderController extends Controller
     {
         if (!session('cart')) return redirect('/');
 
-        $shipping_cost = Configuration::whereName('shipping_cost')->pluck('value')->first();  
+        $shipping_cost = Cache::get('configurations')->where('name', 'shipping_cost')->pluck('value')->first();  
 
         return view('web.order.checkout', compact('shipping_cost'));
     }

@@ -6,13 +6,17 @@ use App\Models\Collection;
 use App\Models\Configuration;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class WebController extends Controller
 {
    public function index()
    {
         $collections = Collection::has('products')->orderBy('name')->get(); 
-        $configurations = Configuration::all();
+
+        $configurations = Cache::rememberForever('configurations', function () {
+            return Configuration::all();
+        });
         
         return view('web.index', compact('collections', 'configurations'));
    }

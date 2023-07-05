@@ -25,9 +25,6 @@
 @section('content')
     <section class="container py-5">
         <div class="text-center mb-5">
-            @if ($errors->any())
-                @dump($errors)
-            @endif
             <img class="d-block mx-auto mt-4" src="{{ asset('front/img/cart.png') }}" alt="" width="72"
                 height="72">
             <h2>Completando tu orden</h2>
@@ -48,8 +45,8 @@
 
                     <input type="hidden" name="total_price" value="{{ session('subtotal') + $shipping_cost }}">
 
-                    @if ($customer != null && $customer->addresses->count() > 0)
-                        <h4 class="mb-3">Dirección de envío</h4>
+                    @if (Auth::check() && $customer != null && $customer->addresses->count() > 0)
+                        <h4 class="mb-3">Direcciones de envío</h4>
                         <input type="hidden" id="address_id" name="address_id">
                         
                         @foreach ($customer->addresses as $address)
@@ -173,8 +170,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <hr class="mb-4">
-                        <div class="custom-control custom-checkbox">
+                        <div class="custom-control custom-checkbox d-none">
                             <input type="checkbox" class="custom-control-input" id="same-billing-address"
                                 name="is_billing_address" @if (old('is_billing_address')) checked @endif>
                             <label class="custom-control-label" for="same-billing-address">
