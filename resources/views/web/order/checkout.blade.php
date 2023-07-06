@@ -3,6 +3,8 @@
 @section('title', 'Checkout')
 
 @section('css')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
     <style>
         header {
             display: none;
@@ -106,24 +108,32 @@
                         </div>
 
 
-                        <h4 class="mb-3">Datos de envío</h4>
+                        <h4 class="my-3">Datos de envío</h4>
                         <div class="row">
-                            <div class="col-md-5 mb-3">
+                            <div class="col-md-4 mb-3 d-none">
                                 <label for="country">País</label>
                                 <select class="custom-select d-block w-100" id="country" name="country_id" readonly>
                                     <option value="1" selected>Argentina</option>
                                 </select>
                             </div>
-                            <div class="col-md-5 mb-3">
-                                <label for="city">Ciudad</label>
-                                <select class="custom-select d-block w-100" id="city" name="city_id"
-                                    required="">
-                                    <option value="">Elegir...</option>
-                                    <option @selected(old('city_id') == 1) value="1">Capital Federal</option>
-                                    <option @selected(old('city_id') == 2) value="2">Buenos Aires</option>
-                                    <option @selected(old('city_id') == 3) value="3">Córdoba</option>
+                            <div class="col-md-4 mb-3">
+                                <label for="provincia">Provincia</label>
+                                <select class="custom-select d-block w-100" id="provincia" name="province">
+                                    <option value="">Seleccioná</option>
+                                    @foreach ($provincias as $provincia)
+                                        <option value="{{ $provincia['id'] }}" @if($provincia['id'] == old('province')) selected @endif>{{ $provincia['nombre'] }}</option>
+                                    @endforeach
                                 </select>
-                                @error('city_id')
+                                @error('provincia')
+                                    <small class="text-danger">
+                                        {{ $message }}
+                                    </small>
+                                @enderror
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="city">Localidad</label>
+                                <input type="text" class="form-control w-100" id="city" name="city" value="{{ old('city') }}" required>
+                                @error('city')
                                     <small class="text-danger">
                                         {{ $message }}
                                     </small>
@@ -140,7 +150,7 @@
                                 @enderror
                             </div>
                             <div class="col-md-10 mb-3">
-                                <label for="street">Dirección</label>
+                                <label for="street">Calle</label>
                                 <input class="form-control" type="text" id="street" name="street"
                                     value="{{ old('street') }}">
                                 @error('street')
@@ -159,23 +169,16 @@
                                     </small>
                                 @enderror
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="telephone">Telephone</label>
-                                <input class="form-control" type="text" id="telephone" name="telephone"
-                                    value="{{ old('telephone') }}">
-                                @error('telephone')
+                            <div class="col-sm-2 mb-3">
+                                <label for="apt">Apartamento</label>
+                                <input type="text" class="form-control" id="apt" name="apt" required=""
+                                    value="{{ old('apt') }}">
+                                @error('apt')
                                     <small class="text-danger">
                                         {{ $message }}
                                     </small>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="custom-control custom-checkbox d-none">
-                            <input type="checkbox" class="custom-control-input" id="same-billing-address"
-                                name="is_billing_address" @if (old('is_billing_address')) checked @endif>
-                            <label class="custom-control-label" for="same-billing-address">
-                                La dirección de facturación es la misma
-                            </label>
                         </div>
                         <div class="custom-control custom-checkbox d-none">
                             <input type="checkbox" class="custom-control-input" id="save-info" name="save-info">
@@ -189,7 +192,7 @@
             <div class="col-md-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Tu compra</span>
-                    <span class="badge badge-secondary badge-pill">{{ session('cartQuantity') }}</span>
+                    <span class="badge badge-secondary badge-pill">{{ session('cartQuantity') }} items</span>
                 </h4>
 
                 <ul class="list-group mb-3">
@@ -228,7 +231,7 @@
                         <li class="list-group-item d-flex lh-condensed">
                             <button type="button" class="btn btn-success ml-auto" id="continue-checkout"><i
                                     class="fa fa-chevron-right"></i> Continuar</button>
-                        </li>
+                        </li> 
                     @endif
                 </ul>
 

@@ -42,7 +42,7 @@
             <div class="col-md-4 order-md-2 mb-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Tu compra</span>
-                    <span class="badge badge-secondary badge-pill">{{ session('cartQuantity') }}</span>
+                    <span class="badge badge-secondary badge-pill">{{ session('cartQuantity') }} items</span>
                 </h4>
 
                 <ul class="list-group mb-3">
@@ -125,8 +125,8 @@
                 <h4 class="mb-3">Dirección de envío</h4>
                 <div class="border p-2">
                     <address>
-                        {{ $order->address->street }}, {{ $order->address->number }}<br>
-                        {{ $order->address->city->name }}, {{ $order->address->country->code }} <br>
+                        {{ $order->address->apt }}, {{ $order->address->street }} {{ $order->address->number }}<br>
+                        {{ $order->address->city }} <br>
                         CP: {{ $order->address->postal_code }} <br>
                     </address>
                 </div>

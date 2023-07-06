@@ -23,7 +23,6 @@ class CustomerController extends Controller
             'street' => 'required|string|max:150', 
             'number' => 'required|numeric',
             'postal_code' => 'required|string|max:150',
-            'is_billing_address' => 'nullable|boolean',
             'city_id' => 'required|numeric',
             'country_id' => 'required|numeric',
         ]); 

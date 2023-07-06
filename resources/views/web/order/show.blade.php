@@ -40,7 +40,7 @@
             <div class="col-md-4 order-md-2 mb-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Tu compra</span>
-                    <span class="badge badge-secondary badge-pill">{{ session('cartQuantity') }}</span>
+                    <span class="badge badge-secondary badge-pill">{{ session('cartQuantity') }} items</span>
                 </h4>
 
                 <ul class="list-group mb-3">
@@ -236,13 +236,6 @@
                             </div>
                         </div>
                         <hr class="mb-4">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="same-billing-address"
-                                name="is_billing_address" value="{{ old('is_billing_address') }}">
-                            <label class="custom-control-label" for="same-billing-address">
-                                La dirección de facturación es la misma
-                            </label>
-                        </div>
                         <div class="custom-control custom-checkbox d-none">
                             <input type="checkbox" class="custom-control-input" id="save-info" name="save-info">
                             <label class="custom-control-label" for="save-info">Guardar la información para la próxima

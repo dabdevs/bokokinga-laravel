@@ -56,7 +56,7 @@
                         <li class="scroll-to-section">
                             <a href="{{ route('web.cart') }}">
                                 <i class="fa fa-shopping-cart fa-2x"></i>
-                                <p class="cart-count">{{ session('cartCount') ?? '' }}</p>
+                                <p class="cart-count">{{ session('cartQuantity') ?? '' }}</p>
                             </a>
                         </li>
                     </ul>

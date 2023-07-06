@@ -21,8 +21,9 @@
                     id: id
                 },
                 success: function(response) {
-                    document.querySelector('.cart-count').innerText = response.cartCount
-                    document.getElementById('subtotal').innerText = 'Subtotal: $'+ parseFloat(response.subtotal).toFixed(2);
+                    document.querySelector('.cart-count').innerText = response.cartQuantity
+                    document.getElementById('subtotal').innerText = 'Subtotal: $' + parseFloat(response
+                        .subtotal).toFixed(2);
                     document.getElementById('row-' + id).remove()
                     toast(response.success);
                 }
@@ -47,19 +48,19 @@
 
         function update(id, productQuantity, price) {
             quantity = document.getElementById('quantity-' + id);
-            totalPricePerProduct = document.getElementById('priceQty-'+id).textContent.replace('$', '')
-            
+            totalPricePerProduct = document.getElementById('priceQty-' + id).textContent.replace('$', '')
+
             if (parseInt(quantity.value) > productQuantity) {
                 quantity.value = parseInt(totalPricePerProduct / price)
-                toast('Solo hay '+productQuantity+' disponibles', 'danger')
+                toast('Solo hay ' + productQuantity + ' disponibles', 'danger')
                 return;
             }
 
             if (parseInt(quantity.value) == 0) {
                 quantity.value = parseInt(totalPricePerProduct / price)
-                return; 
+                return;
             }
-            
+
             $.ajax({
                 url: '{{ route('web.update_cart') }}',
                 method: "PATCH",
@@ -70,9 +71,11 @@
                 },
                 success: function(response) {
                     toast(response.success);
-                    document.querySelector('.cart-count').innerText = response.cartCount
-                    document.getElementById('subtotal').innerText = 'Subtotal: $'+ parseFloat(response.subtotal).toFixed(2);
-                    document.getElementById('priceQty-' + id).innerText = '$'+ (quantity.value * parseFloat(price)).toFixed(2)
+                    document.querySelector('.cart-count').innerText = response.cartQuantity
+                    document.getElementById('subtotal').innerText = 'Subtotal: $' + parseFloat(response
+                        .subtotal).toFixed(2);
+                    document.getElementById('priceQty-' + id).innerText = '$' + (quantity.value * parseFloat(
+                        price)).toFixed(2)
                 }
             });
         }

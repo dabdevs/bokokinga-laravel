@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class OrderController extends Controller
 {
@@ -26,26 +27,19 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        if (!$request->has("address_id")) {
-            $validateData = [
-                'firstname' => 'required|string|max:150',
-                'lastname' => 'required|string|max:150',
-                'email' => 'required|string|max:150',
-                'telephone' => 'nullable|numeric',
-                'cellphone' => 'required|numeric',
-                'street' => 'required|string|max:150',
-                'number' => 'required|numeric',
-                'postal_code' => 'required|string|max:150',
-                'is_billing_address' => 'nullable',
-                'city_id' => 'required|numeric',
-                'country_id' => 'required|numeric',
-                'total_price' => 'required|numeric'
-            ];
-        } else {
-            $validateData = ["address_id" => "required"];
-        }
-
-        $data = $request->validate($validateData); 
+        $data = $request->validate([
+            'firstname' => 'required|string|max:150',
+            'lastname' => 'required|string|max:150',
+            'email' => 'required|string|max:150',
+            'cellphone' => 'required|numeric',
+            'province' => 'required',
+            'city' => 'required|string',
+            'street' => 'required|string|max:150',
+            'number' => 'required|numeric',
+            'apt' => 'required',
+            'postal_code' => 'required|string|max:150',
+            'total_price' => 'required|numeric'
+        ]);  
         
         try {
             DB::beginTransaction();
@@ -54,30 +48,23 @@ class OrderController extends Controller
 
             // Create customer if not exists
             if ($customer == null && isset($data['email'])) $customer = Customer::create($data);
-
-            // If new address
-            if (isset($data["country_id"])) {
-                $address = [
-                    "country_id" => $data["country_id"],
-                    "city_id" => $data["city_id"],
-                    "street" => $data["street"],
-                    "number" => $data["number"],
-                    "postal_code" => $data["postal_code"],
-                    "telephone" => $data["telephone"],
-                ];
-
-                if (isset($data['is_billing_address'])) $address['is_billing_address'] = true;
-
-                // Create customer address
-                $new_address = $customer->addresses()->firstOrCreate($address); 
-            }
+            // Create customer address
+            $new_address = $customer->addresses()->firstOrCreate([
+                "city" => $data["city"],
+                "province" => $data["province"],
+                "street" => $data["street"],
+                "number" => $data["number"],
+                "apt" => $data["apt"],
+                "postal_code" => $data["postal_code"],
+                "cellphone" => $data["cellphone"],
+            ]); 
             
             // Create new order
             $order = $customer->orders()->firstOrCreate([
                 'subtotal' => session('subtotal'),
                 'shipping_price' => $request->total_price - session('subtotal'),
                 'total_price' => $request->total_price,
-                'address_id' => isset($new_address) ? $new_address->id : $request->address_id
+                'address_id' => $new_address->id 
             ]); 
 
             foreach (session('cart')['items'] as $product) {
@@ -127,8 +114,14 @@ class OrderController extends Controller
     {
         if (!session('cart')) return redirect('/');
 
+        // Provincias
+        $provincias = Cache::rememberForever('provincias', function () {
+            $json = File::get(database_path().'/json/provincias.json');
+            return json_decode($json, true);
+        });
+
         $shipping_cost = Cache::get('configurations')->where('name', 'shipping_cost')->pluck('value')->first();  
 
-        return view('web.order.checkout', compact('shipping_cost'));
+        return view('web.order.checkout', compact('shipping_cost', 'provincias'));
     }
 }

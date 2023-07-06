@@ -23,7 +23,8 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="left-images">
-                                <section id="modal-main-carousel" class="splide main-carousel" aria-label="My Awesome Gallery">
+                                <section id="modal-main-carousel" class="splide main-carousel"
+                                    aria-label="My Awesome Gallery">
                                     <div class="splide__track">
                                         <ul class="splide__list" id="modal-carousel-items">
                                         </ul>
@@ -39,7 +40,7 @@
                                 <h3 id="product-name"></h3>
                                 <span class="price" id="product-price"></span>
 
-                                <div id="product-description"></div> 
+                                <div id="product-description"></div>
 
                                 <div class="quantity-content my-1 border-top-0">
                                     <div class="left-content">
@@ -86,11 +87,11 @@
     @include('web/footer', ['collections' => $collections])
 
     <script>
-        function addToCart(productId, modal=false) {
+        function addToCart(productId, modal = false) {
             console.log('add to cart')
-            inputQuantity = modal? document.getElementById('modal-quantity') : document.getElementById('quantity');
+            inputQuantity = modal ? document.getElementById('modal-quantity') : document.getElementById('quantity');
             url = "{{ route('web.add_to_cart', ':id') }}";
-            
+
             quantity = inputQuantity == null ? 1 : inputQuantity.value;
 
             $.ajax({
@@ -102,7 +103,7 @@
                 },
                 success: function(response) {
                     toast(response.success);
-                    $('.cart-count').text(response.cartCount)
+                    $('.cart-count').text(response.cartQuantity)
                 }
             });
         }
@@ -178,7 +179,7 @@
 
                         var splide = new Splide('#modal-main-carousel', {
                             pagination: false,
-                        } );
+                        });
 
                         splide.mount();
 
@@ -200,7 +201,7 @@
             }
         })
 
-        function add(id, price, productQuantity, modal=false) {
+        function add(id, price, productQuantity, modal = false) {
             // Current form quantity value
             inputQuantity = modal ? document.getElementById('modal-quantity') : document.getElementById('quantity');
 
@@ -217,7 +218,7 @@
             total.innerText = 'Total: $' + (inputQuantity.value * price).toFixed(2);
         }
 
-        function subtract(id, price, productQuantity, modal=false) {
+        function subtract(id, price, productQuantity, modal = false) {
             // Selected form quantity input
             inputQuantity = modal ? document.getElementById('modal-quantity') : document.getElementById('quantity');
 

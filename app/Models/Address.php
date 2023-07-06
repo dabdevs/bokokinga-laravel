@@ -10,14 +10,14 @@ class Address extends Model
     use HasFactory;
 
     public $fillable = [
-        'state',
+        'province',
+        'city',
         'street',
         'number',
+        'apt',
         'postal_code',
-        'country_id',
-        'city_id',
         'customer_id',
-        'telephone'
+        'cellphone'
     ];
 
     /**
