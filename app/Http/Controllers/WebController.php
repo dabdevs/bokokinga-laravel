@@ -39,13 +39,5 @@ class WebController extends Controller
 
         return view('web.product.search', compact('products'));
     }
-
-    public function queue()
-    {
-        $order = Order::first(); 
-        Mail::to($order->customer->email)->send(new PurchaseConfirmationMail($order)); 
-        //dispatch(new SendPurchaseConfirmationEmailJob(new Order));
-        dd('email sent');
-    }
 }
         

@@ -29,9 +29,8 @@ class SendPurchaseConfirmationEmailJob implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
-    { 
-        Mail::to($this->order->customer->email)->send(new PurchaseConfirmationMail($this->order));
-        dd('sending mail');
+    public function handle()
+    {
+        Mail::to('dablain509@gmail.com')->send(new PurchaseConfirmationMail($this->order));
     }
 }

@@ -39,18 +39,10 @@ class WebhooksController extends Controller
 
             if ($response->status == "rejected" || $response->status == "cancelled") return redirect()->route('web.payment.failure');
 
-            // foreach ($order->items as $product) {
-            //    DB::select("CALL sp_update_products_quantity(?,?)", array($product->id, $product->quantity));
-            // }
-
-            // dd($order->items->toArray());
-
-            // Mail::to($order->customer->email)->send(new PurchaseSuccessfulMail($order->items->toArray()));
-            
             DB::commit();
             
             event(new PurchaseCompleted($order)); 
-
+            
             return redirect()->route('web.payment.success');
         } catch (\Throwable $th) {
             DB::rollBack();

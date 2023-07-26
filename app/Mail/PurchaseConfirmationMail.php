@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\OrderItem;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -37,11 +38,13 @@ class PurchaseConfirmationMail extends Mailable
      * Get the message content definition.
      */
     public function content(): Content
-    {
+    { 
+        $items = OrderItem::with(['product', 'order'])->where('order_id', $this->order->id)->get();
+        
         return new Content(
             view: 'emails.purchase_confirmation',
             with: [
-                'items' => $this->order->with('items.product')->get()->toArray()
+                'items' => $items->toArray()
             ]
         );
     }
