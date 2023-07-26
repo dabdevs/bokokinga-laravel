@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PurchaseSuccessfulMail extends Mailable
+class PurchaseConfirmationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -20,14 +20,7 @@ class PurchaseSuccessfulMail extends Mailable
      */
     public function __construct($order)
     {
-        $this->order = $order;    
-    }
-
-    public function build()
-    {
-        return $this->subject('Thank you for your purchase!')
-        ->view('emails.order_successful')
-        ->with($this->order);
+        $this->order = $order;  
     }
 
     /**
@@ -36,7 +29,7 @@ class PurchaseSuccessfulMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Purchase Successful Mail',
+            subject: 'Purchase Confirmation Mail',
         );
     }
 
@@ -46,7 +39,7 @@ class PurchaseSuccessfulMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.order_successful',
+            view: 'view.name',
         );
     }
 
@@ -58,5 +51,11 @@ class PurchaseSuccessfulMail extends Mailable
     public function attachments(): array
     {
         return [];
+    }
+
+    public function build()
+    {
+        return $this->view('emails.purchase_confirmation')
+        ->subject('Purchase Confirmation');
     }
 }

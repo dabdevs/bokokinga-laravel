@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PurchaseCompleted;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,9 +43,12 @@ class WebhooksController extends Controller
             //    DB::select("CALL sp_update_products_quantity(?,?)", array($product->id, $product->quantity));
             // }
 
-            dd($order->items->toArray());
+            // dd($order->items->toArray());
 
-            Mail::to($order->customer->email)->send(new PurchaseSuccessfulMail($order->items->toArray()));
+            // Mail::to($order->customer->email)->send(new PurchaseSuccessfulMail($order->items->toArray()));
+
+
+            event(new PurchaseCompleted($order)); 
 
             DB::commit();
 
