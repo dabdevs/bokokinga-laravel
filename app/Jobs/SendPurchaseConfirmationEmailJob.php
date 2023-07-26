@@ -23,7 +23,7 @@ class SendPurchaseConfirmationEmailJob implements ShouldQueue
      */
     public function __construct(Order $order)
     {
-        $this->order = $order; dd($this->order);
+        $this->order = $order; 
     }
 
     /**
@@ -32,5 +32,6 @@ class SendPurchaseConfirmationEmailJob implements ShouldQueue
     public function handle(): void
     { 
         Mail::to($this->order->customer->email)->send(new PurchaseConfirmationMail($this->order));
+        dd('sending mail');
     }
 }

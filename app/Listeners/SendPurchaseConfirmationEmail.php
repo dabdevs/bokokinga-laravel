@@ -14,7 +14,6 @@ class SendPurchaseConfirmationEmail
      */
     public function handle(PurchaseCompleted $event): void
     {
-        dd('handle');
         SendPurchaseConfirmationEmailJob::dispatch($event->order); 
     }
 }

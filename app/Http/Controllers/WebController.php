@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PurchaseCompleted;
+use App\Jobs\SendPurchaseConfirmationEmailJob;
+use App\Mail\PurchaseConfirmationMail;
 use App\Models\Collection;
 use App\Models\Configuration;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 
 class WebController extends Controller
 {
@@ -34,4 +39,13 @@ class WebController extends Controller
 
         return view('web.product.search', compact('products'));
     }
+
+    public function queue()
+    {
+        $order = Order::first(); 
+        Mail::to($order->customer->email)->send(new PurchaseConfirmationMail($order)); 
+        //dispatch(new SendPurchaseConfirmationEmailJob(new Order));
+        dd('email sent');
+    }
 }
+        

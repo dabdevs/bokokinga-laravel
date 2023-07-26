@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\PurchaseCompleted;
 use App\Listeners\SendPurchaseConfirmationEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;

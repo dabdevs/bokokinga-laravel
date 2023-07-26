@@ -46,11 +46,10 @@ class WebhooksController extends Controller
             // dd($order->items->toArray());
 
             // Mail::to($order->customer->email)->send(new PurchaseSuccessfulMail($order->items->toArray()));
-
-
-            event(new PurchaseCompleted($order)); 
-
+            
             DB::commit();
+            
+            event(new PurchaseCompleted($order)); 
 
             return redirect()->route('web.payment.success');
         } catch (\Throwable $th) {

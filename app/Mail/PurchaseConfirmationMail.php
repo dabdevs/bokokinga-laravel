@@ -39,7 +39,10 @@ class PurchaseConfirmationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.purchase_confirmation',
+            with: [
+                'items' => $this->order->with('items.product')->get()->toArray()
+            ]
         );
     }
 

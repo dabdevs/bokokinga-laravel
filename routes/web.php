@@ -36,6 +36,7 @@ Route::get('/login', function () {
 
 
 Route::group(['prefix' => '/'], function () {
+    Route::get('queue', [WebController::class, 'queue']);
     Route::get('', [WebController::class, 'index'])->name('web.index');
     Route::get('login', [WebController::class, 'login'])->name('web.login');
     Route::get('buscar', [WebController::class, 'search'])->name('web.search');
