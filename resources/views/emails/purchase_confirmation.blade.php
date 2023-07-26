@@ -18,7 +18,7 @@
 <body>
     <h1>Thank you for your purchase!</h1>
     <table>
-        <caption>Order #{{ $items[0]['order_id'] }}</caption>
+        <caption>Order #{{ $items[0]['order_id'] }} | Payment {{ $item[0]['order']['payment_status'] }}</caption>
         <thead>
             <th>Product</th>
             <th>Price</th>

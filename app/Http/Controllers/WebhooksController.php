@@ -37,12 +37,12 @@ class WebhooksController extends Controller
                 Session::forget(['cart', 'cartQuantity', 'subtotal']);
             }
 
+            DB::commit();
+
+            event(new PurchaseCompleted($order)); 
+
             if ($response->status == "rejected" || $response->status == "cancelled") return redirect()->route('web.payment.failure');
 
-            DB::commit();
-            
-            event(new PurchaseCompleted($order)); 
-            
             return redirect()->route('web.payment.success');
         } catch (\Throwable $th) {
             DB::rollBack();
