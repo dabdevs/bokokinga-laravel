@@ -42,7 +42,7 @@
             <div class="col-md-4 order-md-2 mb-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-muted">Tu compra</span>
-                    <span class="badge badge-secondary badge-pill">{{ session('cartQuantity') }} items</span>
+                    <span class="badge badge-secondary badge-pill">{{ session('cartQuantity') }} artículos</span>
                 </h4>
 
                 <ul class="list-group mb-3">
@@ -98,7 +98,7 @@
                             <div class="ml-auto p-0">
                                 <h6 class="ml-auto text-right">${{ session('subtotal') }}</h6>
                                 <h6 class="ml-auto text-right">${{ number_format($shipping_cost, 2, '.', ',') }}</h6>
-                                <h2 class="ml-auto text-right">${{ session('subtotal') + (int) $shipping_cost }}</h2>
+                                <h2 class="ml-auto text-right">${{ number_format(session('subtotal') + $shipping_cost, 2, '.', ',') }}</h2>
                             </div>
                         </li>
                         <li class="list-group-item d-flex lh-condensed">
